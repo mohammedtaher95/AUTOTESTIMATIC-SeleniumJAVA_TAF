@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite thread-count="1" name="WebDriver Suite">
+<suite name="WebDriver Suite">
   <test thread-count="1" name="Test">
     <parameter name="browserName" value="chrome"/>
     <classes>
-      <class name="tests.TestClass2"/>
+      <class name="tests.AddProductReviewTest"/>
+      <class name="tests.ChangeCurrencyTest"/>
+      <class name="tests.ContactUsTest"/>
+      <class name="tests.EmailFriendTest"/>
+      <class name="tests.MyAccountTest"/>
+      <class name="tests.SearchProductTest"/>
+      <class name="tests.TestBase"/>
       <class name="tests.TestClass"/>
     </classes>
   </test> <!-- Test -->

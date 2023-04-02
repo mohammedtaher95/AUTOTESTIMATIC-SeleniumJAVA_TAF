@@ -10,24 +10,28 @@ import tools.properties.DefaultProperties;
 import utilities.Classesloader;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 
 public class TestNGSuiteHelper {
 
-    public static XmlSuite testSuite;
+    public static XmlSuite testSuite = new XmlSuite();
     public static XmlTest test;
 
-    public static void SuiteGenerator(XmlSuite suite) throws IOException {
-        testSuite = suite;
-        test = testSuite.getTests().get(0);
+    public TestNGSuiteHelper(){
+
+    }
+
+    public static XmlSuite suiteGenerator(XmlSuite suite) throws IOException {
+
+        test = suite.getTests().get(0);
 
         testSuite.setName("WebDriver Suite");
         if(CrossBrowserMode.valueOf(DefaultProperties.platform.CrossBrowserMode()) == CrossBrowserMode.OFF){
@@ -52,6 +56,7 @@ public class TestNGSuiteHelper {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return testSuite;
     }
 
     private static void initializeCrossBrowserSuite(){
@@ -66,49 +71,50 @@ public class TestNGSuiteHelper {
 
         testSuite.setThreadCount(2);
 
-        XmlTest chromeTest = test;
+        XmlTest chromeTest = new XmlTest(testSuite);
         chromeTest.setName("Chrome Test");
         chromeTest.addParameter("browserName", "chrome");
         chromeTest.setThreadCount(1);
         chromeTest.setParallel(XmlSuite.ParallelMode.NONE);
-        List<XmlClass> classes = new ArrayList<>();
-
-        if(DefaultProperties.platform.runAllTests()){
-            Set<Class> newSet = Classesloader.findAllClassesUsingReflectionsLibrary("tests");
-            for (Class aClass : newSet) {
-                classes.add(new XmlClass(String.valueOf(aClass).replaceFirst("class ", "")));
-            }
-        }
-        else {
-            classes.add(new XmlClass(test.getClasses().get(0).getName()));
-        }        chromeTest.setXmlClasses(classes);
+        chromeTest.setXmlClasses(test.getXmlClasses());
 
         XmlTest firefoxTest = new XmlTest(testSuite);
         firefoxTest.setName("Firefox Test");
         firefoxTest.setThreadCount(1);
         firefoxTest.setParallel(XmlSuite.ParallelMode.NONE);
         firefoxTest.addParameter("browserName", "firefox");
-        firefoxTest.setXmlClasses(classes);
-    }
-
-    private static void initializeNormalExecution(){
-        testSuite.setParallel(XmlSuite.ParallelMode.NONE);
-        test.setName("Test");
-        test.addParameter("browserName", DefaultProperties.capabilities.targetBrowserName());
-        test.setThreadCount(1);
-        test.setParallel(XmlSuite.ParallelMode.NONE);
-        List<XmlClass> classes = new ArrayList<>();
+        firefoxTest.setXmlClasses(test.getXmlClasses());
 
         if(DefaultProperties.platform.runAllTests()){
+            List<XmlClass> classes = new ArrayList<>();
             Set<Class> newSet = Classesloader.findAllClassesUsingReflectionsLibrary("tests");
             for (Class aClass : newSet) {
                 classes.add(new XmlClass(String.valueOf(aClass).replaceFirst("class ", "")));
             }
+            chromeTest.setXmlClasses(classes);
+            firefoxTest.setXmlClasses(classes);
         }
-        else {
-            classes.add(new XmlClass(test.getClasses().get(0).getName()));
+
+    }
+
+    private static void initializeNormalExecution(){
+        testSuite.setParallel(XmlSuite.ParallelMode.NONE);
+        XmlTest singleTest = new XmlTest(testSuite);
+        singleTest.setName("Test");
+        singleTest.addParameter("browserName", DefaultProperties.capabilities.targetBrowserName());
+        singleTest.setThreadCount(1);
+        singleTest.setParallel(XmlSuite.ParallelMode.NONE);
+        singleTest.setXmlClasses(test.getXmlClasses());
+
+        if(DefaultProperties.platform.runAllTests()){
+            List<XmlClass> classes = new ArrayList<>();
+            Set<Class> newSet = Classesloader.findAllClassesUsingReflectionsLibrary("tests");
+            for (Class aClass : newSet) {
+                classes.add(new XmlClass(String.valueOf(aClass).replaceFirst("class ", "")));
+            }
+            singleTest.setXmlClasses(classes);
         }
-        test.setXmlClasses(classes);
+
     }
 
 }

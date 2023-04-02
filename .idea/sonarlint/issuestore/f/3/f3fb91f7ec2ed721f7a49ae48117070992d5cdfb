@@ -1,0 +1,40 @@
+
+E
+java:S3740"/Provide the parametrized type for this generic.(ôıîû
+J
+java:S3740"/Provide the parametrized type for this generic.(¾İ®úÿÿÿÿ
+k	java:S117!"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(²ã‘ııÿÿÿÿ
+k	java:S117'"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(êâîúÿÿÿÿ
+k	java:S117-"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(êâîúÿÿÿÿ
+e
+java:S1104"OMake JSE a static final constant or non-public and provide accessors if needed.(ÌœŠÀ
+o
+java:S1104"TMake dropDown a static final constant or non-public and provide accessors if needed.(Ó²Îßùÿÿÿÿ
+f
+java:S1104"PMake wait a static final constant or non-public and provide accessors if needed.(ôıîû
+m
+java:S1104"RMake action a static final constant or non-public and provide accessors if needed.(Ã¨Òúÿÿÿÿ
+@
+java:S1444"*Make this "public static wait" field final(ôıîû
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(şªäÍøÿÿÿÿ
+c	java:S116"NRename this field "JSE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÌœŠÀ
+Œ
+java:S1845"vRename field "wait" to prevent any misunderstanding/clash with method "wait" defined in superclass "java.lang.Object".(ôıîû
+9
+java:S3010"#Remove this assignment of "driver".(Â…Ç
+<
+java:S3010"!Remove this assignment of "wait".(¾İ®úÿÿÿÿ
+K
+java:S2209"5Change this instance-reference to a static reference.(Â…Ç
+c	java:S100%"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™‡äß
+c	java:S1001"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(û¢Ş²
+c	java:S1005"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(šİ±¼
+h	java:S100:"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(úœÓöüÿÿÿÿ
+c	java:S100R"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÌïÃ¹
+]
+java:S1128
+"GRemove this unused import 'org.openqa.selenium.remote.RemoteWebDriver'.(ú£Ú—
+_
+java:S1128"IRemove this unused import 'org.openqa.selenium.support.ui.WebDriverWait'.(¥÷ó
+J
+java:S1128"/Remove this unused import 'java.time.Duration'.(ëá¯‰üÿÿÿÿ

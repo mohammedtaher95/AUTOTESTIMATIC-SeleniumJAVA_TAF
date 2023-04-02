@@ -4,42 +4,48 @@ import browserActions.BrowserActions;
 import constants.DriverType;
 import constants.EnvType;
 import driverFactory.localDriver.*;
-import driverFactory.remoteDriver.GridConfig;
 import elementActions.ElementActions;
+import org.apache.logging.log4j.*;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
 import org.testng.Reporter;
 import tools.properties.DefaultProperties;
+import utilities.LoggingManager;
 
-import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Duration;
 
 
 public class Webdriver{
 
+    //ITest Context from TestNG to read XML File
+    //Reporter.getCurrentTestResult().
+    //                getTestContext().getCurrentXmlTest().getParameter("browserName")
 
-    private static final ThreadLocal<org.openqa.selenium.WebDriver> Driver = new ThreadLocal<>();
+    private static final ThreadLocal<WebDriver> Driver = new ThreadLocal<>();
+    public static LoggingManager logMan;
 
-
-    public Webdriver() throws IOException {
+    public Webdriver(){
 
         if(EnvType.valueOf(DefaultProperties.platform.EnvironmentType()) == EnvType.LOCAL){
-            localDriverInit(Reporter.getCurrentTestResult().
-                    getTestContext().getCurrentXmlTest().getParameter("browserName"));
+            localDriverInit(Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName"));
         }
 
         if(EnvType.valueOf(DefaultProperties.platform.EnvironmentType()) == EnvType.GRID){
-            GridConfig.gridInit();
+            gridInit();
         }
 
-        if(EnvType.valueOf(DefaultProperties.platform.EnvironmentType()) == EnvType.CLOUD){
-            //remoteDriverInit(browserName);
-        }
 
         System.out.println("CURRENT THREAD: " + Thread.currentThread().getId() + ", " +
                 "DRIVER = " + getDriver());
 
-        BrowserActions actions = new BrowserActions();
-        ElementActions actions1 = new ElementActions();
+        BrowserActions browserActions = new BrowserActions();
+        ElementActions elementActions = new ElementActions();
+
+        //logMan = new LoggingManager();
 
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         getDriver().manage().window().maximize();
@@ -52,12 +58,21 @@ public class Webdriver{
 
 
     public void localDriverInit(String browserName){
-        setDriver(DriverFactory.getDriverFactory(DriverType.valueOf(browserName.toUpperCase()))
-                .getDriver());
+        setDriver(DriverFactory.getDriverFactory(DriverType.valueOf(browserName.toUpperCase())).getDriver());
     }
 
+    public static void gridInit(){
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        String browserName =Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName");
+        capabilities.setCapability("browserName", browserName);
+        try {
+            setDriver(new RemoteWebDriver(new URL(DefaultProperties.platform.RemoteURL()), capabilities));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
 
-    public void quit() throws IOException {
+    public void quit(){
         getDriver().manage().deleteAllCookies();
         getDriver().quit();
         Driver.remove();
@@ -68,7 +83,12 @@ public class Webdriver{
         Driver.set(driver);
     }
 
-    public WebDriver makeAction(){
+    protected static void setDriver(RemoteWebDriver driver){
+        Driver.set(driver);
+    }
+
+
+    public static WebDriver makeAction(){
         return Driver.get();
     }
 

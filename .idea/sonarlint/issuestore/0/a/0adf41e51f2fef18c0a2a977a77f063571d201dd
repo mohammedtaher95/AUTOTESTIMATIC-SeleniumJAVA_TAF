@@ -1,0 +1,12 @@
+
+i
+java:S1192""LDefine a constant instead of duplicating this literal "browserName" 3 times.(…ƒè‰8ëØİ×í0
+o
+java:S1104"RMake logMan a static final constant or non-public and provide accessors if needed.(ƒ­áø8üé’‰ï0
+I
+java:S1444",Make this "public static logMan" field final(ƒ­áø8ıé’‰ï0
+{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(Òâ³Óøÿÿÿÿ8úØİ×í0
+Z	java:S106*"9Replace this use of System.out or System.err by a logger.(¤ÀŠ‹úÿÿÿÿ8¹Ûİ×í0
+]	java:S1250"<This block of commented-out lines of code should be removed.(‰¸Øôÿÿÿÿÿ8Ÿ¥Öäó0
+W
+java:S1128"5Remove this unused import 'org.apache.logging.log4j'.(ˆö÷Òüÿÿÿÿ8òê’‰ï0

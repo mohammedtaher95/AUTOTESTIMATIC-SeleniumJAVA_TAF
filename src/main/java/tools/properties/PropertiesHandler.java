@@ -4,6 +4,8 @@ import org.aeonbits.owner.ConfigFactory;
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 import static tools.properties.DefaultProperties.*;
@@ -12,7 +14,6 @@ public class PropertiesHandler {
 
     public static Properties properties;
     protected static FileInputStream inputStream;
-    //protected static FileOutputStream outputStream;
 
     public static Properties readPropertyFile(String filePath) throws IOException {
 
@@ -24,7 +25,7 @@ public class PropertiesHandler {
         return properties;
     }
 
-    public static void initializeProperties() throws IOException {
+    public static synchronized void initializeProperties() throws IOException {
 
         DefaultProperties.platform = ConfigFactory.create(ExecutionPlatform.class);
         DefaultProperties.capabilities = ConfigFactory.create(WebCapabilities.class);
@@ -33,9 +34,8 @@ public class PropertiesHandler {
         generateDefaultProperties();
     }
 
-    public static void generateDefaultProperties() throws IOException {
+    private static synchronized void generateDefaultProperties() throws IOException {
 
-        FileUtils.forceMkdir(new File(defaultDirectory));
         File platformProperties = new File(platformPath);
         File capProperties = new File(webCapPath);
         File reporting = new File(reportingPath);

@@ -2,47 +2,30 @@ package tests;
 
 import driverFactory.Webdriver;
 import io.qameta.allure.Description;
-import org.openqa.selenium.By;
-import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import io.qameta.allure.Issue;
+import io.qameta.allure.TmsLink;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+
 import org.testng.annotations.Test;
 import pages.homePage.HomePage;
-import pages.registrationPage.UserRegistrationPage;
 import utilities.UserFormData;
 
-import java.io.IOException;
 
-import static browserActions.BrowserActions.getCurrentURL;
-import static browserActions.BrowserActions.navigateToURL;
-import static elementActions.ElementActions.clickButton;
-
-public class TestClass {
+public class TestClass{
 
     driverFactory.Webdriver driver;
-
-    HomePage home;
     UserFormData newUser;
-    By registerLink = By.linkText("Register");
 
-    @BeforeMethod(description = "Setup Driver")
-    public void setUp() throws IOException {
-        System.setProperty("BASE_URL", "http://demo.nopcommerce.com");
-        driver = new driverFactory.Webdriver();
-        navigateToURL("http://demo.nopcommerce.com");
-    }
-
+    @Issue(" ")
+    @TmsLink("Nop Commerce_1-User Registration")
     @Description("User can access registration page and register successfully")
     @Test(description = "User Register on website successfully")
     public void testMethod(){
-
-        //clickButton(registerLink);
-
-        home = new HomePage(Webdriver.getDriver());
         newUser = new UserFormData();
-        home.openRegistrationPage();
 
-        new UserRegistrationPage(Webdriver.getDriver())
+        new HomePage(Webdriver.getDriver())
+                .openRegistrationPage()
                 .validateThatUserNavigatedToRegistrationPage()
                 .fillUserRegistrationForm(newUser.getFirstName(), newUser.getLastName(), newUser.getEmail(), newUser.getOldPassword())
                 .clickOnRegisterButton()
@@ -50,28 +33,18 @@ public class TestClass {
 
     }
 
-    @Description("User can open login page successfully")
-    @Test(description = "User go to login page")
-    public void testMethod2(){
+    @BeforeClass(description = "Setup Driver")
+    public void setUp(){
+        //.setProperty("BASE_URL", "http://demo.nopcommerce.com");
 
-        //clickButton(registerLink);
-
-        navigateToURL("http://demo.nopcommerce.com/login");
-        Assert.assertTrue(getCurrentURL().contains("login"));
-//        home = new HomePage(Webdriver.getDriver());
-//        newUser = new UserFormData();
-//        home.openRegistrationPage();
-//
-//        new UserRegistrationPage(Webdriver.getDriver())
-//                .validateThatUserNavigatedToRegistrationPage()
-//                .fillUserRegistrationForm(newUser.getFirstName(), newUser.getLastName(), newUser.getEmail(), newUser.getOldPassword())
-//                .clickOnRegisterButton()
-//                .validateThatSuccessMessageShouldBeDisplayed();
-
+        driver = new Webdriver();
+        //System.out.println(Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName"));
+        //navigateToURL("http://demo.nopcommerce.com");
     }
 
-    @AfterMethod(description = "Teardown")
-    public void tearDown() throws IOException {
+    @AfterClass(description = "Tear down")
+    public void tearDown(){
         driver.quit();
     }
+
 }

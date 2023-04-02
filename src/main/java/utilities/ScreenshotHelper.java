@@ -1,18 +1,24 @@
 package utilities;
 
+import io.qameta.allure.Allure;
+import io.qameta.allure.Attachment;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
-import java.io.ByteArrayInputStream;
+
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class ScreenshotHelper {
 
+    //@Attachment(value = "Page screenshot", type = "image/png")
     public static Path captureScreenshot(WebDriver driver, String screenshotName) throws IOException {
 
         Path destination = Paths.get("./screenshots", screenshotName + ".jpg");
@@ -20,17 +26,9 @@ public class ScreenshotHelper {
         FileOutputStream outputStream = new FileOutputStream(destination.toString());
         outputStream.write(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES));
         outputStream.close();
+        //Allure.addAttachment(screenshotName, FileUtils.openInputStream(destination.toFile()));
 
         return destination;
     }
 
-    //    public void screenshotOnFailure(ITestResult testResult) throws IOException {
-//        if(testResult.getStatus() == ITestResult.FAILURE){
-//            System.out.println("Failed!");
-//            System.out.println("Taking Screenshot....");
-//            String fullPath = System.getProperty("user.dir")
-//                    + String.valueOf(ScreenshotHelper.captureScreenshot(getDriver(), testResult.getName()));
-//            Allure.addAttachment(testResult.getName(), fullPath);
-//        }
-//    }
 }

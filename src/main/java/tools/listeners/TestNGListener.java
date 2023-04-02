@@ -1,30 +1,24 @@
 package tools.listeners;
 
-import constants.CrossBrowserMode;
 import driverFactory.Webdriver;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
+import io.qameta.allure.listener.TestLifecycleListener;
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.WebDriver;
 import org.testng.*;
-import org.testng.xml.XmlClass;
-import org.testng.xml.XmlMethodSelector;
 import org.testng.xml.XmlSuite;
-import org.testng.xml.XmlTest;
+
 import tools.listeners.helpers.TestNGSuiteHelper;
 import tools.properties.DefaultProperties;
 import utilities.AllureBatchGenerator;
-import utilities.Classesloader;
+
 import utilities.ScreenshotHelper;
 
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 import static tools.properties.PropertiesHandler.*;
@@ -32,17 +26,15 @@ import static tools.properties.PropertiesHandler.*;
 public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuiteListener,
         IExecutionListener, IInvokedMethodListener {
 
-    static XmlSuite testSuite;
-    static XmlTest test;
 
     @Override
     public void onExecutionStart() {
-
+        Allure.getLifecycle();
     }
 
     @Override
     public void onExecutionFinish() {
-        if(DefaultProperties.reporting.automaticOpenAllureReport() == true){
+        if(DefaultProperties.reporting.automaticOpenAllureReport()){
             try {
                 Runtime.getRuntime().exec("generateAllureReport.bat");
             } catch (IOException e) {
@@ -53,7 +45,7 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
 
     @Override
     public void onTestStart(ITestResult result) {
-        // TODO document why this method is empty
+
     }
 
     @Override
@@ -63,8 +55,12 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
     }
 
     @Override
-    @Attachment(value = "Page screenshot", type = "image/jpg")
     public void onTestFailure(ITestResult result) {
+
+    }
+
+    @Override
+    public void afterInvocation(IInvokedMethod method, ITestResult result) {
         System.out.println("Failure of test cases and its details are : " + result.getName());
         if (result.getStatus() == ITestResult.FAILURE) {
             System.out.println("Failed!");
@@ -72,13 +68,21 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
             String fullPath = null;
             try {
                 fullPath = System.getProperty("user.dir")
-                        + ScreenshotHelper.captureScreenshot(Webdriver.getDriver(), result.getName());
+                        + ScreenshotHelper.captureScreenshot(Webdriver.getDriver(),
+                        result.getMethod().getConstructorOrMethod().getName());
+                System.out.println("Screenshot captured for Test case: " + result.getName());
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            assert fullPath != null;
-            Allure.addAttachment(result.getName(), fullPath);
+            try {
+                Allure.addAttachment(result.getMethod().getConstructorOrMethod().getName(),
+                        FileUtils.openInputStream(new File(fullPath)));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
+
     }
 
     @Override
@@ -93,18 +97,22 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
 
     @Override
     public void onStart(ITestContext context) {
-
+        //TO-DO
     }
 
     @Override
     public void onFinish(ITestContext context) {
-
+        //TO-DO
     }
 
     @Override
     public void onStart(ISuite suite) {
         try {
-            AllureBatchGenerator.generateBatFile();
+            File batFile = new File("generateAllureReport.bat");
+            if(!batFile.exists())
+            {
+                AllureBatchGenerator.generateBatFile();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -118,14 +126,11 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
             e.printStackTrace();
         }
 
-        testSuite = suites.get(0);
-
         try {
-            TestNGSuiteHelper.SuiteGenerator(testSuite);
+            suites.set(0, TestNGSuiteHelper.suiteGenerator(suites.get(0)));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
 

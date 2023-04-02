@@ -5,6 +5,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WindowType;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -13,13 +14,14 @@ import java.time.Duration;
 public class BrowserActions {
 
     private static WebDriver driver;
-    public JavascriptExecutor JSE;
+    public static JavascriptExecutor JSE;
     public Select dropDown;
     public static WebDriverWait wait;
 
     public BrowserActions(){
         this.driver = Webdriver.getDriver();
         wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        JSE = (JavascriptExecutor) driver;
     }
 
     /******************************** URL Controlling and Navigation *************************************/
@@ -42,6 +44,11 @@ public class BrowserActions {
 
     public static void refreshPage(){
         driver.navigate().refresh();
+    }
+
+    public static void scrollToBottom()
+    {
+        JSE.executeScript("scrollBy(0,2500)");
     }
 
     /******************************** Cookies *************************************/
@@ -79,7 +86,5 @@ public class BrowserActions {
     public static void switchToNewWindow(){
         driver.switchTo().newWindow(WindowType.WINDOW);
     }
-
-
 
 }

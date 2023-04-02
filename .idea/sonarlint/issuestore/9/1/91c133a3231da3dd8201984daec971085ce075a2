@@ -1,0 +1,34 @@
+
+w
+java:S1104"\Make defaultDirectory a static final constant or non-public and provide accessors if needed.(Î¡†ıùÿÿÿÿ
+s
+java:S1104"XMake platformPath a static final constant or non-public and provide accessors if needed.(†ñÍÊúÿÿÿÿ
+l
+java:S1104	"VMake webCapPath a static final constant or non-public and provide accessors if needed.(á©¹¶
+o
+java:S1104
+"YMake reportingPath a static final constant or non-public and provide accessors if needed.(œµŠÛ
+j
+java:S1104"TMake platform a static final constant or non-public and provide accessors if needed.(–—†Â
+s
+java:S1104"XMake capabilities a static final constant or non-public and provide accessors if needed.(ÔÎÅüÿÿÿÿ
+p
+java:S1104"UMake reporting a static final constant or non-public and provide accessors if needed.(Õı«âøÿÿÿÿ
+Q
+java:S1444"6Make this "public static defaultDirectory" field final(Î¡†ıùÿÿÿÿ
+M
+java:S1444"2Make this "public static platformPath" field final(†ñÍÊúÿÿÿÿ
+F
+java:S1444	"0Make this "public static webCapPath" field final(á©¹¶
+I
+java:S1444
+"3Make this "public static reportingPath" field final(œµŠÛ
+D
+java:S1444".Make this "public static platform" field final(–—†Â
+M
+java:S1444"2Make this "public static capabilities" field final(ÔÎÅüÿÿÿÿ
+J
+java:S1444"/Make this "public static reporting" field final(Õı«âøÿÿÿÿ
+U
+java:S1118":Add a private constructor to hide the implicit public one.(èà„ƒúÿÿÿÿ
+Q	java:S125"<This block of commented-out lines of code should be removed.(ß©
