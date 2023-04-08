@@ -1,21 +1,20 @@
 package utilities;
 
 import java.io.*;
+import java.nio.file.*;
 
 public class AllureBatchGenerator {
 
+    private AllureBatchGenerator(){
+
+    }
     public static void generateBatFile() throws IOException {
-        File file = new File("generateAllureReport.bat");
-        FileOutputStream outputStream = new FileOutputStream(file);
-
-        DataOutputStream dOut = new DataOutputStream(outputStream);
-
-        dOut.writeBytes("@echo off\n");
-        dOut.writeBytes("allure serve target/allure-results\n");
-        dOut.writeBytes("pause\n");
-        dOut.writeBytes("exit");
-
-        dOut.close();
-        outputStream.close();
+        Path file = Paths.get("generateAllureReport.bat");
+        if(!Files.exists(file)){
+            Files.writeString(file,"@echo off\n", StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.writeString(file,"allure serve target/allure-results\n", StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.writeString(file,"pause\n", StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.writeString(file,"exit", StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+        }
     }
 }

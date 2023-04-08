@@ -1,14 +1,12 @@
 package pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-import static elementActions.ElementActions.*;
+import static elementactions.ElementActions.*;
 
 public class SearchPage{
 
@@ -17,28 +15,28 @@ public class SearchPage{
     By searchField = By.id("small-searchterms");
     By searchButton = By.cssSelector("button.button-1.search-box-button");
     By productResult = By.cssSelector("div.picture");
-    List<WebElement> productList = FindElements(By.id("ui-id-1"));
+    List<WebElement> productList = findElements(By.id("ui-id-1"));
 
     public SearchPage(WebDriver driver) {
         this.driver = driver;
     }
 
 
-    public SearchPage ProductSearch(String ProductName)
+    public SearchPage productSearch(String productName)
     {
-        Fill_in(searchField, ProductName);
+        fillField(searchField, productName);
         clickButton(searchButton);
         return this;
     }
 
-    public ProductDetailsPage OpenProductPage() {
+    public ProductDetailsPage openProductPage() {
         clickButton(productResult);
         return new ProductDetailsPage(driver);
     }
 
-    public ProductDetailsPage ProductSearchUsingAutoSuggest(String SearchText)
+    public ProductDetailsPage productSearchUsingAutoSuggest(String searchText)
     {
-        Fill_in(searchField, SearchText);
+        fillField(searchField, searchText);
         clickButton((By) productList.get(0));
         return new ProductDetailsPage(driver);
     }

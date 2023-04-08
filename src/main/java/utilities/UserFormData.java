@@ -4,18 +4,18 @@ import com.github.javafaker.Faker;
 
 public class UserFormData {
 
-    private String fullName;
-    private String email;
-    private String friendEmail;
-    private String message;
-    private String FirstName;
-    private String LastName;
-    private String OldPassword;
-    private String NewPassword;
-    private String Address;
-    private String City;
-    private String PostalCode;
-    private String PhoneNumber;
+    private final String fullName;
+    private final String email;
+    private final String friendEmail;
+    private final String message;
+    private final String firstName;
+    private final String lastName;
+    private final String oldPassword;
+    private final String newPassword;
+    private final String address;
+    private final String city;
+    private final String postalCode;
+    private final String phoneNumber;
 
     public UserFormData() {
         Faker faker = new Faker();
@@ -23,14 +23,14 @@ public class UserFormData {
         email = faker.internet().safeEmailAddress();
         friendEmail = faker.internet().safeEmailAddress();
         message = faker.gameOfThrones().quote();
-        FirstName = faker.name().firstName();
-        LastName = faker.name().lastName();
-        OldPassword = faker.number().digits(8).toString();
-        NewPassword = faker.number().digits(9).toString();
-        Address = faker.address().streetAddress();
-        City = faker.address().city();
-        PostalCode = faker.number().digits(5).toString();
-        PhoneNumber = faker.phoneNumber().cellPhone();
+        firstName = faker.name().firstName();
+        lastName = faker.name().lastName();
+        oldPassword = faker.number().digits(8);
+        newPassword = faker.number().digits(9);
+        address = faker.address().streetAddress();
+        city = faker.address().city();
+        postalCode = faker.number().digits(5);
+        phoneNumber = faker.phoneNumber().cellPhone();
     }
 
     public String getFullName() {
@@ -38,17 +38,17 @@ public class UserFormData {
     }
 
     public String getFirstName() {
-        return FirstName;
+        return firstName;
     }
 
     public String getLastName() {
-        return LastName;
+        return lastName;
     }
     public String getOldPassword() {
-        return OldPassword;
+        return oldPassword;
     }
     public String getNewPassword() {
-        return NewPassword;
+        return newPassword;
     }
 
     public String getEmail() {
@@ -63,21 +63,21 @@ public class UserFormData {
 
     public String getAddress()
     {
-        return Address;
+        return address;
     }
 
     public String getCity()
     {
-        return City;
+        return city;
     }
     public String getPostalCode()
     {
-        return PostalCode;
+        return postalCode;
     }
 
     public String getPhoneNumber()
     {
-        return PhoneNumber;
+        return phoneNumber;
     }
 
 }

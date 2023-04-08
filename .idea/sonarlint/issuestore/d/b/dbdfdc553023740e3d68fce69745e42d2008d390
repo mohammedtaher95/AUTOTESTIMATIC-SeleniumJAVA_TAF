@@ -1,15 +1,0 @@
-
-n	java:S116"TRename this field "FirstName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¤•×·şÿÿÿÿ
-m	java:S116"SRename this field "LastName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ş‡àıÿÿÿÿ
-p	java:S116"VRename this field "OldPassword" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­ÉÂûÿÿÿÿ
-p	java:S116"VRename this field "NewPassword" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(€­Ê˜øÿÿÿÿ
-g	java:S116"RRename this field "Address" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(÷Ü©
-d	java:S116"ORename this field "City" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÑùÛ
-j	java:S116"URename this field "PostalCode" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ïõì
-p	java:S116"VRename this field "PhoneNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¶åÉşÿÿÿÿ
-[
-java:S1858"@"digits" returns a string, there's no need to call "toString()".(Õã£ºúÿÿÿÿ
-[
-java:S1858"@"digits" returns a string, there's no need to call "toString()".(ƒ»Í©ÿÿÿÿÿ
-V
-java:S1858 "@"digits" returns a string, there's no need to call "toString()".(ø™¬«

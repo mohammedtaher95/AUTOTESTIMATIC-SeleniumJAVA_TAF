@@ -2,11 +2,9 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
-import static elementActions.ElementActions.*;
+import static elementactions.ElementActions.*;
 
 public class ProductReviewPage{
 
@@ -23,10 +21,10 @@ public class ProductReviewPage{
         this.driver = driver;
     }
 
-    public ProductReviewPage FillReviewForm(String ReviewTitle, String ReviewText)
+    public ProductReviewPage fillReviewForm(String reviewTitle, String reviewText)
     {
-        Fill_in(reviewTitleField, ReviewTitle);
-        Fill_in(reviewTextField, ReviewText);
+        fillField(reviewTitleField, reviewTitle);
+        fillField(reviewTextField, reviewText);
         clickButton(ratingRadioBtn);
         return this;
     }
@@ -40,7 +38,7 @@ public class ProductReviewPage{
     public ProductReviewPage verifyThatReviewShouldBeSubmittedSuccessfully(String success, String userMsg)
     {
         Assert.assertTrue(getElementText(successMessage).equalsIgnoreCase(success));
-        Assert.assertTrue(getElementText(addedReviewTitle).equals(userMsg));
+        Assert.assertEquals(userMsg, getElementText(addedReviewTitle));
         return this;
     }
 }

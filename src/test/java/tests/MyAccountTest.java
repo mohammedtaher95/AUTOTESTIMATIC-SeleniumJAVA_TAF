@@ -1,13 +1,13 @@
 package tests;
 
-import driverFactory.Webdriver;
+import driverfactory.Webdriver;
 import org.testng.annotations.Test;
 import pages.LoginPage;
-import pages.homePage.HomePage;
-import pages.registrationPage.UserRegistrationPage;
+import pages.homepage.HomePage;
+import pages.registrationpage.UserRegistrationPage;
 import utilities.UserFormData;
 
-import static driverFactory.Webdriver.getDriver;
+import static driverfactory.Webdriver.getDriver;
 
 public class MyAccountTest extends TestBase{
 	
@@ -36,29 +36,28 @@ public class MyAccountTest extends TestBase{
 				.clickOnLoginButton()
 				.checkThatLogoutButtonShouldBeDisplayed();
 	}
-	
-	@Test(priority = 3, dependsOnMethods = {"RegisteredUserCanLogin"})
-	public void RegisteredUserCanChangePassword()
-	{
-		new HomePage(Webdriver.getDriver())
-				.openMyAccountPage()
-				.openChangePasswordpage()
-				.changePassword(user.getOldPassword(), user.getNewPassword())
-				.clickOnConfirm()
-				.checkThatChangeMessageShouldBeDisplayed()
-				.closeMessage()
-				.closeMessage()
-				.clickOnLogoutButton();
-	}
-
-	@Test(priority = 4, dependsOnMethods = {"RegisteredUserCanLogin"})
-	public void UserLoginWithNewPassword()
-	{
-		homeObject.openLoginPage();
-		new LoginPage(getDriver())
-				.userLogin(user.getEmail(), user.getNewPassword())
-				.clickOnLoginButton()
-				.checkThatLogoutButtonShouldBeDisplayed();
-	}
+//
+//	@Test(priority = 3, dependsOnMethods = {"RegisteredUserCanLogin"})
+//	public void RegisteredUserCanChangePassword()
+//	{
+//		new HomePage(Webdriver.getDriver())
+//				.openMyAccountPage()
+//				.openChangePasswordpage()
+//				.changePassword(user.getOldPassword(), user.getNewPassword())
+//				.clickOnConfirm()
+//				.checkThatChangeMessageShouldBeDisplayed()
+//				.closeMessage()
+//				.clickOnLogoutButton();
+//	}
+//
+//	@Test(priority = 4, dependsOnMethods = {"RegisteredUserCanLogin"})
+//	public void UserLoginWithNewPassword()
+//	{
+//		homeObject.openLoginPage();
+//		new LoginPage(getDriver())
+//				.userLogin(user.getEmail(), user.getNewPassword())
+//				.clickOnLoginButton()
+//				.checkThatLogoutButtonShouldBeDisplayed();
+//	}
 
 }

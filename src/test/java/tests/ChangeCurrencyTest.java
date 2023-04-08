@@ -1,9 +1,9 @@
 package tests;
 
-import driverFactory.Webdriver;
+import driverfactory.Webdriver;
 import org.testng.annotations.Test;
 import pages.SearchPage;
-import pages.homePage.HomePage;
+import pages.homepage.HomePage;
 
 public class ChangeCurrencyTest extends TestBase{
 
@@ -21,8 +21,8 @@ public class ChangeCurrencyTest extends TestBase{
     {
         try {
             new SearchPage(Webdriver.getDriver())
-                    .ProductSearch("Mac")
-                    .OpenProductPage()
+                    .productSearch("Mac")
+                    .openProductPage()
                     .checkCurrency("€");
         }
         catch (Exception e)

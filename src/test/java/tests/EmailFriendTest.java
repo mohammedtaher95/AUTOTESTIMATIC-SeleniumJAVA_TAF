@@ -1,18 +1,15 @@
 package tests;
 
-import driverFactory.Webdriver;
-import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
+import driverfactory.Webdriver;
 import org.testng.annotations.Test;
-import pages.EmailFriendPage;
 import pages.LoginPage;
 import pages.ProductDetailsPage;
 import pages.SearchPage;
-import pages.homePage.HomePage;
-import pages.registrationPage.UserRegistrationPage;
+import pages.homepage.HomePage;
+import pages.registrationpage.UserRegistrationPage;
 import utilities.UserFormData;
 
-import static driverFactory.Webdriver.getDriver;
+import static driverfactory.Webdriver.getDriver;
 
 public class EmailFriendTest extends TestBase{
 
@@ -47,16 +44,16 @@ public class EmailFriendTest extends TestBase{
     @Test(priority = 3, alwaysRun = true)
     public void UserCanSearchForProducts(){
         new SearchPage(Webdriver.getDriver())
-                .ProductSearch(ProductName)
-                .OpenProductPage()
+                .productSearch(ProductName)
+                .openProductPage()
                 .checkThatProductPageShouldBeDisplayed(ProductName);
     }
 
     @Test(priority = 4, alwaysRun = true)
     public void RegisteredUserCanEmailHisFriend() {
         new ProductDetailsPage(Webdriver.getDriver())
-                .EmailFriend()
-                .FillEmailFriendForm(newUser.getFriendEmail(), newUser.getMessage())
+                .emailFriend()
+                .fillEmailFriendForm(newUser.getFriendEmail(), newUser.getMessage())
                 .clickOnSendButton()
                 .checkThatSuccessMessageShouldBeDisplayed(SuccessMessage);
     }

@@ -3,15 +3,13 @@ package pages;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
-import static elementActions.ElementActions.*;
+import static elementactions.ElementActions.*;
 
 public class ContactUsPage{
 
-    private WebDriver driver;
+    private final WebDriver driver;
 
     By nameField = By.id("FullName");
     By emailField = By.id("Email");
@@ -24,11 +22,11 @@ public class ContactUsPage{
     }
 
     @Step("When he fills contact info Form")
-    public ContactUsPage FillContactInfoForm(String Name, String Email, String Enquiry)
+    public ContactUsPage fillContactInfoForm(String name, String email, String enquiry)
     {
-        Fill_in(nameField, Name);
-        Fill_in(emailField, Email);
-        Fill_in(enquiryField, Enquiry);
+        fillField(nameField, name);
+        fillField(emailField, email);
+        fillField(enquiryField, enquiry);
         return this;
     }
 
@@ -41,7 +39,7 @@ public class ContactUsPage{
     @Step("Then success Message Should Be Displayed")
     public ContactUsPage successMessageShouldBeDisplayed(String message){
         waitForVisibility(successMessage);
-        Assert.assertTrue(ElementDisplayed(successMessage));
+        Assert.assertTrue(elementDisplayed(successMessage));
         Assert.assertTrue(getElementText(successMessage).equalsIgnoreCase(message));
 
         return this;

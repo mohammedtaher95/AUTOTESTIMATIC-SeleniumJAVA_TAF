@@ -3,13 +3,10 @@ package pages;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
-import pages.homePage.HomePage;
+import pages.homepage.HomePage;
 
-import static elementActions.ElementActions.*;
+import static elementactions.ElementActions.*;
 
 public class MyAccountPage{
 
@@ -23,7 +20,7 @@ public class MyAccountPage{
     By changePasswordBtn = By.cssSelector("button.button-1.change-password-button");
     By changeResult = By.cssSelector("p.content");
     By messageCloseBtn = By.cssSelector("span.close");
-    public By logoutLink = By.cssSelector("a.ico-logout");
+    By logoutLink = By.cssSelector("a.ico-logout");
 
 	public MyAccountPage(WebDriver driver) {
 		this.driver = driver;
@@ -37,11 +34,11 @@ public class MyAccountPage{
     }
 
     @Step("And Fills old and new passwords")
-    public MyAccountPage changePassword(String OldPass, String NewPass)
+    public MyAccountPage changePassword(String oldPass, String newPass)
     {
-    	Fill_in(oldPasswordTxt, OldPass);
-    	Fill_in(newPasswordTxt, NewPass);
-    	Fill_in(confirmPasswordTxt, NewPass);
+    	fillField(oldPasswordTxt, oldPass);
+    	fillField(newPasswordTxt, newPass);
+    	fillField(confirmPasswordTxt, newPass);
         return this;
     }
 

@@ -2,11 +2,9 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
-import static elementActions.ElementActions.*;
+import static elementactions.ElementActions.*;
 
 public class EmailFriendPage{
 
@@ -22,9 +20,9 @@ public class EmailFriendPage{
         this.driver = driver;
     }
 
-    public EmailFriendPage FillEmailFriendForm(String FriendEmail, String Message) {
-        Fill_in(friendEmailField, FriendEmail);
-        Fill_in(messageField,Message);
+    public EmailFriendPage fillEmailFriendForm(String friendEmail, String message) {
+        fillField(friendEmailField, friendEmail);
+        fillField(messageField,message);
         return this;
 
     }

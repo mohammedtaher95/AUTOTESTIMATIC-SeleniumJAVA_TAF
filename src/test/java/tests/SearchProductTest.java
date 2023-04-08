@@ -1,7 +1,6 @@
 package tests;
 
-import driverFactory.Webdriver;
-import org.testng.Assert;
+import driverfactory.Webdriver;
 import org.testng.annotations.Test;
 import pages.ProductDetailsPage;
 import pages.SearchPage;
@@ -15,8 +14,8 @@ public class SearchProductTest extends TestBase{
     @Test
     public void UserCanSearchForProducts() {
         new SearchPage(Webdriver.getDriver())
-                .ProductSearch(ProductName)
-                .OpenProductPage()
+                .productSearch(ProductName)
+                .openProductPage()
                 .checkThatProductPageShouldBeDisplayed(ProductName);
     }
 }

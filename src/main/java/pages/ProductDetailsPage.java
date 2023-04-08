@@ -4,16 +4,16 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
-import static elementActions.ElementActions.*;
+import static elementactions.ElementActions.*;
 
 public class ProductDetailsPage{
 
     private WebDriver driver;
 
     By productNameBreadCrumb = By.cssSelector("strong.current-item");
-    By EmailButton = By.cssSelector("button.button-2.email-a-friend-button");
+    By emailButton = By.cssSelector("button.button-2.email-a-friend-button");
     By productPriceLabel = By.id("price-value-4");
-    By ReviewHyperlink = By.xpath("//a[@href=\"/productreviews/4\"][2]");
+    By reviewHyperlink = By.xpath("//a[@href=\"/productreviews/4\"][2]");
 
     public ProductDetailsPage(WebDriver driver) {
         this.driver = driver;
@@ -24,16 +24,16 @@ public class ProductDetailsPage{
         return this;
     }
 
-    public EmailFriendPage EmailFriend()
+    public EmailFriendPage emailFriend()
     {
-        clickButton(EmailButton);
+        clickButton(emailButton);
         return new EmailFriendPage(driver);
     }
 
 
-    public ProductReviewPage AddReview()
+    public ProductReviewPage addReview()
     {
-        clickButton(ReviewHyperlink);
+        clickButton(reviewHyperlink);
         return new ProductReviewPage(driver);
     }
 

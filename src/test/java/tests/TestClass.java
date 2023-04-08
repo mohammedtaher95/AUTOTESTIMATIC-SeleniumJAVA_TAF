@@ -1,6 +1,6 @@
 package tests;
 
-import driverFactory.Webdriver;
+import driverfactory.Webdriver;
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import io.qameta.allure.TmsLink;
@@ -8,13 +8,13 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import org.testng.annotations.Test;
-import pages.homePage.HomePage;
+import pages.homepage.HomePage;
 import utilities.UserFormData;
 
 
 public class TestClass{
 
-    driverFactory.Webdriver driver;
+    driverfactory.Webdriver driver;
     UserFormData newUser;
 
     @Issue(" ")
@@ -38,8 +38,6 @@ public class TestClass{
         //.setProperty("BASE_URL", "http://demo.nopcommerce.com");
 
         driver = new Webdriver();
-        //System.out.println(Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName"));
-        //navigateToURL("http://demo.nopcommerce.com");
     }
 
     @AfterClass(description = "Tear down")

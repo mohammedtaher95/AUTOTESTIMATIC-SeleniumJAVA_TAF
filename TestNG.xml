@@ -10,6 +10,7 @@
       <class name="tests.EmailFriendTest"/>
       <class name="tests.MyAccountTest"/>
       <class name="tests.SearchProductTest"/>
+      <class name="tests.SearchProductWithAutoSuggestTest"/>
       <class name="tests.TestBase"/>
       <class name="tests.TestClass"/>
     </classes>

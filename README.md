@@ -27,13 +27,13 @@ which provides easy to use syntax, and easy to setup environment according to th
 - Create a new Package "tests" under src/test/java and create a new Java Class TestClass under that package.
 - Copy the following imports into your Test Class
 ```
-import driverFactory.Webdriver;
+import driverfactory.Webdriver;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import static browserActions.BrowserActions.*;
-import static elementActions.ElementActions.*;
+import static browseractions.BrowserActions.*;
+import static elementactions.ElementActions.*;
 ```
 - Copy the Following snippet to your Test Class Body:
 ```
