@@ -9,6 +9,7 @@ import org.testng.xml.XmlSuite;
 import tools.listeners.helpers.TestNGSuiteHelper;
 import utilities.AllureBatchGenerator;
 
+import utilities.LoggingManager;
 import utilities.ScreenshotHelper;
 
 import java.io.File;
@@ -41,31 +42,35 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
     @Override
     public void onTestStart(ITestResult result) {
         // To be implemented later
+        LoggingManager.startLog();
+        LoggingManager.startTestCase(result.getName());
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
 
-        System.out.println("Success of test cases and its details are : " + result.getName());
+        LoggingManager.info("Success of test cases and its details are : " + result.getName());
+        LoggingManager.endTestCase(result.getName());
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
         // To be implemented later
+        LoggingManager.endTestCase(result.getName());
     }
 
     @Override
     public void afterInvocation(IInvokedMethod method, ITestResult result) {
         if (result.getStatus() == ITestResult.FAILURE) {
-            System.out.println("Failure of test cases and its details are : " + result.getName());
-            System.out.println("Failed!");
-            System.out.println("Taking Screenshot....");
+            LoggingManager.error("Failure of test cases and its details are : " + result.getName());
+            LoggingManager.error("Failed!");
+            LoggingManager.error("Taking Screenshot....");
             String fullPath = null;
             try {
                 fullPath = System.getProperty("user.dir")
                         + ScreenshotHelper.captureScreenshot(Webdriver.getDriver(),
                         result.getMethod().getConstructorOrMethod().getName());
-                System.out.println("Screenshot captured for Test case: " + result.getName());
+                LoggingManager.info("Screenshot captured for Test case: " + result.getName());
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -75,7 +80,7 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
                 Allure.addAttachment(result.getMethod().getConstructorOrMethod().getName(),
                         FileUtils.openInputStream(new File(fullPath)));
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Attachment isn't Found");
             }
         }
 
@@ -83,12 +88,12 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
 
     @Override
     public void onTestSkipped(ITestResult result) {
-        System.out.println("Skip of test cases and its details are : " + result.getName());
+        LoggingManager.error("Skip of test cases and its details are : " + result.getName());
     }
 
     @Override
     public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-        System.out.println("Failure of test cases and its details are : " + result.getName());
+        LoggingManager.error("Failure of test cases and its details are : " + result.getName());
     }
 
     @Override
@@ -108,6 +113,7 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
     }
 
     @Override
@@ -123,7 +129,7 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
 
+    }
 
 }

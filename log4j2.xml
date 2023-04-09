@@ -14,11 +14,12 @@
         </Console>
     </Appenders>
     <Loggers>
-<!--        <Logger name="tests.TestClass" level="info" additivity="false">-->
-<!--            <AppenderRef ref="Console"/>-->
-<!--        </Logger>-->
+        <!--        <Logger name="tests.TestClass" level="info" additivity="false">-->
+        <!--            <AppenderRef ref="Console"/>-->
+        <!--        </Logger>-->
         <Root level="all">
             <AppenderRef ref="file"/>
+            <AppenderRef ref="Console"/>
         </Root>
     </Loggers>
 </Configuration>

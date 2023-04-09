@@ -13,7 +13,6 @@ import org.openqa.selenium.support.ui.Select;
 import java.util.List;
 
 public class ElementActions {
-
     private static WebDriver driver;
     private static FluentWait<WebDriver> driverWait;
     Actions action;

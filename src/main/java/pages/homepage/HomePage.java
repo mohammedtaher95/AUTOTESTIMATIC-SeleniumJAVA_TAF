@@ -1,7 +1,5 @@
 package pages.homepage;
 
-
-import elementactions.ElementActions;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -9,10 +7,11 @@ import pages.ContactUsPage;
 import pages.LoginPage;
 import pages.MyAccountPage;
 import pages.registrationpage.UserRegistrationPage;
+import static elementactions.ElementActions.*;
 
 import static browseractions.BrowserActions.scrollToBottom;
 
-public class HomePage extends ElementActions {
+public class HomePage{
 
 	private final WebDriver driver;
 
