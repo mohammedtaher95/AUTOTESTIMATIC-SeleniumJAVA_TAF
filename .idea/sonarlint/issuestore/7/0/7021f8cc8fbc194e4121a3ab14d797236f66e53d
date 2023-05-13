@@ -1,0 +1,15 @@
+
+@
+java:S3010"#Remove this assignment of "driver".(ÁÜÑ¥8·Çö’1
+D
+java:S3010"'Remove this assignment of "driverWait".(¸Š“É8·Çö’1
+R
+java:S2209"5Change this instance-reference to a static reference.(ÁÜÑ¥8¹Çö’1
+R
+java:S2209"5Change this instance-reference to a static reference.(¸Š“É8¼Çö’1
+W
+java:S2209"5Change this instance-reference to a static reference.(É¢¶Ëşÿÿÿÿ8¾Çö’1
+Q
+java:S1128"4Remove this unused import 'driverfactory.Webdriver'.(ßƒ™£8ÈÇö’1
+W
+java:S1128":Remove this unused import 'java.util.concurrent.TimeUnit'.(Æ™ş8ÈÇö’1

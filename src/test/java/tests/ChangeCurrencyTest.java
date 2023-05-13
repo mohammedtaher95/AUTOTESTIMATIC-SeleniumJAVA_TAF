@@ -12,7 +12,7 @@ public class ChangeCurrencyTest extends TestBase{
     @Test(priority = 1, alwaysRun = true)
     public void UserCanChangeCurrency()
     {
-        homeObject = new HomePage(Webdriver.getDriver());
+        homeObject = new HomePage(driver.getDriver());
         homeObject.changeCurrency(1);
     }
 
@@ -20,7 +20,7 @@ public class ChangeCurrencyTest extends TestBase{
     public void UserCanSearchForProductWithAutoSuggest()
     {
         try {
-            new SearchPage(Webdriver.getDriver())
+            new SearchPage(driver.getDriver())
                     .productSearch("Mac")
                     .openProductPage()
                     .checkCurrency("€");

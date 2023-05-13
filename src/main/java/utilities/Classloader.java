@@ -1,9 +1,8 @@
 package utilities;
 
 import org.reflections.Reflections;
-import org.testng.ITestClass;
-import java.util.HashSet;
-import java.util.Set;
+import org.reflections.scanners.Scanners;
+import java.util.*;
 
 public class Classloader {
 
@@ -11,9 +10,9 @@ public class Classloader {
 
     }
 
-    public static Set<Class <? extends ITestClass>> findAllClassesUsingReflectionsLibrary(String packageName) {
-        Reflections reflections = new Reflections(packageName);
-        return new HashSet<>(reflections.getSubTypesOf(ITestClass.class));
+    public static Set<Class<?>> findAllClasses(String packageName) {
+        Reflections reflections = new Reflections(packageName,Scanners.SubTypes.filterResultsBy(s -> true));
+        return new HashSet<>(reflections.getSubTypesOf(Object.class));
     }
 
 }

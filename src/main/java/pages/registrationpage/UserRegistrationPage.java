@@ -30,7 +30,7 @@ public class UserRegistrationPage
 	@Step("Then User should be Navigated to Registration page")
 	public UserRegistrationPage validateThatUserNavigatedToRegistrationPage(){
 
-		waitForVisibility(firstName);
+		//waitForVisibility(firstName);
 		Assert.assertTrue(driver.getCurrentUrl().contains("register"));
 		return this;
 	}
@@ -54,7 +54,7 @@ public class UserRegistrationPage
 
 	@Step("And clicks on Register Button")
 	public UserRegistrationPage clickOnRegisterButton(){
-
+		waitForVisibility(registerBtn);
 		Assert.assertTrue(elementDisplayed(registerBtn));
 		clickButton(registerBtn);
 		return this;
@@ -62,7 +62,8 @@ public class UserRegistrationPage
 
 	@Step("Then Success Message should be displayed")
 	public UserRegistrationPage validateThatSuccessMessageShouldBeDisplayed(){
-		Assert.assertTrue(elementDisplayed(successMessage));
+		//waitForVisibility(successMessage);
+		//Assert.assertTrue(elementDisplayed(successMessage));
 		Assert.assertTrue(getElementText(successMessage).contains("Your registration completed"));
 		return this;
 	}

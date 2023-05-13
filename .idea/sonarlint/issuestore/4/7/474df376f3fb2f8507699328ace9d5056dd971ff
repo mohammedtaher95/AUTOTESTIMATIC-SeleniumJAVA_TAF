@@ -1,0 +1,9 @@
+
+g	java:S112I"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8Ðÿˆ“÷0
+>
+java:S1643 "Use a StringBuilder instead.(Ëæ×áûÿÿÿÿ8Ñÿˆ“÷0
+>
+java:S1643&"Use a StringBuilder instead.(Ëæ×áûÿÿÿÿ8Ñÿˆ“÷0
+>
+java:S1643'"Use a StringBuilder instead.(×†šŽýÿÿÿÿ8Ñÿˆ“÷0
+U	java:S106G"9Replace this use of System.out or System.err by a logger.(™ÑËÞ8€€‰“÷0

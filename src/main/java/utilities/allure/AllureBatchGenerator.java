@@ -1,4 +1,4 @@
-package utilities;
+package utilities.allure;
 
 import java.io.*;
 import java.nio.file.*;

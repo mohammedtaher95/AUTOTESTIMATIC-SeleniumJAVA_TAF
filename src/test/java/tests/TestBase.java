@@ -1,6 +1,7 @@
 package tests;
 
 import driverfactory.Webdriver;
+import org.openqa.selenium.WebDriver;
 import org.testng.Reporter;
 import org.testng.annotations.*;
 import utilities.LoggingManager;

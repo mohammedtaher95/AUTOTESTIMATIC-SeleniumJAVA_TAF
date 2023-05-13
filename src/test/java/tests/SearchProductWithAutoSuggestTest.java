@@ -12,7 +12,7 @@ public class SearchProductWithAutoSuggestTest extends TestBase{
     public void UserCanSearchForProductWithAutoSuggest()
     {
         try {
-            new SearchPage(Webdriver.getDriver())
+            new SearchPage(driver.getDriver())
                     .productSearchUsingAutoSuggest("Mac")
                     .checkThatProductPageShouldBeDisplayed(ProductName);
         }

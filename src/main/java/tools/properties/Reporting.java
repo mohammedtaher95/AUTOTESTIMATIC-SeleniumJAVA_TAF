@@ -14,7 +14,12 @@ public interface Reporting extends Config, Accessible {
     @DefaultValue("true")
     boolean automaticOpenAllureReport();
 
+    @Key("CLEAN_ALLURE_REPORT_BEFORE_EXECUTION")
+    @DefaultValue("true")
+    boolean cleanAllureReport();
+
     @Key("GENERATE_EMAILABLE_REPORT")
     @DefaultValue("false")
     boolean generateEmailableReport();
+
 }

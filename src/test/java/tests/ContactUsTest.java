@@ -16,7 +16,7 @@ public class ContactUsTest extends TestBase{
     @Test
     public void UserCanContactWebsiteOwner()
     {
-        new HomePage(Webdriver.getDriver())
+        new HomePage(driver.getDriver())
                 .openContactUsPage()
                 .fillContactInfoForm(FullName, Email, Message)
                 .clickOnSubmitButton()

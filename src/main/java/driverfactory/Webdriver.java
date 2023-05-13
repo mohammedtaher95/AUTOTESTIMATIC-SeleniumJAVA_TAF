@@ -4,11 +4,12 @@ import constants.DriverType;
 import constants.EnvType;
 import driverfactory.localdriver.*;
 import elementactions.ElementActions;
+import lombok.SneakyThrows;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ThreadGuard;
 import org.testng.Reporter;
-import utilities.LoggingManager;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -24,46 +25,53 @@ public class Webdriver{
     public Webdriver(){
 
         if(EnvType.valueOf(getPlatform().environmentType()) == EnvType.LOCAL){
-            localDriverInit(Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName"));
+            localDriverInit();
         }
 
         if(EnvType.valueOf(getPlatform().environmentType()) == EnvType.GRID){
             gridInit();
         }
+        ElementActions elementActions = new ElementActions(getDriver());
+        System.out.println("CURRENT THREAD: " + Thread.currentThread().getId() + ", " + "DRIVER = " + getDriver());
+    }
 
-        ElementActions elementActions = new ElementActions();
-
-        LoggingManager.info("CURRENT THREAD: " + Thread.currentThread().getId() + ", " + "DRIVER = " + getDriver());
-
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        getDriver().manage().window().maximize();
-
-        if(!getCapabilities().baseURL().isEmpty())
-        {
-            getDriver().navigate().to(getCapabilities().baseURL());
+    public static synchronized void localDriverInit(){
+        String browserName = Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName");
+        WebDriver driver = DriverFactory.getDriverFactory(DriverType.valueOf(browserName.toUpperCase())).getDriver();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().window().maximize();
+        String baseURL = getCapabilities().baseURL();
+        if (!baseURL.isEmpty()) {
+            driver.navigate().to(baseURL);
         }
+        setDriver(ThreadGuard.protect(driver));
     }
 
-
-    public void localDriverInit(String browserName){
-        setDriver(DriverFactory.getDriverFactory(DriverType.valueOf(browserName.toUpperCase())).getDriver());
-    }
-
-    public static void gridInit(){
+    public static synchronized void gridInit(){
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        String browserName =Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName");
+        String browserName = Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName");
         capabilities.setBrowserName(browserName);
         try {
-            setDriver(new RemoteWebDriver(new URL(getPlatform().remoteURL()), capabilities));
+            RemoteWebDriver driver = new RemoteWebDriver(new URL(getPlatform().remoteURL()), capabilities);
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+            driver.manage().window().maximize();
+            setDriver(ThreadGuard.protect(driver));
+            String baseURL = getCapabilities().baseURL();
+            if (!baseURL.isEmpty()) {
+                getDriver().navigate().to(baseURL);
+            }
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
     }
 
-    public void quit(){
-        getDriver().manage().deleteAllCookies();
-        getDriver().quit();
-        Driver.remove();
+    public synchronized void quit(){
+        WebDriver driver = Driver.get();
+        if (driver != null) {
+            driver.manage().deleteAllCookies();
+            driver.quit();
+            Driver.remove();
+        }
     }
 
 

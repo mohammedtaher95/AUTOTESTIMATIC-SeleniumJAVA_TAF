@@ -12,6 +12,5 @@ public class EdgeDriverFactory extends DriverAbstract {
         EdgeOptions options = new EdgeOptions();
         options.addArguments("--" + getCapabilities().executionMethod(), "--window-size=1920,1080");
         driver = new EdgeDriver(options);
-        driver.manage().window().maximize();
     }
 }

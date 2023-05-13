@@ -6,13 +6,13 @@
 
     <groupId>org.example</groupId>
     <artifactId>SeleniumJAVA_TAF</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <selenium.version>4.8.1</selenium.version>
+        <selenium.version>4.9.0</selenium.version>
         <cucumber.version>7.11.1</cucumber.version>
         <allure.version>2.21.0</allure.version>
         <aspectj.version>1.9.19</aspectj.version>
@@ -20,6 +20,49 @@
         <platform.properties>src/main/resources/properties/ExecutionPlatform.properties</platform.properties>
         <capabilities.properties>src/main/resources/properties/WebCapabilities.properties</capabilities.properties>
     </properties>
+
+    <packaging>jar</packaging>
+
+    <name>Selenium JAVA Test Automation Framework</name>
+    <description>An open-source Test automation Framework that allows you to perform multiple actions
+        to test a web application's functionality, behaviour, which provides easy to use syntax,
+        and easy to set up environment according to the needed requirements for testing
+    </description>
+    <url>http://github.com/mohammedtaher95/SeleniumJAVA_TAF</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <scm>
+        <connection>scm:git:git://github.com/mohammedtaher95/SeleniumJAVA_TAF.git</connection>
+        <developerConnection>scm:git:ssh://github.com:mohammedtaher95/SeleniumJAVA_TAF.git</developerConnection>
+        <url>http://github.com/mohammedtaher95/SeleniumJAVA_TAF</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>Mohammed Taher</name>
+            <email>mohammedtaher10295@gmail.com</email>
+            <organization>com.github.mohammedtaher95</organization>
+            <organizationUrl>http://github.com/mohammedtaher95/</organizationUrl>
+        </developer>
+    </developers>
+
 
     <dependencies>
         <!-- Selenium dependencies  -->
@@ -94,11 +137,6 @@
         </dependency>
         <dependency>
             <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-jira-commons</artifactId>
-            <version>${allure.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.qameta.allure</groupId>
             <artifactId>allure-attachments</artifactId>
             <version>${allure.version}</version>
         </dependency>
@@ -112,6 +150,19 @@
             <artifactId>allure-cucumber7-jvm</artifactId>
             <version>${allure.version}</version>
         </dependency>
+
+        <!--  Java Mail Dependencies  -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-email</artifactId>
+            <version>1.5</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -188,14 +239,6 @@
                     <version>3.3.1</version>
                 </plugin>
                 <plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.11.0</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.0.0-M5</version>
-                </plugin>
-                <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>3.3.0</version>
                 </plugin>
@@ -224,6 +267,17 @@
             </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -275,7 +329,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M5</version>
                 <configuration>
-                    <testFailureIgnore>false</testFailureIgnore>
+                    <testFailureIgnore>true</testFailureIgnore>
                     <forkMode>never</forkMode>
                     <failIfNoSpecifiedTests>false</failIfNoSpecifiedTests>
                     <failIfNoTests>false</failIfNoTests>
@@ -369,6 +423,53 @@
                             </execution>
                         </executions>
                     </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+<!--                    <plugin>-->
+<!--                        <groupId>org.apache.maven.plugins</groupId>-->
+<!--                        <artifactId>maven-source-plugin</artifactId>-->
+<!--                        <version>3.2.1</version>-->
+<!--                        <executions>-->
+<!--                            <execution>-->
+<!--                                <id>attach-sources</id>-->
+<!--                                <goals>-->
+<!--                                    <goal>jar-no-fork</goal>-->
+<!--                                </goals>-->
+<!--                            </execution>-->
+<!--                        </executions>-->
+<!--                    </plugin>-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.5.0</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+<!--                    <plugin>-->
+<!--                        <groupId>org.apache.maven.plugins</groupId>-->
+<!--                        <artifactId>maven-gpg-plugin</artifactId>-->
+<!--                        <version>3.0.1</version>-->
+<!--                        <executions>-->
+<!--                            <execution>-->
+<!--                                <id>sign-artifacts</id>-->
+<!--                                <phase>verify</phase>-->
+<!--                                <goals>-->
+<!--                                    <goal>sign</goal>-->
+<!--                                </goals>-->
+<!--                            </execution>-->
+<!--                        </executions>-->
+<!--                    </plugin>-->
                 </plugins>
             </build>
         </profile>

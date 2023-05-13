@@ -13,7 +13,7 @@ public class SearchProductTest extends TestBase{
 
     @Test
     public void UserCanSearchForProducts() {
-        new SearchPage(Webdriver.getDriver())
+        new SearchPage(driver.getDriver())
                 .productSearch(ProductName)
                 .openProductPage()
                 .checkThatProductPageShouldBeDisplayed(ProductName);

@@ -20,7 +20,7 @@ public class TestClass{
     @Issue(" ")
     @TmsLink("Nop Commerce_1-User Registration")
     @Description("User can access registration page and register successfully")
-    @Test(description = "User Register on website successfully")
+    @Test(description = "User Register on website successfully", singleThreaded = false)
     public void testMethod(){
         newUser = new UserFormData();
 
@@ -34,9 +34,7 @@ public class TestClass{
     }
 
     @BeforeClass(description = "Setup Driver")
-    public void setUp(){
-        //.setProperty("BASE_URL", "http://demo.nopcommerce.com");
-
+    public synchronized void setUp(){
         driver = new Webdriver();
     }
 

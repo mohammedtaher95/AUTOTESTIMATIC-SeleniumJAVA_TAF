@@ -9,8 +9,6 @@ import pages.homepage.HomePage;
 import pages.registrationpage.UserRegistrationPage;
 import utilities.UserFormData;
 
-import static driverfactory.Webdriver.getDriver;
-
 public class EmailFriendTest extends TestBase{
 
     HomePage homeObject;
@@ -21,10 +19,10 @@ public class EmailFriendTest extends TestBase{
 
     @Test(priority = 1, alwaysRun = true)
     public void UserCanRegisterSuccessfully(){
-        homeObject = new HomePage(Webdriver.getDriver());
+        homeObject = new HomePage(driver.getDriver());
         homeObject.openRegistrationPage();
 
-        new UserRegistrationPage(Webdriver.getDriver())
+        new UserRegistrationPage(driver.getDriver())
                 .validateThatUserNavigatedToRegistrationPage()
                 .fillUserRegistrationForm(newUser.getFirstName(), newUser.getLastName(), newUser.getEmail(), newUser.getOldPassword())
                 .clickOnRegisterButton()
@@ -35,7 +33,7 @@ public class EmailFriendTest extends TestBase{
     public void RegisteredUserCanLogin()
     {
         homeObject.openLoginPage();
-        new LoginPage(getDriver())
+        new LoginPage(driver.getDriver())
                 .userLogin(newUser.getEmail(), newUser.getOldPassword())
                 .clickOnLoginButton()
                 .checkThatLogoutButtonShouldBeDisplayed();
@@ -43,7 +41,7 @@ public class EmailFriendTest extends TestBase{
 
     @Test(priority = 3, alwaysRun = true)
     public void UserCanSearchForProducts(){
-        new SearchPage(Webdriver.getDriver())
+        new SearchPage(driver.getDriver())
                 .productSearch(ProductName)
                 .openProductPage()
                 .checkThatProductPageShouldBeDisplayed(ProductName);
@@ -51,7 +49,7 @@ public class EmailFriendTest extends TestBase{
 
     @Test(priority = 4, alwaysRun = true)
     public void RegisteredUserCanEmailHisFriend() {
-        new ProductDetailsPage(Webdriver.getDriver())
+        new ProductDetailsPage(driver.getDriver())
                 .emailFriend()
                 .fillEmailFriendForm(newUser.getFriendEmail(), newUser.getMessage())
                 .clickOnSendButton()
@@ -61,7 +59,7 @@ public class EmailFriendTest extends TestBase{
     @Test(priority = 5, alwaysRun = true)
     public void RegisteredUserCanLogout()
     {
-        new LoginPage(Webdriver.getDriver())
+        new LoginPage(driver.getDriver())
                 .clickOnLogoutButton();
     }
 }

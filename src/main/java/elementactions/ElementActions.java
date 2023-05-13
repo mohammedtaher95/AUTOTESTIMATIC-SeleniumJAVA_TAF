@@ -10,17 +10,22 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 
+import java.time.Duration;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
 
 public class ElementActions {
     private static WebDriver driver;
     private static FluentWait<WebDriver> driverWait;
     Actions action;
 
-    public ElementActions(){
-        driver = Webdriver.getDriver();
-        driverWait = new FluentWait<>(driver);
-        action = new Actions(driver);
+    public ElementActions(WebDriver driver){
+        this.driver = driver;
+        driverWait = new FluentWait<>(this.driver).withTimeout(Duration.ofSeconds(5))
+                .pollingEvery(Duration.ofMillis(500))
+                .ignoring(NoSuchElementException.class);
+        action = new Actions(this.driver);
     }
 
     public static void clickButton(By btn){

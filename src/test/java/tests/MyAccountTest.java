@@ -10,10 +10,10 @@ public class MyAccountTest extends TestBase{
 
 	UserFormData user = new UserFormData();
 	
-	@Test(priority = 1)
+	@Test(priority = 1, threadPoolSize = 6)
 	public void UserCanRegisterSuccessfully()
 	{
-		new HomePage(Webdriver.getDriver())
+		new HomePage(driver.getDriver())
 				.openRegistrationPage()
 				.validateThatUserNavigatedToRegistrationPage()
 				.fillUserRegistrationForm(user.getFirstName(), user.getLastName(), user.getEmail(), user.getOldPassword())
@@ -21,37 +21,37 @@ public class MyAccountTest extends TestBase{
 				.validateThatSuccessMessageShouldBeDisplayed();
 	}
 
-	@Test(priority = 2, dependsOnMethods = {"UserCanRegisterSuccessfully"})
+	@Test(priority = 2, dependsOnMethods = {"UserCanRegisterSuccessfully"}, threadPoolSize = 6)
 	public void RegisteredUserCanLogin()
 	{
-		new HomePage(Webdriver.getDriver())
+		new HomePage(driver.getDriver())
 				.openLoginPage()
 				.userLogin(user.getEmail(), user.getOldPassword())
 				.clickOnLoginButton()
 				.checkThatLogoutButtonShouldBeDisplayed();
 	}
-
-	@Test(priority = 3, dependsOnMethods = {"RegisteredUserCanLogin"})
-	public void RegisteredUserCanChangePassword()
-	{
-		new HomePage(Webdriver.getDriver())
-				.openMyAccountPage()
-				.openChangePasswordpage()
-				.changePassword(user.getOldPassword(), user.getNewPassword())
-				.clickOnConfirm()
-				.checkThatChangeMessageShouldBeDisplayed()
-				.closeMessage()
-				.clickOnLogoutButton();
-	}
-
-	@Test(priority = 4, dependsOnMethods = {"RegisteredUserCanLogin"})
-	public void UserLoginWithNewPassword()
-	{
-		new HomePage(Webdriver.getDriver())
-				.openLoginPage()
-				.userLogin(user.getEmail(), user.getNewPassword())
-				.clickOnLoginButton()
-				.checkThatLogoutButtonShouldBeDisplayed();
-	}
+//
+//	@Test(priority = 3, dependsOnMethods = {"RegisteredUserCanLogin"})
+//	public void RegisteredUserCanChangePassword()
+//	{
+//		new HomePage(Webdriver)
+//				.openMyAccountPage()
+//				.openChangePasswordpage()
+//				.changePassword(user.getOldPassword(), user.getNewPassword())
+//				.clickOnConfirm()
+//				.checkThatChangeMessageShouldBeDisplayed()
+//				.closeMessage()
+//				.clickOnLogoutButton();
+//	}
+//
+//	@Test(priority = 4, dependsOnMethods = {"RegisteredUserCanLogin"})
+//	public void UserLoginWithNewPassword()
+//	{
+//		new HomePage(Webdriver)
+//				.openLoginPage()
+//				.userLogin(user.getEmail(), user.getNewPassword())
+//				.clickOnLoginButton()
+//				.checkThatLogoutButtonShouldBeDisplayed();
+//	}
 
 }

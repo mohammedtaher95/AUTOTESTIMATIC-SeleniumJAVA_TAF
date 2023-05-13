@@ -13,6 +13,5 @@ public class ChromeDriverFactory extends DriverAbstract {
         options.addArguments("--remote-allow-origins=*");
         options.addArguments("--" + getCapabilities().executionMethod(), "--window-size=1920,1080");
         driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
     }
 }
