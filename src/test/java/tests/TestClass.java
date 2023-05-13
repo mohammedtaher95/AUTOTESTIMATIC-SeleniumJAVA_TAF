@@ -20,7 +20,7 @@ public class TestClass{
     @Issue(" ")
     @TmsLink("Nop Commerce_1-User Registration")
     @Description("User can access registration page and register successfully")
-    @Test(description = "User Register on website successfully", singleThreaded = false)
+    @Test(description = "User Register on website successfully")
     public void testMethod(){
         newUser = new UserFormData();
 

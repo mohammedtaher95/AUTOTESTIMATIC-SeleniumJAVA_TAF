@@ -4,7 +4,6 @@ import constants.DriverType;
 import constants.EnvType;
 import driverfactory.localdriver.*;
 import elementactions.ElementActions;
-import lombok.SneakyThrows;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;

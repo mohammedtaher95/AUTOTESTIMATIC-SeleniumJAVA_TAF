@@ -71,8 +71,8 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
     @Override
     public void beforeInvocation(IInvokedMethod method, ITestResult result) {
         method.getTestMethod().setThreadPoolSize(50);
-        method.getTestMethod().setInvocationCount(20);
-        method.getTestMethod().setTimeOut(1000000);
+        method.getTestMethod().setInvocationCount(1);
+//        method.getTestMethod().setTimeOut(1000000);
     }
 
     @Override

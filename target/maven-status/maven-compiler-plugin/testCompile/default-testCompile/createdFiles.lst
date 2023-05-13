@@ -1,0 +1,9 @@
+tests\SearchProductWithAutoSuggestTest.class
+tests\MyAccountTest.class
+tests\EmailFriendTest.class
+tests\ContactUsTest.class
+tests\TestClass.class
+tests\AddProductReviewTest.class
+tests\SearchProductTest.class
+tests\TestBase.class
+tests\ChangeCurrencyTest.class
