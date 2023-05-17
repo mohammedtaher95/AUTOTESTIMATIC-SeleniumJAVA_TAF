@@ -5,10 +5,20 @@ which provides easy to use syntax, and easy to setup environment according to th
 
 
 ## Features
-- Support Running Testing on Following Browsers: Chrome, Firefox, & Edge either Normal or Headless
+- Support Running Testing on Following Browsers locally: Chrome, Firefox, & Edge either Normal or Headless
 - Support Cross-Browsing Mode
 - Support Running on Selenium Grid
 - Generate Allure Report automatically after Test Execution with screenshots
+- Changing Framework settings via Properties files
+
+## Tech Stack
+- Java
+- Maven
+- TestNG
+- Selenium WebDriver
+- Allure
+- Docker for Setting up Selenium Grid
+- Jenkins
 
 ## How to use:
 ### Option 1: Using this Framework directly
