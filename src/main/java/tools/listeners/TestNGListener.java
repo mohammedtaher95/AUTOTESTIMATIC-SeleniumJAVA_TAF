@@ -39,10 +39,6 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
             }
         }
 
-        if(getReporting().generateEmailableReport()){
-            EmailableReportGenerator.generateReportAndSendEmail("mohammedtaher10295@gmail.com",
-                    "theprince.mt@gmail.com", "ffhnkraijimnajdq");
-        }
     }
 
     @Override
@@ -70,8 +66,8 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
 
     @Override
     public void beforeInvocation(IInvokedMethod method, ITestResult result) {
-        method.getTestMethod().setThreadPoolSize(50);
-        method.getTestMethod().setInvocationCount(1);
+        method.getTestMethod().setThreadPoolSize(6);
+        method.getTestMethod().setInvocationCount(50);
 //        method.getTestMethod().setTimeOut(1000000);
     }
 
