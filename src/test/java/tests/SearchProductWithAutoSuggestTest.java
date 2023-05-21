@@ -1,18 +1,26 @@
 package tests;
 
 import driverfactory.Webdriver;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import pages.SearchPage;
 
-public class SearchProductWithAutoSuggestTest extends TestBase{
+public class SearchProductWithAutoSuggestTest{
 
+    public static ThreadLocal<driverfactory.Webdriver> driver;
     String ProductName = "Apple MacBook Pro 13-inch";
+
+    @BeforeClass(description = "Setup Driver")
+    public void setUp(){
+        driver = new ThreadLocal<>();
+        driver.set(new Webdriver());
+    }
+
 
     @Test
     public void UserCanSearchForProductWithAutoSuggest()
     {
         try {
-            new SearchPage(driver.getDriver())
+            new SearchPage(Webdriver.getDriver())
                     .productSearchUsingAutoSuggest("Mac")
                     .checkThatProductPageShouldBeDisplayed(ProductName);
         }
@@ -21,5 +29,11 @@ public class SearchProductWithAutoSuggestTest extends TestBase{
             System.out.println("Error Occurred " + e.getMessage());
         }
 
+    }
+
+    @AfterClass(description = "Tear down")
+    public void tearDown(){
+        driver.get().quit();
+        driver.remove();
     }
 }

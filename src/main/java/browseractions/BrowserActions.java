@@ -1,6 +1,5 @@
 package browseractions;
 
-import driverfactory.Webdriver;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -8,11 +7,12 @@ import org.openqa.selenium.WindowType;
 
 public class BrowserActions {
 
-    static WebDriver driver = Webdriver.getDriver();
-    public static final JavascriptExecutor jSE = (JavascriptExecutor) driver;
+    private static WebDriver driver;
+    private static JavascriptExecutor jSE;
 
-    private BrowserActions(){
-
+    public BrowserActions(WebDriver driver){
+        BrowserActions.driver = driver;
+        jSE = (JavascriptExecutor) driver;
     }
 
     /******************************** URL Controlling and Navigation *************************************/

@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -43,6 +44,8 @@ public class TestNGHelper {
         testSuite.setDataProviderThreadCount(getTestNG().dataProviderThreadCount());
 
         testSuite.setName("WebDriver Suite");
+        testSuite.setListeners(Collections.singletonList("tools.listeners.TestNGListener"));
+
         if(CrossBrowserMode.valueOf(getPlatform().crossBrowserMode()) == CrossBrowserMode.OFF){
             initializeNormalExecution();
         }
@@ -78,18 +81,18 @@ public class TestNGHelper {
             testSuite.setParallel(XmlSuite.ParallelMode.NONE);
         }
 
-        testSuite.setThreadCount(10);
+        //testSuite.setThreadCount(2);
 
         XmlTest chromeTest = new XmlTest(testSuite);
         chromeTest.setName("Chrome Test");
         chromeTest.addParameter(browserName, "chrome");
-        chromeTest.setThreadCount(10);
+        chromeTest.setThreadCount(1);
         chromeTest.setParallel(XmlSuite.ParallelMode.NONE);
         chromeTest.setXmlClasses(test.getXmlClasses());
 
         XmlTest firefoxTest = new XmlTest(testSuite);
         firefoxTest.setName("Firefox Test");
-        firefoxTest.setThreadCount(10);
+        firefoxTest.setThreadCount(1);
         firefoxTest.setParallel(XmlSuite.ParallelMode.NONE);
         firefoxTest.addParameter(browserName, "firefox");
         firefoxTest.setXmlClasses(test.getXmlClasses());

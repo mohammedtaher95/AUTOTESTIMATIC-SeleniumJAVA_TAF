@@ -1,19 +1,28 @@
 package tests;
 
 import driverfactory.Webdriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pages.homepage.HomePage;
 import utilities.UserFormData;
 
 
-public class MyAccountTest extends TestBase{
+public class MyAccountTest{
 
+	public static ThreadLocal<driverfactory.Webdriver> driver;
 	UserFormData user = new UserFormData();
+
+	@BeforeClass(description = "Setup Driver")
+	public synchronized void setUp(){
+		driver = new ThreadLocal<>();
+		driver.set(new Webdriver());
+	}
 	
-	@Test(priority = 1, threadPoolSize = 6)
+	@Test(priority = 1)
 	public void UserCanRegisterSuccessfully()
 	{
-		new HomePage(driver.getDriver())
+		new HomePage(driver.get().makeAction())
 				.openRegistrationPage()
 				.validateThatUserNavigatedToRegistrationPage()
 				.fillUserRegistrationForm(user.getFirstName(), user.getLastName(), user.getEmail(), user.getOldPassword())
@@ -21,10 +30,10 @@ public class MyAccountTest extends TestBase{
 				.validateThatSuccessMessageShouldBeDisplayed();
 	}
 
-	@Test(priority = 2, dependsOnMethods = {"UserCanRegisterSuccessfully"}, threadPoolSize = 6)
+	@Test(priority = 2, dependsOnMethods = {"UserCanRegisterSuccessfully"})
 	public void RegisteredUserCanLogin()
 	{
-		new HomePage(driver.getDriver())
+		new HomePage(driver.get().makeAction())
 				.openLoginPage()
 				.userLogin(user.getEmail(), user.getOldPassword())
 				.clickOnLoginButton()
@@ -54,4 +63,9 @@ public class MyAccountTest extends TestBase{
 //				.checkThatLogoutButtonShouldBeDisplayed();
 //	}
 
+	@AfterClass(description = "Tear down")
+	public void tearDown(){
+		driver.get().quit();
+		driver.remove();
+	}
 }

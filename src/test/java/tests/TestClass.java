@@ -5,7 +5,7 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import io.qameta.allure.TmsLink;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.*;
 
 import org.testng.annotations.Test;
 import pages.homepage.HomePage;
@@ -14,7 +14,7 @@ import utilities.UserFormData;
 
 public class TestClass{
 
-    driverfactory.Webdriver driver;
+    public static ThreadLocal<driverfactory.Webdriver> driver;
     UserFormData newUser;
 
     @Issue(" ")
@@ -33,14 +33,16 @@ public class TestClass{
 
     }
 
-    @BeforeClass(description = "Setup Driver")
+    @BeforeMethod(description = "Setup Driver")
     public synchronized void setUp(){
-        driver = new Webdriver();
+        driver = new ThreadLocal<>();
+        driver.set(new Webdriver());
     }
 
-    @AfterClass(description = "Tear down")
+    @AfterMethod(description = "Tear down")
     public void tearDown(){
-        driver.quit();
+        driver.get().quit();
+        driver.remove();
     }
 
 }

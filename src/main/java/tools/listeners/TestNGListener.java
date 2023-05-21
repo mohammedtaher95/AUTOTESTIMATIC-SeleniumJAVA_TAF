@@ -3,6 +3,7 @@ package tools.listeners;
 import driverfactory.Webdriver;
 import io.qameta.allure.Allure;
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.WebDriver;
 import org.testng.*;
 import org.testng.xml.XmlSuite;
 
@@ -24,9 +25,11 @@ import static tools.properties.PropertiesHandler.*;
 public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuiteListener,
         IExecutionListener, IInvokedMethodListener {
 
+    private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     @Override
     public void onExecutionStart() {
         Allure.getLifecycle();
+        driver.set(Webdriver.getDriver());
     }
 
     @Override
@@ -46,7 +49,7 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
         // To be implemented later
         LoggingManager.startLog();
         LoggingManager.startTestCase(result.getName());
-        //result.getMethod().setThreadPoolSize(5);
+        result.getMethod().setThreadPoolSize(50);
     }
 
     @Override
@@ -66,7 +69,8 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
 
     @Override
     public void beforeInvocation(IInvokedMethod method, ITestResult result) {
-        method.getTestMethod().setThreadPoolSize(6);
+        method.getTestMethod().getXmlTest().setThreadCount(10);
+        method.getTestMethod().setThreadPoolSize(50);
         method.getTestMethod().setInvocationCount(50);
 //        method.getTestMethod().setTimeOut(1000000);
     }
@@ -78,23 +82,23 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
             LoggingManager.error("Failed!");
             LoggingManager.error("Taking Screenshot....");
             String fullPath = null;
-            try {
-                fullPath = System.getProperty("user.dir")
-                        + ScreenshotHelper.captureScreenshot(Webdriver.makeAction(),
-
-                        result.getMethod().getConstructorOrMethod().getName());
-                LoggingManager.info("Screenshot captured for Test case: " + result.getName());
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                assert fullPath != null;
-                Allure.addAttachment(result.getMethod().getConstructorOrMethod().getName(),
-                        FileUtils.openInputStream(new File(fullPath)));
-            } catch (IOException e) {
-                throw new RuntimeException("Attachment isn't Found");
-            }
+//            try {
+//                fullPath = System.getProperty("user.dir")
+//                        + ScreenshotHelper.captureScreenshot(driver.get(),
+//
+//                        result.getMethod().getConstructorOrMethod().getName());
+//                LoggingManager.info("Screenshot captured for Test case: " + result.getName());
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            try {
+//                assert fullPath != null;
+//                Allure.addAttachment(result.getMethod().getConstructorOrMethod().getName(),
+//                        FileUtils.openInputStream(new File(fullPath)));
+//            } catch (IOException e) {
+//                throw new RuntimeException("Attachment isn't Found");
+//            }
         }
 
     }
@@ -119,11 +123,15 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
                 throw new RuntimeException(e);
             }
         }
+
+
     }
 
     @Override
     public void onFinish(ITestContext context) {
         //TO-DO
+        driver.remove();
+
     }
 
     @Override
@@ -134,11 +142,11 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @Override
     public void alter(List<XmlSuite> suites){
+
         try {
             initializeProperties();
         } catch (IOException e) {

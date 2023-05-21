@@ -2,26 +2,38 @@ package tests;
 
 import com.github.javafaker.Faker;
 import driverfactory.Webdriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pages.homepage.HomePage;
+import utilities.UserFormData;
 
-public class ContactUsTest extends TestBase{
+public class ContactUsTest{
 
-    Faker faker = new Faker();
-    String FullName = faker.name().fullName();
-    String Email = faker.internet().emailAddress();
-    String Message = faker.address().fullAddress();
+    public static ThreadLocal<driverfactory.Webdriver> driver;
+    UserFormData newUser = new UserFormData();
     String successMessage = "Your enquiry has been successfully sent to the store owner.";
 
     @Test
     public void UserCanContactWebsiteOwner()
     {
-        new HomePage(driver.getDriver())
+        new HomePage(Webdriver.getDriver())
                 .openContactUsPage()
-                .fillContactInfoForm(FullName, Email, Message)
+                .fillContactInfoForm(newUser.getFullName(), newUser.getEmail(), newUser.getMessage())
                 .clickOnSubmitButton()
                 .successMessageShouldBeDisplayed(successMessage);
     }
 
+    @BeforeClass(description = "Setup Driver")
+    public synchronized void setUp(){
+        driver = new ThreadLocal<>();
+        driver.set(new Webdriver());
+    }
+
+    @AfterClass(description = "Tear down")
+    public void tearDown(){
+        driver.get().quit();
+        driver.remove();
+    }
 
 }

@@ -1,8 +1,7 @@
 package elementactions;
 
-
-import driverfactory.Webdriver;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -13,7 +12,7 @@ import org.openqa.selenium.support.ui.Select;
 import java.time.Duration;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.concurrent.TimeUnit;
+
 
 public class ElementActions {
     private static WebDriver driver;
@@ -21,11 +20,12 @@ public class ElementActions {
     Actions action;
 
     public ElementActions(WebDriver driver){
-        this.driver = driver;
-        driverWait = new FluentWait<>(this.driver).withTimeout(Duration.ofSeconds(5))
+        ElementActions.driver = driver;
+        driverWait = new FluentWait<>(ElementActions.driver).withTimeout(Duration.ofSeconds(5))
                 .pollingEvery(Duration.ofMillis(500))
-                .ignoring(NoSuchElementException.class);
-        action = new Actions(this.driver);
+                .ignoring(NoSuchElementException.class)
+                .ignoring(StaleElementReferenceException.class);
+        action = new Actions(ElementActions.driver);
     }
 
     public static void clickButton(By btn){
