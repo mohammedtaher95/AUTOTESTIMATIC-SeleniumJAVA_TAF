@@ -1,13 +1,8 @@
 package tests;
 
 import driverfactory.Webdriver;
-import io.qameta.allure.Description;
-import io.qameta.allure.Issue;
-import io.qameta.allure.TmsLink;
-import org.testng.annotations.AfterClass;
+import io.qameta.allure.*;
 import org.testng.annotations.*;
-
-import org.testng.annotations.Test;
 import pages.homepage.HomePage;
 import utilities.UserFormData;
 
@@ -24,7 +19,7 @@ public class TestClass{
     public void testMethod(){
         newUser = new UserFormData();
 
-        new HomePage(Webdriver.getDriver())
+        new HomePage(driver.get().makeAction())
                 .openRegistrationPage()
                 .validateThatUserNavigatedToRegistrationPage()
                 .fillUserRegistrationForm(newUser.getFirstName(), newUser.getLastName(), newUser.getEmail(), newUser.getOldPassword())
@@ -33,13 +28,13 @@ public class TestClass{
 
     }
 
-    @BeforeMethod(description = "Setup Driver")
+    @BeforeClass(description = "Setup Driver")
     public synchronized void setUp(){
         driver = new ThreadLocal<>();
         driver.set(new Webdriver());
     }
 
-    @AfterMethod(description = "Tear down")
+    @AfterClass(description = "Tear down")
     public void tearDown(){
         driver.get().quit();
         driver.remove();

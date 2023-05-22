@@ -11,7 +11,7 @@ import utilities.UserFormData;
 
 public class AddProductReviewTest{
 
-    public static ThreadLocal<driverfactory.Webdriver> driver;
+    public static ThreadLocal<driverfactory.Webdriver> driver = new ThreadLocal<>();
     HomePage home;
     String ProductName = "Apple MacBook Pro 13-inch";
     String SuccessMessage = "Product review is successfully added.";
@@ -20,13 +20,12 @@ public class AddProductReviewTest{
 
     @BeforeClass(description = "Setup Driver")
     public synchronized void setUp(){
-        driver = new ThreadLocal<>();
         driver.set(new Webdriver());
     }
 
     @Test(priority = 1, alwaysRun = true)
     public void UserCanRegisterSuccessfully()  {
-        new HomePage(driver.get().makeAction())
+        new HomePage(Webdriver.getDriver())
                 .openRegistrationPage()
                 .validateThatUserNavigatedToRegistrationPage()
                 .fillUserRegistrationForm(newUser.getFirstName(), newUser.getLastName(), newUser.getEmail(), newUser.getOldPassword())
@@ -41,6 +40,7 @@ public class AddProductReviewTest{
                 .openLoginPage()
                 .userLogin(newUser.getEmail(), newUser.getOldPassword())
                 .clickOnLoginButton()
+                .checkThatLogoutButtonShouldBeDisplayed()
                 .checkThatLogoutButtonShouldBeDisplayed();
     }
 
@@ -64,8 +64,7 @@ public class AddProductReviewTest{
     @Test(priority = 5, alwaysRun = true, dependsOnMethods = {"RegisteredUserCanAddReviewForProduct"})
     public void RegisteredUserCanLogout()
     {
-        new LoginPage(driver.get().makeAction())
-                .clickOnLogoutButton();
+        new LoginPage(driver.get().makeAction()).clickOnLogoutButton();
     }
 
     @AfterClass(description = "Tear down")

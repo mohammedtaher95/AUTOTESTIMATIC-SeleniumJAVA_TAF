@@ -23,6 +23,8 @@ public class UserRegistrationPage
 	By registerBtn = By.id("register-button");
 	By successMessage = By.cssSelector("div.result");
 
+	By continueBtn = By.cssSelector("a.button-1.register-continue-button");
+
 	public UserRegistrationPage(WebDriver driver) {
 		this.driver = driver;
 	}
@@ -62,9 +64,10 @@ public class UserRegistrationPage
 
 	@Step("Then Success Message should be displayed")
 	public UserRegistrationPage validateThatSuccessMessageShouldBeDisplayed(){
-		//waitForVisibility(successMessage);
+		waitForVisibility(continueBtn);
+		Assert.assertTrue(elementDisplayed(continueBtn));
 		//Assert.assertTrue(elementDisplayed(successMessage));
-		Assert.assertTrue(getElementText(successMessage).contains("Your registration completed"));
+		//Assert.assertTrue(getElementText(successMessage).contains("Your registration completed"));
 		return this;
 	}
 

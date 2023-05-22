@@ -19,8 +19,7 @@ public class ChangeCurrencyTest{
     @Test(priority = 1, alwaysRun = true)
     public void UserCanChangeCurrency()
     {
-        homeObject = new HomePage(driver.get().makeAction());
-        homeObject.changeCurrency(1);
+        new HomePage(driver.get().makeAction()).changeCurrency(1);
     }
 
     @Test(priority = 2, alwaysRun = true)

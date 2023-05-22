@@ -14,7 +14,7 @@ public class AllureReportHelper {
 
     }
 
-    public static void cleanReport() throws IOException {
+    public static void cleanReport(){
         if (allureReportDir.exists()) {
 
             Queue<Path> queue = new ArrayDeque<>();
@@ -36,10 +36,16 @@ public class AllureReportHelper {
                             e.printStackTrace();
                         }
                     });
+                } catch (IOException e) {
+                    System.out.println("Allure Report Already Cleaned");
                 }
 
                 // Delete the directory
-                Files.deleteIfExists(currentDir);
+                try {
+                    Files.deleteIfExists(currentDir);
+                } catch (IOException e) {
+                    System.out.println("Allure Report Already Cleaned");
+                }
             }
         }
     }

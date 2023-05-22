@@ -17,13 +17,13 @@ public class SearchProductTest{
                 .checkThatProductPageShouldBeDisplayed(ProductName);
     }
 
-    @BeforeMethod(description = "Setup Driver")
+    @BeforeClass(description = "Setup Driver")
     public void setUp(){
         driver = new ThreadLocal<>();
         driver.set(new Webdriver());
     }
 
-    @AfterMethod(description = "Tear down")
+    @AfterClass(description = "Tear down")
     public void tearDown(){
         driver.get().quit();
         driver.remove();

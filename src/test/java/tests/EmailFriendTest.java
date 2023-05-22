@@ -1,14 +1,11 @@
 package tests;
 
 import driverfactory.Webdriver;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import pages.LoginPage;
 import pages.ProductDetailsPage;
 import pages.SearchPage;
 import pages.homepage.HomePage;
-import pages.registrationpage.UserRegistrationPage;
 import utilities.UserFormData;
 
 public class EmailFriendTest{
@@ -17,7 +14,7 @@ public class EmailFriendTest{
     String ProductName = "Apple MacBook Pro 13-inch";
     String SuccessMessage = "Your message has been sent.";
     public static ThreadLocal<driverfactory.Webdriver> driver;
-    UserFormData newUser = new UserFormData();
+    UserFormData user = new UserFormData();
 
     @BeforeClass(description = "Setup Driver")
     public synchronized void setUp(){
@@ -25,31 +22,31 @@ public class EmailFriendTest{
         driver.set(new Webdriver());
     }
 
-    @Test(priority = 1, alwaysRun = true)
-    public void UserCanRegisterSuccessfully(){
-        homeObject = new HomePage(Webdriver.getDriver());
-        homeObject.openRegistrationPage();
-
-        new UserRegistrationPage(Webdriver.getDriver())
+    @Test(priority = 1)
+    public void UserCanRegisterSuccessfully()
+    {
+        new HomePage(driver.get().makeAction())
+                .openRegistrationPage()
                 .validateThatUserNavigatedToRegistrationPage()
-                .fillUserRegistrationForm(newUser.getFirstName(), newUser.getLastName(), newUser.getEmail(), newUser.getOldPassword())
+                .fillUserRegistrationForm(user.getFirstName(), user.getLastName(), user.getEmail(), user.getOldPassword())
                 .clickOnRegisterButton()
                 .validateThatSuccessMessageShouldBeDisplayed();
     }
 
-    @Test(priority = 2, alwaysRun = true, dependsOnMethods = {"UserCanRegisterSuccessfully"})
+    @Test(priority = 2, dependsOnMethods = {"UserCanRegisterSuccessfully"})
     public void RegisteredUserCanLogin()
     {
-        homeObject.openLoginPage();
-        new LoginPage(Webdriver.getDriver())
-                .userLogin(newUser.getEmail(), newUser.getOldPassword())
+        new HomePage(driver.get().makeAction())
+                .openLoginPage()
+                .userLogin(user.getEmail(), user.getOldPassword())
                 .clickOnLoginButton()
+                .checkThatLogoutButtonShouldBeDisplayed()
                 .checkThatLogoutButtonShouldBeDisplayed();
     }
 
     @Test(priority = 3, alwaysRun = true, dependsOnMethods = {"RegisteredUserCanLogin"})
     public void UserCanSearchForProducts(){
-        new SearchPage(Webdriver.getDriver())
+        new SearchPage(driver.get().makeAction())
                 .productSearch(ProductName)
                 .openProductPage()
                 .checkThatProductPageShouldBeDisplayed(ProductName);
@@ -57,9 +54,9 @@ public class EmailFriendTest{
 
     @Test(priority = 4, alwaysRun = true, dependsOnMethods = {"UserCanSearchForProducts"})
     public void RegisteredUserCanEmailHisFriend() {
-        new ProductDetailsPage(Webdriver.getDriver())
+        new ProductDetailsPage(driver.get().makeAction())
                 .emailFriend()
-                .fillEmailFriendForm(newUser.getFriendEmail(), newUser.getMessage())
+                .fillEmailFriendForm(user.getFriendEmail(), user.getMessage())
                 .clickOnSendButton()
                 .checkThatSuccessMessageShouldBeDisplayed(SuccessMessage);
     }
@@ -67,7 +64,7 @@ public class EmailFriendTest{
     @Test(priority = 5, alwaysRun = true, dependsOnMethods = {"RegisteredUserCanEmailHisFriend"})
     public void RegisteredUserCanLogout()
     {
-        new LoginPage(Webdriver.getDriver())
+        new LoginPage(driver.get().makeAction())
                 .clickOnLogoutButton();
     }
 

@@ -7,12 +7,26 @@
   <test thread-count="1" name="Chrome Test" group-by-instances="true">
     <parameter name="browserName" value="chrome"/>
     <classes>
+      <class name="tests.TestClass"/>
+      <class name="tests.ContactUsTest"/>
+      <class name="tests.SearchProductWithAutoSuggestTest"/>
+      <class name="tests.ChangeCurrencyTest"/>
+      <class name="tests.EmailFriendTest"/>
+      <class name="tests.MyAccountTest"/>
+      <class name="tests.SearchProductTest"/>
       <class name="tests.AddProductReviewTest"/>
     </classes>
   </test> <!-- Chrome Test -->
   <test thread-count="1" name="Firefox Test" group-by-instances="true">
     <parameter name="browserName" value="firefox"/>
     <classes>
+      <class name="tests.TestClass"/>
+      <class name="tests.ContactUsTest"/>
+      <class name="tests.SearchProductWithAutoSuggestTest"/>
+      <class name="tests.ChangeCurrencyTest"/>
+      <class name="tests.EmailFriendTest"/>
+      <class name="tests.MyAccountTest"/>
+      <class name="tests.SearchProductTest"/>
       <class name="tests.AddProductReviewTest"/>
     </classes>
   </test> <!-- Firefox Test -->

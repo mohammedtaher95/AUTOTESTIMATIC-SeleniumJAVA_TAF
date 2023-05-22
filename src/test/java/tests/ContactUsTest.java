@@ -1,10 +1,7 @@
 package tests;
 
-import com.github.javafaker.Faker;
 import driverfactory.Webdriver;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import pages.homepage.HomePage;
 import utilities.UserFormData;
 
@@ -17,7 +14,7 @@ public class ContactUsTest{
     @Test
     public void UserCanContactWebsiteOwner()
     {
-        new HomePage(Webdriver.getDriver())
+        new HomePage(driver.get().makeAction())
                 .openContactUsPage()
                 .fillContactInfoForm(newUser.getFullName(), newUser.getEmail(), newUser.getMessage())
                 .clickOnSubmitButton()

@@ -10,6 +10,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ThreadGuard;
 import org.testng.Reporter;
+import utilities.LoggingManager;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -18,7 +19,7 @@ import java.time.Duration;
 import static tools.properties.PropertiesHandler.*;
 
 
-public class Webdriver{
+public class Webdriver extends ThreadLocal<WebDriver> {
 
     private static final ThreadLocal<WebDriver> Driver = new ThreadLocal<>();
     private static final ThreadLocal<ElementActions> elementActions = new ThreadLocal<>();
@@ -26,6 +27,19 @@ public class Webdriver{
 
     public Webdriver(){
 
+        String baseURL = getCapabilities().baseURL();
+        createWebDriver();
+        elementActions.set(new ElementActions(getDriver()));
+        browserActions.set(new BrowserActions(getDriver()));
+        LoggingManager.info("CURRENT THREAD: " + Thread.currentThread().getId() + ", " + "DRIVER = " + getDriver());
+
+        if (!baseURL.isEmpty()) {
+            getDriver().navigate().to(baseURL);
+        }
+
+    }
+
+    private static synchronized void createWebDriver(){
         if(EnvType.valueOf(getPlatform().environmentType()) == EnvType.LOCAL){
             localDriverInit();
         }
@@ -33,21 +47,38 @@ public class Webdriver{
         if(EnvType.valueOf(getPlatform().environmentType()) == EnvType.GRID){
             gridInit();
         }
+    }
+
+    @Override
+    protected synchronized WebDriver initialValue() {
+        WebDriver driver = null;
+        if (EnvType.valueOf(getPlatform().environmentType()) == EnvType.LOCAL) {
+            driver = DriverFactory.getDriverFactory(DriverType.CHROME).getDriver();
+        }
+        if (EnvType.valueOf(getPlatform().environmentType()) == EnvType.GRID) {
+            DesiredCapabilities capabilities = new DesiredCapabilities();
+            capabilities.setBrowserName("chrome");
+            try {
+                driver = new RemoteWebDriver(new URL(getPlatform().remoteURL()), capabilities);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+        assert driver != null;
+        driver.manage().window().maximize();
+        setDriver(ThreadGuard.protect(driver));
         elementActions.set(new ElementActions(getDriver()));
         browserActions.set(new BrowserActions(getDriver()));
-
-
-        System.out.println("CURRENT THREAD: " + Thread.currentThread().getId() + ", " + "DRIVER = " + getDriver());
+        LoggingManager.info("INITIAL THREAD: " + Thread.currentThread().getId() + ", " +"DRIVER = " + getDriver());
+        return driver;
     }
+
 
     public static synchronized void localDriverInit(){
         String browserName = Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName");
         WebDriver driver = DriverFactory.getDriverFactory(DriverType.valueOf(browserName.toUpperCase())).getDriver();
+        assert driver != null;
         driver.manage().window().maximize();
-        String baseURL = getCapabilities().baseURL();
-        if (!baseURL.isEmpty()) {
-            driver.navigate().to(baseURL);
-        }
         setDriver(ThreadGuard.protect(driver));
 
     }
@@ -58,26 +89,23 @@ public class Webdriver{
         capabilities.setBrowserName(browserName);
         try {
             RemoteWebDriver driver = new RemoteWebDriver(new URL(getPlatform().remoteURL()), capabilities);
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
             driver.manage().window().maximize();
             setRemoteDriver(driver);
-            String baseURL = getCapabilities().baseURL();
-            if (!baseURL.isEmpty()) {
-                getDriver().navigate().to(baseURL);
-            }
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
     }
 
     public synchronized void quit(){
-        WebDriver driver = Driver.get();
-        if (driver != null) {
-            driver.manage().deleteAllCookies();
-            driver.quit();
-            Driver.remove();
+        if (Driver.get() != null) {
+            Driver.get().manage().deleteAllCookies();
+            Driver.get().quit();
+            elementActions.get().removeDriver();
+            browserActions.get().removeDriver();
             elementActions.remove();
             browserActions.remove();
+            Driver.remove();
         }
     }
 
@@ -96,7 +124,12 @@ public class Webdriver{
     }
 
     public static WebDriver getDriver(){
-        return Driver.get();
+        WebDriver driver = Driver.get();
+        if(driver == null){
+            createWebDriver();
+            driver = Driver.get();
+        }
+        return driver;
     }
 
 }

@@ -2,7 +2,6 @@ package tools.listeners.helpers;
 
 import constants.CrossBrowserMode;
 import org.apache.commons.io.FileUtils;
-import org.testng.TestNG;
 import org.testng.xml.XmlClass;
 import org.testng.xml.XmlSuite;
 import org.testng.xml.XmlTest;
@@ -81,8 +80,6 @@ public class TestNGHelper {
             testSuite.setParallel(XmlSuite.ParallelMode.NONE);
         }
 
-        //testSuite.setThreadCount(2);
-
         XmlTest chromeTest = new XmlTest(testSuite);
         chromeTest.setName("Chrome Test");
         chromeTest.addParameter(browserName, "chrome");
@@ -127,18 +124,6 @@ public class TestNGHelper {
             singleTest.setXmlClasses(classes);
         }
 
-    }
-
-    public static XmlSuite configureTestNG(){
-
-        testSuite.setPreserveOrder(getTestNG().preserveOrder());
-        testSuite.setGroupByInstances(getTestNG().groupByInstances());
-        testSuite.setVerbose(getTestNG().verbose());
-        testSuite.setParallel(XmlSuite.ParallelMode.valueOf(getTestNG().parallel()));
-        testSuite.setThreadCount(getTestNG().threadCount());
-        testSuite.setDataProviderThreadCount(getTestNG().dataProviderThreadCount());
-
-        return testSuite;
     }
 
 }

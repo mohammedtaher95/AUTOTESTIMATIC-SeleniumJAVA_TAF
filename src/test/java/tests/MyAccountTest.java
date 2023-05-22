@@ -1,21 +1,18 @@
 package tests;
 
 import driverfactory.Webdriver;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import pages.homepage.HomePage;
 import utilities.UserFormData;
 
 
 public class MyAccountTest{
 
-	public static ThreadLocal<driverfactory.Webdriver> driver;
+	public static ThreadLocal<driverfactory.Webdriver> driver = new ThreadLocal<>();
 	UserFormData user = new UserFormData();
 
 	@BeforeClass(description = "Setup Driver")
 	public synchronized void setUp(){
-		driver = new ThreadLocal<>();
 		driver.set(new Webdriver());
 	}
 	
@@ -37,6 +34,7 @@ public class MyAccountTest{
 				.openLoginPage()
 				.userLogin(user.getEmail(), user.getOldPassword())
 				.clickOnLoginButton()
+				.checkThatLogoutButtonShouldBeDisplayed()
 				.checkThatLogoutButtonShouldBeDisplayed();
 	}
 //

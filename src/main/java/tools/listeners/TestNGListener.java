@@ -17,7 +17,9 @@ import utilities.allure.AllureReportHelper;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 import static tools.properties.PropertiesHandler.*;
@@ -25,22 +27,28 @@ import static tools.properties.PropertiesHandler.*;
 public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuiteListener,
         IExecutionListener, IInvokedMethodListener {
 
-    private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     @Override
     public void onExecutionStart() {
         Allure.getLifecycle();
-        driver.set(Webdriver.getDriver());
     }
 
     @Override
     public void onExecutionFinish() {
-        if(getReporting().automaticOpenAllureReport()){
+        if (getReporting().automaticOpenAllureReport()) {
             try {
                 Runtime.getRuntime().exec("generateAllureReport.bat");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+
+//        try {
+//            Runtime.getRuntime().exec("cmd /c docker-compose down").waitFor();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
 
     }
 
@@ -69,7 +77,7 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
 
     @Override
     public void beforeInvocation(IInvokedMethod method, ITestResult result) {
-        method.getTestMethod().getXmlTest().setThreadCount(10);
+        method.getTestMethod().getXmlTest().setThreadCount(50);
         method.getTestMethod().setThreadPoolSize(50);
         method.getTestMethod().setInvocationCount(50);
 //        method.getTestMethod().setTimeOut(1000000);
@@ -82,23 +90,23 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
             LoggingManager.error("Failed!");
             LoggingManager.error("Taking Screenshot....");
             String fullPath = null;
-//            try {
-//                fullPath = System.getProperty("user.dir")
-//                        + ScreenshotHelper.captureScreenshot(driver.get(),
-//
-//                        result.getMethod().getConstructorOrMethod().getName());
-//                LoggingManager.info("Screenshot captured for Test case: " + result.getName());
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            try {
-//                assert fullPath != null;
-//                Allure.addAttachment(result.getMethod().getConstructorOrMethod().getName(),
-//                        FileUtils.openInputStream(new File(fullPath)));
-//            } catch (IOException e) {
-//                throw new RuntimeException("Attachment isn't Found");
-//            }
+            try {
+                fullPath = System.getProperty("user.dir")
+                        + ScreenshotHelper.captureScreenshot(Webdriver.getDriver(),
+
+                        result.getMethod().getConstructorOrMethod().getName());
+                LoggingManager.info("Screenshot captured for Test case: " + result.getName());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                assert fullPath != null;
+                Allure.addAttachment(result.getMethod().getConstructorOrMethod().getName(),
+                        FileUtils.openInputStream(new File(fullPath)));
+            } catch (IOException e) {
+                throw new RuntimeException("Attachment isn't Found");
+            }
         }
 
     }
@@ -116,12 +124,8 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
     @Override
     public void onStart(ITestContext context) {
         //TO-DO
-        if(getReporting().cleanAllureReport()){
-            try {
-                AllureReportHelper.cleanReport();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        if (getReporting().cleanAllureReport()) {
+//            AllureReportHelper.cleanReport();
         }
 
 
@@ -130,7 +134,6 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
     @Override
     public void onFinish(ITestContext context) {
         //TO-DO
-        driver.remove();
 
     }
 
@@ -145,7 +148,7 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
     }
 
     @Override
-    public void alter(List<XmlSuite> suites){
+    public void alter(List<XmlSuite> suites) {
 
         try {
             initializeProperties();
@@ -158,6 +161,14 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+//        try {
+//            Runtime.getRuntime().exec("cmd /c docker-compose up -d").waitFor(10, TimeUnit.SECONDS);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
 
     }
 
