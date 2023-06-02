@@ -3,10 +3,10 @@ package tools.listeners;
 import driverfactory.Webdriver;
 import io.qameta.allure.Allure;
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.WebDriver;
 import org.testng.*;
 import org.testng.xml.XmlSuite;
 
+import tools.listeners.helpers.RetryAnalyzer;
 import tools.listeners.helpers.TestNGHelper;
 import utilities.allure.AllureBatchGenerator;
 
@@ -17,9 +17,7 @@ import utilities.allure.AllureReportHelper;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.Duration;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 import static tools.properties.PropertiesHandler.*;
@@ -27,8 +25,13 @@ import static tools.properties.PropertiesHandler.*;
 public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuiteListener,
         IExecutionListener, IInvokedMethodListener {
 
+    //private static ThreadLocal<LoggingManager> log = new ThreadLocal<>();
+    private int retryCount = 0;
+    private int maxRetryCount = 5;
+
     @Override
     public void onExecutionStart() {
+
         Allure.getLifecycle();
     }
 
@@ -41,21 +44,11 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
                 e.printStackTrace();
             }
         }
-
-//        try {
-//            Runtime.getRuntime().exec("cmd /c docker-compose down").waitFor();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
-
     }
 
     @Override
     public void onTestStart(ITestResult result) {
         // To be implemented later
-        LoggingManager.startLog();
         LoggingManager.startTestCase(result.getName());
         result.getMethod().setThreadPoolSize(50);
     }
@@ -73,6 +66,12 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
         // To be implemented later
         LoggingManager.endTestCase(result.getName());
         EmailableReportGenerator.addFailedTest(result);
+        if (retryCount < maxRetryCount) {
+            retryCount++;
+            result.setStatus(ITestResult.FAILURE);
+        } else {
+            result.setStatus(ITestResult.FAILURE);
+        }
     }
 
     @Override
@@ -80,34 +79,35 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
         method.getTestMethod().getXmlTest().setThreadCount(50);
         method.getTestMethod().setThreadPoolSize(50);
         method.getTestMethod().setInvocationCount(50);
+//        method.getTestMethod().setRetryAnalyzerClass(RetryAnalyzer.class);
 //        method.getTestMethod().setTimeOut(1000000);
     }
 
     @Override
     public void afterInvocation(IInvokedMethod method, ITestResult result) {
-        if (result.getStatus() == ITestResult.FAILURE) {
-            LoggingManager.error("Failure of test cases and its details are : " + result.getName());
-            LoggingManager.error("Failed!");
-            LoggingManager.error("Taking Screenshot....");
-            String fullPath = null;
-            try {
-                fullPath = System.getProperty("user.dir")
-                        + ScreenshotHelper.captureScreenshot(Webdriver.getDriver(),
-
-                        result.getMethod().getConstructorOrMethod().getName());
-                LoggingManager.info("Screenshot captured for Test case: " + result.getName());
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                assert fullPath != null;
-                Allure.addAttachment(result.getMethod().getConstructorOrMethod().getName(),
-                        FileUtils.openInputStream(new File(fullPath)));
-            } catch (IOException e) {
-                throw new RuntimeException("Attachment isn't Found");
-            }
-        }
+//        if (result.getStatus() == ITestResult.FAILURE) {
+//            LoggingManager.error("Failure of test cases and its details are : " + result.getName());
+//            LoggingManager.error("Failed!");
+//            LoggingManager.error("Taking Screenshot....");
+//            String fullPath = null;
+//            try {
+//                fullPath = System.getProperty("user.dir")
+//                        + ScreenshotHelper.captureScreenshot(Webdriver.getDriver(),
+//
+//                        result.getMethod().getConstructorOrMethod().getName());
+//                LoggingManager.info("Screenshot captured for Test case: " + result.getName());
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            try {
+//                assert fullPath != null;
+//                Allure.addAttachment(result.getMethod().getConstructorOrMethod().getName(),
+//                        FileUtils.openInputStream(new File(fullPath)));
+//            } catch (IOException e) {
+//                throw new RuntimeException("Attachment isn't Found");
+//            }
+//        }
 
     }
 
@@ -124,11 +124,8 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
     @Override
     public void onStart(ITestContext context) {
         //TO-DO
-        if (getReporting().cleanAllureReport()) {
-//            AllureReportHelper.cleanReport();
-        }
-
-
+        context.getCurrentXmlTest().setThreadCount(2);
+        //context.getCurrentXmlTest().setParallel();
     }
 
     @Override
@@ -145,6 +142,13 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        if (getReporting().cleanAllureReport()) {
+            AllureReportHelper.cleanAllureReport();
+        }
+
+        suite.getXmlSuite().setThreadCount(2);
+
     }
 
     @Override
@@ -161,15 +165,8 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-//        try {
-//            Runtime.getRuntime().exec("cmd /c docker-compose up -d").waitFor(10, TimeUnit.SECONDS);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
-
+        LoggingManager.startLog();
     }
+
 
 }

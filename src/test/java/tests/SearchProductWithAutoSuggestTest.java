@@ -20,7 +20,7 @@ public class SearchProductWithAutoSuggestTest{
     public void UserCanSearchForProductWithAutoSuggest()
     {
         try {
-            new SearchPage(driver.get().makeAction())
+            new SearchPage(driver.get())
                     .productSearchUsingAutoSuggest("Mac")
                     .checkThatProductPageShouldBeDisplayed(ProductName);
         }

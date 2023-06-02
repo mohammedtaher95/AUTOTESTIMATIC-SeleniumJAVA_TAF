@@ -19,7 +19,7 @@ public class TestClass{
     public void testMethod(){
         newUser = new UserFormData();
 
-        new HomePage(driver.get().makeAction())
+        new HomePage(driver.get())
                 .openRegistrationPage()
                 .validateThatUserNavigatedToRegistrationPage()
                 .fillUserRegistrationForm(newUser.getFirstName(), newUser.getLastName(), newUser.getEmail(), newUser.getOldPassword())
@@ -37,7 +37,6 @@ public class TestClass{
     @AfterClass(description = "Tear down")
     public void tearDown(){
         driver.get().quit();
-        driver.remove();
     }
 
 }

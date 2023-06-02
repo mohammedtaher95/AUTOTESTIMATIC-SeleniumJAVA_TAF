@@ -1,5 +1,6 @@
 package browseractions;
 
+import driverfactory.Webdriver;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -7,7 +8,7 @@ import org.openqa.selenium.WindowType;
 
 public class BrowserActions {
 
-    private static final ThreadLocal <WebDriver> driver = new ThreadLocal<>();
+    private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     private static JavascriptExecutor jSE;
 
     public BrowserActions(WebDriver driver){

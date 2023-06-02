@@ -11,14 +11,14 @@ public class LoggingManager {
 
     }
     private static final Logger logger = LogManager
-            .getLogger(Reporter.getCurrentTestResult().getTestClass().getXmlClass().getName());
+            .getLogger();
 
     public static Logger getCurrentLogger() {
         return logger;
     }
 
     public static void startLog() {
-        Configurator.setRootLevel(Level.ALL);
+        Configurator.setRootLevel(Level.INFO);
         ThreadContext.put("logFilename", "prints");
     }
 

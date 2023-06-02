@@ -10,7 +10,6 @@ import utilities.UserFormData;
 
 public class EmailFriendTest{
 
-    HomePage homeObject;
     String ProductName = "Apple MacBook Pro 13-inch";
     String SuccessMessage = "Your message has been sent.";
     public static ThreadLocal<driverfactory.Webdriver> driver;
@@ -25,7 +24,7 @@ public class EmailFriendTest{
     @Test(priority = 1)
     public void UserCanRegisterSuccessfully()
     {
-        new HomePage(driver.get().makeAction())
+        new HomePage(driver.get())
                 .openRegistrationPage()
                 .validateThatUserNavigatedToRegistrationPage()
                 .fillUserRegistrationForm(user.getFirstName(), user.getLastName(), user.getEmail(), user.getOldPassword())
@@ -36,7 +35,7 @@ public class EmailFriendTest{
     @Test(priority = 2, dependsOnMethods = {"UserCanRegisterSuccessfully"})
     public void RegisteredUserCanLogin()
     {
-        new HomePage(driver.get().makeAction())
+        new HomePage(driver.get())
                 .openLoginPage()
                 .userLogin(user.getEmail(), user.getOldPassword())
                 .clickOnLoginButton()
@@ -46,7 +45,7 @@ public class EmailFriendTest{
 
     @Test(priority = 3, alwaysRun = true, dependsOnMethods = {"RegisteredUserCanLogin"})
     public void UserCanSearchForProducts(){
-        new SearchPage(driver.get().makeAction())
+        new SearchPage(driver.get())
                 .productSearch(ProductName)
                 .openProductPage()
                 .checkThatProductPageShouldBeDisplayed(ProductName);
@@ -54,7 +53,7 @@ public class EmailFriendTest{
 
     @Test(priority = 4, alwaysRun = true, dependsOnMethods = {"UserCanSearchForProducts"})
     public void RegisteredUserCanEmailHisFriend() {
-        new ProductDetailsPage(driver.get().makeAction())
+        new ProductDetailsPage(driver.get())
                 .emailFriend()
                 .fillEmailFriendForm(user.getFriendEmail(), user.getMessage())
                 .clickOnSendButton()
@@ -64,7 +63,7 @@ public class EmailFriendTest{
     @Test(priority = 5, alwaysRun = true, dependsOnMethods = {"RegisteredUserCanEmailHisFriend"})
     public void RegisteredUserCanLogout()
     {
-        new LoginPage(driver.get().makeAction())
+        new LoginPage(driver.get())
                 .clickOnLogoutButton();
     }
 

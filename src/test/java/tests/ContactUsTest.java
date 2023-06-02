@@ -7,14 +7,14 @@ import utilities.UserFormData;
 
 public class ContactUsTest{
 
-    public static ThreadLocal<driverfactory.Webdriver> driver;
+    public static ThreadLocal<Webdriver> driver;
     UserFormData newUser = new UserFormData();
     String successMessage = "Your enquiry has been successfully sent to the store owner.";
 
-    @Test
+    @Test(threadPoolSize = 3)
     public void UserCanContactWebsiteOwner()
     {
-        new HomePage(driver.get().makeAction())
+        new HomePage(driver.get())
                 .openContactUsPage()
                 .fillContactInfoForm(newUser.getFullName(), newUser.getEmail(), newUser.getMessage())
                 .clickOnSubmitButton()
@@ -23,7 +23,7 @@ public class ContactUsTest{
 
     @BeforeClass(description = "Setup Driver")
     public synchronized void setUp(){
-        driver = new ThreadLocal<>();
+        driver = new ThreadLocal<Webdriver>();
         driver.set(new Webdriver());
     }
 

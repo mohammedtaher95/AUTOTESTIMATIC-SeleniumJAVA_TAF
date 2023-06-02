@@ -12,7 +12,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <selenium.version>4.9.0</selenium.version>
+        <selenium.version>4.9.1</selenium.version>
         <cucumber.version>7.11.1</cucumber.version>
         <allure.version>2.21.0</allure.version>
         <aspectj.version>1.9.19</aspectj.version>
@@ -86,7 +86,7 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>7.7.1</version>
+            <version>7.8.0</version>
         </dependency>
 
         <!-- Cucumber dependencies-->

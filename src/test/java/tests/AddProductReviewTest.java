@@ -11,7 +11,7 @@ import utilities.UserFormData;
 
 public class AddProductReviewTest{
 
-    public static ThreadLocal<driverfactory.Webdriver> driver = new ThreadLocal<>();
+    public static ThreadLocal<driverfactory.Webdriver> driver;
     HomePage home;
     String ProductName = "Apple MacBook Pro 13-inch";
     String SuccessMessage = "Product review is successfully added.";
@@ -20,12 +20,13 @@ public class AddProductReviewTest{
 
     @BeforeClass(description = "Setup Driver")
     public synchronized void setUp(){
+        driver = new ThreadLocal<>();
         driver.set(new Webdriver());
     }
 
     @Test(priority = 1, alwaysRun = true)
     public void UserCanRegisterSuccessfully()  {
-        new HomePage(Webdriver.getDriver())
+        new HomePage(driver.get())
                 .openRegistrationPage()
                 .validateThatUserNavigatedToRegistrationPage()
                 .fillUserRegistrationForm(newUser.getFirstName(), newUser.getLastName(), newUser.getEmail(), newUser.getOldPassword())
@@ -36,7 +37,7 @@ public class AddProductReviewTest{
     @Test(priority = 2, alwaysRun = true, dependsOnMethods = {"UserCanRegisterSuccessfully"})
     public void RegisteredUserCanLogin()
     {
-        new HomePage(driver.get().makeAction())
+        new HomePage(driver.get())
                 .openLoginPage()
                 .userLogin(newUser.getEmail(), newUser.getOldPassword())
                 .clickOnLoginButton()
@@ -44,9 +45,9 @@ public class AddProductReviewTest{
                 .checkThatLogoutButtonShouldBeDisplayed();
     }
 
-    @Test(priority = 3, alwaysRun = true, dependsOnMethods = {"RegisteredUserCanLogin"})
+    @Test(priority = 3, alwaysRun = true, dependsOnMethods = {"RegisteredUserCanLogin", "UserCanRegisterSuccessfully"})
     public void UserCanSearchForProducts(){
-        new SearchPage(driver.get().makeAction())
+        new SearchPage(driver.get())
                 .productSearch(ProductName)
                 .openProductPage()
                 .checkThatProductPageShouldBeDisplayed(ProductName);
@@ -54,7 +55,7 @@ public class AddProductReviewTest{
 
     @Test(priority = 4, alwaysRun = true, dependsOnMethods = {"UserCanSearchForProducts"})
     public void RegisteredUserCanAddReviewForProduct() {
-        new ProductDetailsPage(driver.get().makeAction())
+        new ProductDetailsPage(driver.get())
                 .addReview()
                 .fillReviewForm(newUser.getMessage(), newUser.getMessage())
                 .clickOnSubmitButton()
@@ -64,7 +65,7 @@ public class AddProductReviewTest{
     @Test(priority = 5, alwaysRun = true, dependsOnMethods = {"RegisteredUserCanAddReviewForProduct"})
     public void RegisteredUserCanLogout()
     {
-        new LoginPage(driver.get().makeAction()).clickOnLogoutButton();
+        new LoginPage(driver.get()).clickOnLogoutButton();
     }
 
     @AfterClass(description = "Tear down")

@@ -19,7 +19,7 @@ public class MyAccountTest{
 	@Test(priority = 1)
 	public void UserCanRegisterSuccessfully()
 	{
-		new HomePage(driver.get().makeAction())
+		new HomePage(driver.get())
 				.openRegistrationPage()
 				.validateThatUserNavigatedToRegistrationPage()
 				.fillUserRegistrationForm(user.getFirstName(), user.getLastName(), user.getEmail(), user.getOldPassword())
@@ -30,7 +30,7 @@ public class MyAccountTest{
 	@Test(priority = 2, dependsOnMethods = {"UserCanRegisterSuccessfully"})
 	public void RegisteredUserCanLogin()
 	{
-		new HomePage(driver.get().makeAction())
+		new HomePage(driver.get())
 				.openLoginPage()
 				.userLogin(user.getEmail(), user.getOldPassword())
 				.clickOnLoginButton()

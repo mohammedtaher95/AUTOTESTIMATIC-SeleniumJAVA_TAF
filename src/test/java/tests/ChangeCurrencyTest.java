@@ -8,7 +8,6 @@ import pages.homepage.HomePage;
 public class ChangeCurrencyTest{
 
     public static ThreadLocal<driverfactory.Webdriver> driver;
-    HomePage homeObject;
 
     @BeforeClass(description = "Setup Driver")
     public void setUp(){
@@ -19,14 +18,14 @@ public class ChangeCurrencyTest{
     @Test(priority = 1, alwaysRun = true)
     public void UserCanChangeCurrency()
     {
-        new HomePage(driver.get().makeAction()).changeCurrency(1);
+        new HomePage(driver.get()).changeCurrency(1);
     }
 
     @Test(priority = 2, alwaysRun = true)
     public void UserCanSearchForProductWithAutoSuggest()
     {
         try {
-            new SearchPage(driver.get().makeAction())
+            new SearchPage(driver.get())
                     .productSearch("Mac")
                     .openProductPage()
                     .checkCurrency("€");

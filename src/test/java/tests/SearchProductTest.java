@@ -11,7 +11,7 @@ public class SearchProductTest{
 
     @Test
     public void UserCanSearchForProducts() {
-        new SearchPage(driver.get().makeAction())
+        new SearchPage(driver.get())
                 .productSearch(ProductName)
                 .openProductPage()
                 .checkThatProductPageShouldBeDisplayed(ProductName);
