@@ -13,7 +13,6 @@ public class ChangeCurrencyTest{
     public void setUp(){
         driver = new ThreadLocal<>();
         driver.set(new Webdriver());
-        assert driver.get() != null;
     }
 
     @Test(priority = 1, alwaysRun = true)

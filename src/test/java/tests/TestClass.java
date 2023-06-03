@@ -29,10 +29,9 @@ public class TestClass{
     }
 
     @BeforeClass(description = "Setup Driver")
-    public synchronized void setUp(){
+    public void setUp(){
         driver = new ThreadLocal<>();
         driver.set(new Webdriver());
-        assert driver.get() != null;
     }
 
     @AfterClass(description = "Tear down")

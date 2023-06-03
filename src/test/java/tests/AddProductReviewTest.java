@@ -12,7 +12,6 @@ import utilities.UserFormData;
 public class AddProductReviewTest{
 
     public static ThreadLocal<driverfactory.Webdriver> driver;
-    HomePage home;
     String ProductName = "Apple MacBook Pro 13-inch";
     String SuccessMessage = "Product review is successfully added.";
 

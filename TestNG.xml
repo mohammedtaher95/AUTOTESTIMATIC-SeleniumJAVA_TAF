@@ -11,26 +11,26 @@
   <test thread-count="1" name="Chrome Test" group-by-instances="true">
     <parameter name="browserName" value="chrome"/>
     <classes>
-      <class name="tests.AddProductReviewTest"/>
-      <class name="tests.TestClass"/>
-      <class name="tests.EmailFriendTest"/>
-      <class name="tests.MyAccountTest"/>
       <class name="tests.SearchProductWithAutoSuggestTest"/>
+      <class name="tests.MyAccountTest"/>
+      <class name="tests.AddProductReviewTest"/>
       <class name="tests.ChangeCurrencyTest"/>
       <class name="tests.SearchProductTest"/>
+      <class name="tests.EmailFriendTest"/>
+      <class name="tests.TestClass"/>
       <class name="tests.ContactUsTest"/>
     </classes>
   </test> <!-- Chrome Test -->
   <test thread-count="1" name="Firefox Test" group-by-instances="true">
     <parameter name="browserName" value="firefox"/>
     <classes>
-      <class name="tests.AddProductReviewTest"/>
-      <class name="tests.TestClass"/>
-      <class name="tests.EmailFriendTest"/>
-      <class name="tests.MyAccountTest"/>
       <class name="tests.SearchProductWithAutoSuggestTest"/>
+      <class name="tests.MyAccountTest"/>
+      <class name="tests.AddProductReviewTest"/>
       <class name="tests.ChangeCurrencyTest"/>
       <class name="tests.SearchProductTest"/>
+      <class name="tests.EmailFriendTest"/>
+      <class name="tests.TestClass"/>
       <class name="tests.ContactUsTest"/>
     </classes>
   </test> <!-- Firefox Test -->
