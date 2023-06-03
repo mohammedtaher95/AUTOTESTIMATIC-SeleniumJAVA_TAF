@@ -1,14 +1,12 @@
 package pages;
 
+import driverfactory.Webdriver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-
-import static elementactions.ElementActions.*;
 
 public class EmailFriendPage{
 
-    private WebDriver driver;
+    private final Webdriver driver;
 
     By friendEmailField = By.id("FriendEmail");
     By yourEmailField = By.id("YourEmailAddress");
@@ -16,27 +14,27 @@ public class EmailFriendPage{
     By sendBtn = By.cssSelector("button.button-1.send-email-a-friend-button");
     By successMessage = By.cssSelector("div.result");
 
-    public EmailFriendPage(WebDriver driver) {
+    public EmailFriendPage(Webdriver driver) {
         this.driver = driver;
     }
 
     public EmailFriendPage fillEmailFriendForm(String friendEmail, String message) {
-        fillField(friendEmailField, friendEmail);
-        fillField(messageField,message);
+        driver.element().fillField(friendEmailField, friendEmail);
+        driver.element().fillField(messageField,message);
         return this;
 
     }
 
     public EmailFriendPage clickOnSendButton()
     {
-        clickButton(sendBtn);
+        driver.element().click(sendBtn);
         return this;
     }
 
     public EmailFriendPage checkThatSuccessMessageShouldBeDisplayed(String message)
     {
-        waitForVisibility(successMessage);
-        Assert.assertTrue(getElementText(successMessage).equalsIgnoreCase(message));
+        driver.element().waitForVisibility(successMessage);
+        Assert.assertTrue(driver.element().getElementText(successMessage).equalsIgnoreCase(message));
         return this;
     }
 

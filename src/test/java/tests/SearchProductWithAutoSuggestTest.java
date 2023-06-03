@@ -13,6 +13,7 @@ public class SearchProductWithAutoSuggestTest{
     public void setUp(){
         driver = new ThreadLocal<>();
         driver.set(new Webdriver());
+        assert driver.get() != null;
     }
 
 

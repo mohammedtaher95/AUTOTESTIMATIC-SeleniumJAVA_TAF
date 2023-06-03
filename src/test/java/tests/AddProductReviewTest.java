@@ -24,7 +24,7 @@ public class AddProductReviewTest{
         driver.set(new Webdriver());
     }
 
-    @Test(priority = 1, alwaysRun = true)
+    @Test(priority = 1)
     public void UserCanRegisterSuccessfully()  {
         new HomePage(driver.get())
                 .openRegistrationPage()
@@ -34,18 +34,17 @@ public class AddProductReviewTest{
                 .validateThatSuccessMessageShouldBeDisplayed();
     }
 
-    @Test(priority = 2, alwaysRun = true, dependsOnMethods = {"UserCanRegisterSuccessfully"})
+    @Test(priority = 2, dependsOnMethods = {"UserCanRegisterSuccessfully"})
     public void RegisteredUserCanLogin()
     {
         new HomePage(driver.get())
                 .openLoginPage()
                 .userLogin(newUser.getEmail(), newUser.getOldPassword())
                 .clickOnLoginButton()
-                .checkThatLogoutButtonShouldBeDisplayed()
                 .checkThatLogoutButtonShouldBeDisplayed();
     }
 
-    @Test(priority = 3, alwaysRun = true, dependsOnMethods = {"RegisteredUserCanLogin", "UserCanRegisterSuccessfully"})
+    @Test(priority = 3, dependsOnMethods = {"UserCanRegisterSuccessfully", "RegisteredUserCanLogin"})
     public void UserCanSearchForProducts(){
         new SearchPage(driver.get())
                 .productSearch(ProductName)
@@ -70,6 +69,7 @@ public class AddProductReviewTest{
 
     @AfterClass(description = "Tear down")
     public void tearDown(){
+        driver.get().browser().deleteCookies();
         driver.get().quit();
         driver.remove();
     }

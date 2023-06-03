@@ -1,15 +1,13 @@
 package pages;
 
+import driverfactory.Webdriver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-
-import static elementactions.ElementActions.*;
 
 public class ContactUsPage{
 
-    private final WebDriver driver;
+    private final Webdriver driver;
 
     By nameField = By.id("FullName");
     By emailField = By.id("Email");
@@ -17,30 +15,30 @@ public class ContactUsPage{
     By submitBtn = By.name("send-email");
     By successMessage = By.cssSelector("div.result");
 
-    public ContactUsPage(WebDriver driver) {
+    public ContactUsPage(Webdriver driver) {
         this.driver = driver;
     }
 
     @Step("When he fills contact info Form")
     public ContactUsPage fillContactInfoForm(String name, String email, String enquiry)
     {
-        fillField(nameField, name);
-        fillField(emailField, email);
-        fillField(enquiryField, enquiry);
+        driver.element().fillField(nameField, name);
+        driver.element().fillField(emailField, email);
+        driver.element().fillField(enquiryField, enquiry);
         return this;
     }
 
     @Step("And Clicks on Submit button")
     public ContactUsPage clickOnSubmitButton(){
-        clickButton(submitBtn);
+        driver.element().click(submitBtn);
         return this;
     }
 
     @Step("Then success Message Should Be Displayed")
     public ContactUsPage successMessageShouldBeDisplayed(String message){
-        waitForVisibility(successMessage);
-        Assert.assertTrue(elementDisplayed(successMessage));
-        Assert.assertTrue(getElementText(successMessage).equalsIgnoreCase(message));
+        driver.element().waitForVisibility(successMessage);
+        Assert.assertTrue(driver.element().isDisplayed(successMessage));
+        Assert.assertTrue(driver.element().getElementText(successMessage).equalsIgnoreCase(message));
 
         return this;
     }

@@ -1,18 +1,15 @@
 package pages.registrationpage;
 
 
+import driverfactory.Webdriver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-
-import static elementactions.ElementActions.*;
-
 
 public class UserRegistrationPage
 {
 
-	private final WebDriver driver;
+	private final Webdriver driver;
 
 	By genderMaleRadioBtn = By.id("gender-male");
 	By firstName = By.id("FirstName");
@@ -25,47 +22,46 @@ public class UserRegistrationPage
 
 	By continueBtn = By.cssSelector("a.button-1.register-continue-button");
 
-	public UserRegistrationPage(WebDriver driver) {
+	public UserRegistrationPage(Webdriver driver) {
 		this.driver = driver;
 	}
 
 	@Step("Then User should be Navigated to Registration page")
 	public UserRegistrationPage validateThatUserNavigatedToRegistrationPage(){
 
-		//waitForVisibility(firstName);
-		Assert.assertTrue(driver.getCurrentUrl().contains("register"));
+		Assert.assertTrue(driver.browser().getCurrentURL().contains("register"));
 		return this;
 	}
 
 	@Step("When he fills registration form")
 	public UserRegistrationPage fillUserRegistrationForm(String firstname, String lastname, String email, String password) {
-		clickButton(genderMaleRadioBtn);
-		waitForVisibility(firstName);
-		fillField(firstName, firstname);
-		waitForVisibility(lastName);
-		fillField(lastName, lastname);
-		waitForVisibility(emailField);
-		clearField(emailField);
-		fillField(emailField, email);
-		waitForVisibility(passwordField);
-		fillField(passwordField, password);
-		waitForVisibility(confirmPassword);
-		fillField(confirmPassword, password);
+		driver.element().click(genderMaleRadioBtn);
+		driver.element().waitForVisibility(firstName);
+		driver.element().fillField(firstName, firstname);
+		driver.element().waitForVisibility(lastName);
+		driver.element().fillField(lastName, lastname);
+		driver.element().waitForVisibility(emailField);
+		driver.element().clearField(emailField);
+		driver.element().fillField(emailField, email);
+		driver.element().waitForVisibility(passwordField);
+		driver.element().fillField(passwordField, password);
+		driver.element().waitForVisibility(confirmPassword);
+		driver.element().fillField(confirmPassword, password);
 		return this;
 	}
 
 	@Step("And clicks on Register Button")
 	public UserRegistrationPage clickOnRegisterButton(){
-		waitForVisibility(registerBtn);
-		Assert.assertTrue(elementDisplayed(registerBtn));
-		clickButton(registerBtn);
+		driver.element().waitForVisibility(registerBtn);
+		Assert.assertTrue(driver.element().isDisplayed(registerBtn));
+		driver.element().click(registerBtn);
 		return this;
 	}
 
 	@Step("Then Success Message should be displayed")
 	public UserRegistrationPage validateThatSuccessMessageShouldBeDisplayed(){
-		waitForVisibility(continueBtn);
-		Assert.assertTrue(elementDisplayed(continueBtn));
+		driver.element().waitForVisibility(continueBtn);
+		Assert.assertTrue(driver.element().isDisplayed(continueBtn));
 		//Assert.assertTrue(elementDisplayed(successMessage));
 		//Assert.assertTrue(getElementText(successMessage).contains("Your registration completed"));
 		return this;

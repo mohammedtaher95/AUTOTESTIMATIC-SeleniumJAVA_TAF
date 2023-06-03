@@ -23,7 +23,7 @@ import static tools.properties.PropertiesHandler.*;
 
 public class TestNGHelper {
 
-    public static final XmlSuite testSuite = new XmlSuite();
+    public static XmlSuite testSuite;
     static XmlTest test;
     static String browserName = "browserName";
 
@@ -33,6 +33,7 @@ public class TestNGHelper {
 
     public static XmlSuite suiteGenerator(XmlSuite suite) throws IOException {
 
+        testSuite = suite;
         test = suite.getTests().get(0);
 
         testSuite.setPreserveOrder(getTestNG().preserveOrder());
@@ -41,7 +42,6 @@ public class TestNGHelper {
         testSuite.setParallel(XmlSuite.ParallelMode.valueOf(getTestNG().parallel()));
         testSuite.setThreadCount(getTestNG().threadCount());
         testSuite.setDataProviderThreadCount(getTestNG().dataProviderThreadCount());
-
         testSuite.setName("WebDriver Suite");
         testSuite.setListeners(Collections.singletonList("tools.listeners.TestNGListener"));
 
@@ -80,7 +80,7 @@ public class TestNGHelper {
             testSuite.setParallel(XmlSuite.ParallelMode.NONE);
         }
 
-        XmlTest chromeTest = new XmlTest(testSuite);
+        XmlTest chromeTest = test;
         chromeTest.setName("Chrome Test");
         chromeTest.addParameter(browserName, "chrome");
         chromeTest.setThreadCount(1);
@@ -108,7 +108,7 @@ public class TestNGHelper {
 
     private static void initializeNormalExecution(){
         testSuite.setParallel(XmlSuite.ParallelMode.NONE);
-        XmlTest singleTest = new XmlTest(testSuite);
+        XmlTest singleTest = test;
         singleTest.setName("Test");
         singleTest.addParameter(browserName, getCapabilities().targetBrowserName());
         singleTest.setThreadCount(1);

@@ -1,43 +1,39 @@
 package pages;
 
+import driverfactory.Webdriver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
-import java.util.List;
-
-import static elementactions.ElementActions.*;
 
 public class SearchPage{
 
-    private WebDriver driver;
+    private final Webdriver driver;
 
     By searchField = By.id("small-searchterms");
     By searchButton = By.cssSelector("button.button-1.search-box-button");
     By productResult = By.cssSelector("div.picture");
-    List<WebElement> productList = findElements(By.id("ui-id-1"));
+    By productList = By.id("ui-id-1");
 
-    public SearchPage(WebDriver driver) {
+    public SearchPage(Webdriver driver) {
         this.driver = driver;
     }
 
 
     public SearchPage productSearch(String productName)
     {
-        fillField(searchField, productName);
-        clickButton(searchButton);
+        driver.element().fillField(searchField, productName);
+        driver.element().click(searchButton);
         return this;
     }
 
     public ProductDetailsPage openProductPage() {
-        clickButton(productResult);
+        driver.element().click(productResult);
         return new ProductDetailsPage(driver);
     }
 
     public ProductDetailsPage productSearchUsingAutoSuggest(String searchText)
     {
-        fillField(searchField, searchText);
-        clickButton((By) productList.get(0));
+        driver.element().fillField(searchField, searchText);
+        driver.element().findElements(productList).get(0).click();
+        //driver.element().clickButton((By) productList.get(0));
         return new ProductDetailsPage(driver);
     }
 }

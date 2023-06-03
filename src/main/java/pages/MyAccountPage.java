@@ -1,16 +1,14 @@
 package pages;
 
+import driverfactory.Webdriver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import pages.homepage.HomePage;
 
-import static elementactions.ElementActions.*;
-
 public class MyAccountPage{
 
-    private WebDriver driver;
+    private final Webdriver driver;
 
     By changePasswordLink = By.linkText("Change password");
     By customerInfo = By.linkText("Customer info");
@@ -22,54 +20,54 @@ public class MyAccountPage{
     By messageCloseBtn = By.cssSelector("span.close");
     By logoutLink = By.cssSelector("a.ico-logout");
 
-	public MyAccountPage(WebDriver driver) {
+	public MyAccountPage(Webdriver driver) {
 		this.driver = driver;
 	}
 
     @Step("And clicks on Change Password link")
     public MyAccountPage openChangePasswordpage()
     {
-    	clickButton(changePasswordLink);
+        driver.element().click(changePasswordLink);
         return this;
     }
 
     @Step("And Fills old and new passwords")
     public MyAccountPage changePassword(String oldPass, String newPass)
     {
-    	fillField(oldPasswordTxt, oldPass);
-    	fillField(newPasswordTxt, newPass);
-    	fillField(confirmPasswordTxt, newPass);
+        driver.element().fillField(oldPasswordTxt, oldPass);
+        driver.element().fillField(newPasswordTxt, newPass);
+        driver.element().fillField(confirmPasswordTxt, newPass);
         return this;
     }
 
     @Step("And Clicks on Confirm button")
     public MyAccountPage clickOnConfirm()
     {
-        clickButton(changePasswordBtn);
+        driver.element().click(changePasswordBtn);
         return this;
     }
 
     @Step("Then Confirmation message should be displayed that password was changed")
     public MyAccountPage checkThatChangeMessageShouldBeDisplayed()
     {
-        waitForVisibility(changeResult);
-        Assert.assertTrue(getElementText(changeResult).contains("Password was changed"));
+        driver.element().waitForVisibility(changeResult);
+        Assert.assertTrue(driver.element().getElementText(changeResult).contains("Password was changed"));
         return this;
     }
 
     @Step("And User can dismiss message")
     public MyAccountPage closeMessage()
     {
-    	clickButton(messageCloseBtn);
+        driver.element().click(messageCloseBtn);
         return this;
     }
 
     @Step("And User can logout")
     public HomePage clickOnLogoutButton()
     {
-        waitForVisibility(logoutLink);
-        Assert.assertTrue(waitForElementToBeClickable(logoutLink));
-        clickButton(logoutLink);
+        driver.element().waitForVisibility(logoutLink);
+        Assert.assertTrue(driver.element().waitForElementToBeClickable(logoutLink));
+        driver.element().click(logoutLink);
         return new HomePage(driver);
     }
     

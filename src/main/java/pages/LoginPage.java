@@ -1,48 +1,46 @@
 package pages;
 
+import driverfactory.Webdriver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import pages.homepage.HomePage;
 
-import static elementactions.ElementActions.*;
-
 public class LoginPage{
 
-	private final WebDriver driver;
+	private final Webdriver driver;
 
 	By emailField = By.id("Email");
 	By passwordField = By.id("Password");
 	By loginBtn = By.cssSelector("button.button-1.login-button");
 	By logoutLink = By.cssSelector("a.ico-logout");
 
-	public LoginPage(WebDriver driver) {
+	public LoginPage(Webdriver driver) {
 		this.driver = driver;
 	}
 
 	public LoginPage userLogin(String email, String password)
 	{
-		fillField(emailField, email);
-		fillField(passwordField, password);
+		driver.element().fillField(emailField, email);
+		driver.element().fillField(passwordField, password);
 		return this;
 	}
 
 	public LoginPage clickOnLoginButton()
 	{
-		clickButton(loginBtn);
+		driver.element().click(loginBtn);
 		return this;
 	}
 
 	public LoginPage checkThatLogoutButtonShouldBeDisplayed()
 	{
-		waitForVisibility(logoutLink);
-		Assert.assertTrue(elementDisplayed(logoutLink));
+		driver.element().waitForVisibility(logoutLink);
+		Assert.assertTrue(driver.element().isDisplayed(logoutLink));
 		return this;
 	}
 
 	public HomePage clickOnLogoutButton()
 	{
-		clickButton(logoutLink);
+		driver.element().click(logoutLink);
 		return new HomePage(driver);
 	}
 

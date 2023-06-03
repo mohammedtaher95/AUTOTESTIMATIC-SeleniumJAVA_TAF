@@ -335,7 +335,6 @@
                     <failIfNoTests>false</failIfNoTests>
                     <useUnlimitedThreads>true</useUnlimitedThreads>
                     <parallelOptimized>true</parallelOptimized>
-<!--                    <parallel>true</parallel>-->
                     <properties>
                         <property>
                             <name>usedefaultlisteners</name>
@@ -346,9 +345,9 @@
                             <value>tools.listeners.TestNGListener</value>
                         </property>
                     </properties>
-                    <!--                    <parallel>tests</parallel>-->
-                    <threadCount>2</threadCount>
-                    <!--                    <suiteXmlFiles>TestNG.xml</suiteXmlFiles>-->
+<!--                    <parallel>tests</parallel>-->
+<!--                    <threadCount>2</threadCount>-->
+<!--                    <suiteXmlFiles>TestNG.xml</suiteXmlFiles>-->
                     <!--suppress UnresolvedMavenProperty -->
                     <argLine>
                         -Dfile.encoding=UTF-8

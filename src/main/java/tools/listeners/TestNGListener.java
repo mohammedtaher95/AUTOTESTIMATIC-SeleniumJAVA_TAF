@@ -5,8 +5,6 @@ import io.qameta.allure.Allure;
 import org.apache.commons.io.FileUtils;
 import org.testng.*;
 import org.testng.xml.XmlSuite;
-
-import tools.listeners.helpers.RetryAnalyzer;
 import tools.listeners.helpers.TestNGHelper;
 import utilities.allure.AllureBatchGenerator;
 
@@ -25,7 +23,6 @@ import static tools.properties.PropertiesHandler.*;
 public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuiteListener,
         IExecutionListener, IInvokedMethodListener {
 
-    //private static ThreadLocal<LoggingManager> log = new ThreadLocal<>();
     private int retryCount = 0;
     private int maxRetryCount = 5;
 
@@ -85,10 +82,10 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
 
     @Override
     public void afterInvocation(IInvokedMethod method, ITestResult result) {
-//        if (result.getStatus() == ITestResult.FAILURE) {
-//            LoggingManager.error("Failure of test cases and its details are : " + result.getName());
-//            LoggingManager.error("Failed!");
-//            LoggingManager.error("Taking Screenshot....");
+        if (result.getStatus() == ITestResult.FAILURE) {
+            LoggingManager.error("Failure of test cases and its details are : " + result.getName());
+            LoggingManager.error("Failed!");
+            LoggingManager.error("Taking Screenshot....");
 //            String fullPath = null;
 //            try {
 //                fullPath = System.getProperty("user.dir")
@@ -107,7 +104,7 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
 //            } catch (IOException e) {
 //                throw new RuntimeException("Attachment isn't Found");
 //            }
-//        }
+        }
 
     }
 
@@ -125,7 +122,7 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
     public void onStart(ITestContext context) {
         //TO-DO
         context.getCurrentXmlTest().setThreadCount(2);
-        //context.getCurrentXmlTest().setParallel();
+
     }
 
     @Override
@@ -136,7 +133,6 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
 
     @Override
     public void onStart(ISuite suite) {
-
         try {
             AllureBatchGenerator.generateBatFile();
         } catch (IOException e) {
@@ -146,9 +142,6 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
         if (getReporting().cleanAllureReport()) {
             AllureReportHelper.cleanAllureReport();
         }
-
-        suite.getXmlSuite().setThreadCount(2);
-
     }
 
     @Override

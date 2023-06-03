@@ -1,14 +1,12 @@
 package pages;
 
+import driverfactory.Webdriver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-
-import static elementactions.ElementActions.*;
 
 public class ProductReviewPage{
 
-    private WebDriver driver;
+    private final Webdriver driver;
 
     By reviewTitleField = By.id("AddProductReview_Title");
     By reviewTextField = By.id("AddProductReview_ReviewText");
@@ -17,28 +15,28 @@ public class ProductReviewPage{
     By successMessage = By.cssSelector("div.result");
     By addedReviewTitle = By.cssSelector("div.review-title");
 
-    public ProductReviewPage(WebDriver driver) {
+    public ProductReviewPage(Webdriver driver) {
         this.driver = driver;
     }
 
     public ProductReviewPage fillReviewForm(String reviewTitle, String reviewText)
     {
-        fillField(reviewTitleField, reviewTitle);
-        fillField(reviewTextField, reviewText);
-        clickButton(ratingRadioBtn);
+        driver.element().fillField(reviewTitleField, reviewTitle);
+        driver.element().fillField(reviewTextField, reviewText);
+        driver.element().click(ratingRadioBtn);
         return this;
     }
 
     public ProductReviewPage clickOnSubmitButton()
     {
-        clickButton(submitBtn);
+        driver.element().click(submitBtn);
         return this;
     }
 
     public ProductReviewPage verifyThatReviewShouldBeSubmittedSuccessfully(String success, String userMsg)
     {
-        Assert.assertTrue(getElementText(successMessage).equalsIgnoreCase(success));
-        Assert.assertEquals(userMsg, getElementText(addedReviewTitle));
+        Assert.assertTrue(driver.element().getElementText(successMessage).equalsIgnoreCase(success));
+        Assert.assertEquals(userMsg, driver.element().getElementText(addedReviewTitle));
         return this;
     }
 }

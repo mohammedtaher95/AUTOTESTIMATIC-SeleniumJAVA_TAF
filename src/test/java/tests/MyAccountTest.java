@@ -8,12 +8,14 @@ import utilities.UserFormData;
 
 public class MyAccountTest{
 
-	public static ThreadLocal<driverfactory.Webdriver> driver = new ThreadLocal<>();
+	public static ThreadLocal<driverfactory.Webdriver> driver;
 	UserFormData user = new UserFormData();
 
 	@BeforeClass(description = "Setup Driver")
 	public synchronized void setUp(){
+		driver = new ThreadLocal<>();
 		driver.set(new Webdriver());
+		assert driver.get() != null;
 	}
 	
 	@Test(priority = 1)
@@ -34,7 +36,6 @@ public class MyAccountTest{
 				.openLoginPage()
 				.userLogin(user.getEmail(), user.getOldPassword())
 				.clickOnLoginButton()
-				.checkThatLogoutButtonShouldBeDisplayed()
 				.checkThatLogoutButtonShouldBeDisplayed();
 	}
 //

@@ -15,73 +15,67 @@ import java.util.NoSuchElementException;
 
 
 public class ElementActions {
-    private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    private static final ThreadLocal<WebDriver> eActionsDriver = new ThreadLocal<>();
     private static FluentWait<WebDriver> driverWait;
     Actions action;
 
     public ElementActions(WebDriver driver){
-        ElementActions.driver.set(driver);
-        driverWait = new FluentWait<>(ElementActions.driver.get()).withTimeout(Duration.ofSeconds(5))
+        eActionsDriver.set(driver);
+        driverWait = new FluentWait<>(eActionsDriver.get()).withTimeout(Duration.ofSeconds(5))
                 .pollingEvery(Duration.ofMillis(500))
                 .ignoring(NoSuchElementException.class)
                 .ignoring(StaleElementReferenceException.class);
-        action = new Actions(ElementActions.driver.get());
+        action = new Actions(eActionsDriver.get());
     }
 
-    public static void clickButton(By btn){
-        driver.get().findElement(btn).click();
+    public void click(By btn){
+        eActionsDriver.get().findElement(btn).click();
     }
 
-    public static void fillField(By field, String value){
-
-        WebElement txtField = driver.get().findElement(field);
-        txtField.clear();
-        txtField.sendKeys(value);
+    public void fillField(By field, String value){
+        clearField(field);
+        eActionsDriver.get().findElement(field).sendKeys(value);
     }
 
-    public static void clearField(By field){
-        WebElement txtField = driver.get().findElement(field);
-        txtField.clear();
+    public void clearField(By field){
+        eActionsDriver.get().findElement(field).clear();
     }
 
-    public static boolean elementDisplayed(By by){
-        return driver.get().findElement(by).isDisplayed();
+    public boolean isDisplayed(By by){
+        return eActionsDriver.get().findElement(by).isDisplayed();
     }
 
-    public static void selectItemByIndex(By by, int index)
+    public void selectItemByIndex(By by, int index)
     {
-        new Select(driver.get().findElement(by)).selectByIndex(index);
+        new Select(eActionsDriver.get().findElement(by)).selectByIndex(index);
     }
 
-    public static void selectItemByText(By by, String text)
+    public void selectItemByText(By by, String text)
     {
-        new Select(driver.get().findElement(by)).selectByVisibleText(text);
+        new Select(eActionsDriver.get().findElement(by)).selectByVisibleText(text);
     }
 
-    public static String getElementText(By by){
-        return driver.get().findElement(by).getText();
+    public String getElementText(By by){
+        return eActionsDriver.get().findElement(by).getText();
     }
 
-    public static void waitForVisibility(By by){
+    public void waitForVisibility(By by){
         driverWait.until(ExpectedConditions.visibilityOfElementLocated(by));
     }
 
-    public static void waitForInvisibility(By by) {
+    public void waitForInvisibility(By by) {
         driverWait.until(ExpectedConditions.invisibilityOfElementLocated(by));
     }
 
-    public static boolean waitForElementToBeClickable(By by)
+    public boolean waitForElementToBeClickable(By by)
     {
         waitForVisibility(by);
-        return driver.get().findElement(by).isEnabled();
+        return eActionsDriver.get().findElement(by).isEnabled();
     }
 
 
-    public static List<WebElement> findElements(By by){
-        return driver.get().findElements(by);
+    public List<WebElement> findElements(By by){
+        return eActionsDriver.get().findElements(by);
     }
 
-    public void removeDriver(){
-        driver.remove();
-    }
 }

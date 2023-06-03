@@ -32,11 +32,16 @@ public class TestClass{
     public synchronized void setUp(){
         driver = new ThreadLocal<>();
         driver.set(new Webdriver());
+        assert driver.get() != null;
     }
 
     @AfterClass(description = "Tear down")
     public void tearDown(){
+        driver.get().browser().deleteCookies();
         driver.get().quit();
+        driver.remove();
     }
 
 }
+
+

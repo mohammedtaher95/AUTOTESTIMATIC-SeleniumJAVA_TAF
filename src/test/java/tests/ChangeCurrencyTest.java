@@ -13,6 +13,7 @@ public class ChangeCurrencyTest{
     public void setUp(){
         driver = new ThreadLocal<>();
         driver.set(new Webdriver());
+        assert driver.get() != null;
     }
 
     @Test(priority = 1, alwaysRun = true)
@@ -39,6 +40,7 @@ public class ChangeCurrencyTest{
 
     @AfterClass(description = "Tear down")
     public void tearDown(){
+        driver.get().browser().deleteCookies();
         driver.get().quit();
         driver.remove();
     }

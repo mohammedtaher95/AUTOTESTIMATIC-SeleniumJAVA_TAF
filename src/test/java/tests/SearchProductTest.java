@@ -21,6 +21,7 @@ public class SearchProductTest{
     public void setUp(){
         driver = new ThreadLocal<>();
         driver.set(new Webdriver());
+        assert driver.get() != null;
     }
 
     @AfterClass(description = "Tear down")

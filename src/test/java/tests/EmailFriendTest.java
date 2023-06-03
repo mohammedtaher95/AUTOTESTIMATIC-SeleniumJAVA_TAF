@@ -19,6 +19,7 @@ public class EmailFriendTest{
     public synchronized void setUp(){
         driver = new ThreadLocal<>();
         driver.set(new Webdriver());
+        assert driver.get() != null;
     }
 
     @Test(priority = 1)
