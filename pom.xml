@@ -6,7 +6,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>SeleniumJAVA_TAF</artifactId>
-    <version>1.2.3</version>
+    <version>1.2.3.1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -49,12 +49,12 @@
             <repository>
                 <id>central</id>
                 <name>a0zxdmc0sgv6v-artifactory-primary-0-releases</name>
-                <url>https://mta.jfrog.io/artifactory/framework</url>
+                <url>https://mta.jfrog.io/artifactory/selenium</url>
             </repository>
             <snapshotRepository>
                 <id>snapshots</id>
                 <name>a0zxdmc0sgv6v-artifactory-primary-0-snapshots</name>
-                <url>https://mta.jfrog.io/artifactory/framework</url>
+                <url>https://mta.jfrog.io/artifactory/selenium</url>
             </snapshotRepository>
     </distributionManagement>
 
@@ -289,7 +289,7 @@
                                 <publisher>
                                     <contextURL>https://mta.jfrog.io/artifactory/</contextURL>
                                     <username>mohammedtaher10295@gmail.com</username>
-                                    <password>cmVmdGtuOjAxOjE3MTc0MjQ5Nzg6RWc2NWN3NVE2dU82Y25zVlpRRVFuOU41OUlr</password>
+                                    <password>cmVmdGtuOjAxOjE3MTc0MzgzNjg6RGNJbk9BaDRwTTRKaWlFSjRUaTFnU2hhelVL</password>
                                     <!--                    <repo-key>myrepo</repo-key>-->
                                     <!--                    <snapshot-repo-key>new-libs-snapshot-local</snapshot-repo-key>-->
                                 </publisher>
