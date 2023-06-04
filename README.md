@@ -21,33 +21,24 @@ which provides easy to use syntax, and easy to setup environment according to th
 - Jenkins
 
 ## How to use:
-### Option 1: Using this Framework directly
-- Pull this repository and use it directly to write your tests
 
-### Option 2: Create New Project
-#### Step 1: Setup Project
-- Temporary step: pull this repository, and run `mvn clean install` in your favorite IDE to create maven dependency 
-  on your local Maven Repository, "This step is temporary till uploading this project to Maven Central"
+### Step 1: Setup Project
 - Create a new Java/Maven project using Eclipse, IntelliJ or your favourite IDE
-- Copy the highlighted contents of this [pom.xml](https://github.com/mohammedtaher95/testJARProject/blob/0d10e995b21505cc18e3f65bddf9ba35ef8f035b/pom.xml#L15-L120) into yours inside `<project>` tag
+- Copy the highlighted contents of this [pom.xml](https://github.com/mohammedtaher95/testJARProject/blob/9905f207dfa95ce1d44b92cc574ead9852064d10/pom.xml#L15-L126) into yours inside `<project>` tag
 - Click on Run dropdown menu and then select Edit Configuration
 
 
-#### Step 2: Create a new Test Class
+### Step 2: Create a new Test Class
 - Create a new Package "tests" under src/test/java and create a new Java Class TestClass under that package.
 - Copy the following imports into your Test Class
 ```
 import driverfactory.Webdriver;
 import org.openqa.selenium.By;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import static browseractions.BrowserActions.*;
-import static elementactions.ElementActions.*;
+import org.testng.annotations.*;
 ```
 - Copy the Following snippet to your Test Class Body:
 ```
-    Webdriver driver;
+    driverfactory.Webdriver driver;
     By registerLink = By.linkText("Register");
 
     @BeforeClass
@@ -58,9 +49,9 @@ import static elementactions.ElementActions.*;
     @Test
     public void testMethod(){
 
-        navigateToURL("http://demo.nopcommerce.com");
-        clickButton(registerLink);
-        Assert.assertTrue(getCurrentURL().contains("register"));
+        driver.browser().navigateToURL("http://demo.nopcommerce.com");
+        driver.element().clickButton(registerLink);
+        Assert.assertTrue(driver.browser().getCurrentURL().contains("register"));
 
     }
 
@@ -70,7 +61,7 @@ import static elementactions.ElementActions.*;
     }
 ```
   
-#### Step 3: Running Tests
+### Step 3: Running Tests
 - Run your TestClass.java as a TestNG Test Class.
 - The execution report will open automatically in your default web browser after the test run is completed
 - After Running your test, propeties files will be generated automatically in the following directory
