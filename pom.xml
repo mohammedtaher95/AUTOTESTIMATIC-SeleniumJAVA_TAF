@@ -38,14 +38,24 @@
     </licenses>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
+<!--        <snapshotRepository>-->
+<!--            <id>ossrh</id>-->
+<!--            <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
+<!--        </snapshotRepository>-->
+<!--        <repository>-->
+<!--            <id>ossrh</id>-->
+<!--            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
+<!--        </repository>-->
+            <repository>
+                <id>central</id>
+                <name>a0zxdmc0sgv6v-artifactory-primary-0-releases</name>
+                <url>https://mta.jfrog.io/artifactory/framework</url>
+            </repository>
+            <snapshotRepository>
+                <id>snapshots</id>
+                <name>a0zxdmc0sgv6v-artifactory-primary-0-snapshots</name>
+                <url>https://mta.jfrog.io/artifactory/framework</url>
+            </snapshotRepository>
     </distributionManagement>
 
     <scm>
@@ -264,44 +274,68 @@
                     <artifactId>allure-maven</artifactId>
                     <version>2.12.0</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.jfrog.buildinfo</groupId>
+                    <artifactId>artifactory-maven-plugin</artifactId>
+                    <version>3.6.1</version>
+                    <inherited>false</inherited>
+                    <executions>
+                        <execution>
+                            <id>build-info</id>
+                            <goals>
+                                <goal>publish</goal>
+                            </goals>
+                            <configuration>
+                                <publisher>
+                                    <contextURL>https://mta.jfrog.io/artifactory/</contextURL>
+                                    <username>mohammedtaher10295@gmail.com</username>
+                                    <password>cmVmdGtuOjAxOjE3MTc0MTA0NTA6S204RnhMcmpZMDBiNkZkWFVvWVpvRWY4RVpr</password>
+                                    <!--                    <repo-key>myrepo</repo-key>-->
+                                    <!--                    <snapshot-repo-key>new-libs-snapshot-local</snapshot-repo-key>-->
+                                </publisher>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
+
         </pluginManagement>
         <plugins>
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.7</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.7</version>
-                <executions>
-                    <execution>
-                        <id>prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                        <configuration>
-                            <formats>
-                                <format>XML</format>
-                            </formats>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.sonatype.plugins</groupId>-->
+<!--                <artifactId>nexus-staging-maven-plugin</artifactId>-->
+<!--                <version>1.6.7</version>-->
+<!--                <extensions>true</extensions>-->
+<!--                <configuration>-->
+<!--                    <serverId>ossrh</serverId>-->
+<!--                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>-->
+<!--                    <autoReleaseAfterClose>true</autoReleaseAfterClose>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+<!--            <plugin>-->
+<!--                <groupId>org.jacoco</groupId>-->
+<!--                <artifactId>jacoco-maven-plugin</artifactId>-->
+<!--                <version>0.8.7</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>prepare-agent</id>-->
+<!--                        <goals>-->
+<!--                            <goal>prepare-agent</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                    <execution>-->
+<!--                        <id>report</id>-->
+<!--                        <goals>-->
+<!--                            <goal>report</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <formats>-->
+<!--                                <format>XML</format>-->
+<!--                            </formats>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -345,8 +379,8 @@
                             <value>tools.listeners.TestNGListener</value>
                         </property>
                     </properties>
-<!--                    <parallel>tests</parallel>-->
-<!--                    <threadCount>2</threadCount>-->
+<!--                    <parallel>instances</parallel>-->
+<!--                    <threadCount>3</threadCount>-->
 <!--                    <suiteXmlFiles>TestNG.xml</suiteXmlFiles>-->
                     <!--suppress UnresolvedMavenProperty -->
                     <argLine>
@@ -476,4 +510,10 @@
             </build>
         </profile>
     </profiles>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>Maven-Artifactory-Plugin</id>
+            <url>https://jcenter.bintray.com</url>
+        </pluginRepository>
+    </pluginRepositories>
 </project>
