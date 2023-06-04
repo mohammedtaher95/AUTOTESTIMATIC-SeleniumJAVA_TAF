@@ -1,6 +1,8 @@
 package tools.properties;
 
 import org.aeonbits.owner.ConfigFactory;
+import utilities.LoggingManager;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -23,11 +25,13 @@ public class PropertiesHandler {
 
     private static TestNG testNG;
 
+    private static File propertiesDirectory;
     private static File platformProperties;
     private static File capProperties;
     private static File reportingFile;
     private static File testNGFile;
 
+    static String propertiesDirectoryPath = "src/main/resources/properties/";
     static String platformPath = "src/main/resources/properties/ExecutionPlatform.properties";
     static String webCapPath = "src/main/resources/properties/WebCapabilities.properties";
     static String reportingPath = "src/main/resources/properties/Reporting.properties";
@@ -45,11 +49,18 @@ public class PropertiesHandler {
 
     private static synchronized void generateDefaultProperties() throws IOException {
 
+        propertiesDirectory = new File(propertiesDirectoryPath);
         platformProperties = new File(platformPath);
         capProperties = new File(webCapPath);
         reportingFile = new File(reportingPath);
         testNGFile = new File(testNGPath);
 
+        if(!propertiesDirectory.exists()){
+            boolean created = propertiesDirectory.mkdirs();
+            if(created){
+                LoggingManager.info("Directory Created");
+            }
+        }
 
         if(!platformProperties.exists()){
             printHeader(platformProperties);

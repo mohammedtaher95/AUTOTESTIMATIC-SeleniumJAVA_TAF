@@ -147,6 +147,8 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
     @Override
     public void alter(List<XmlSuite> suites) {
 
+        LoggingManager.startLog();
+
         try {
             initializeProperties();
         } catch (IOException e) {
@@ -158,7 +160,7 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
         } catch (IOException e) {
             e.printStackTrace();
         }
-        LoggingManager.startLog();
+
     }
 
 

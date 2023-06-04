@@ -22,7 +22,7 @@ public interface ExecutionPlatform extends Config, Accessible {
     String remoteURL();
 
     @Key("RUN_ALL_TESTS")
-    @DefaultValue("true")
+    @DefaultValue("false")
     boolean runAllTests();
 
 }

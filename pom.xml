@@ -6,7 +6,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>SeleniumJAVA_TAF</artifactId>
-    <version>1.2.1</version>
+    <version>1.2.3</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -289,7 +289,7 @@
                                 <publisher>
                                     <contextURL>https://mta.jfrog.io/artifactory/</contextURL>
                                     <username>mohammedtaher10295@gmail.com</username>
-                                    <password>cmVmdGtuOjAxOjE3MTc0MTA0NTA6S204RnhMcmpZMDBiNkZkWFVvWVpvRWY4RVpr</password>
+                                    <password>cmVmdGtuOjAxOjE3MTc0MjQ5Nzg6RWc2NWN3NVE2dU82Y25zVlpRRVFuOU41OUlr</password>
                                     <!--                    <repo-key>myrepo</repo-key>-->
                                     <!--                    <snapshot-repo-key>new-libs-snapshot-local</snapshot-repo-key>-->
                                 </publisher>
