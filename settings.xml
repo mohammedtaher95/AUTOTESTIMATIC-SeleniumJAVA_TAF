@@ -19,14 +19,14 @@
             <enabled>false</enabled>
           </snapshots>
           <id>central</id>
-          <name>new-libs-release</name>
-          <url>https://mta.jfrog.io/artifactory/new-libs-release</url>
+          <name>selenium</name>
+          <url>https://mta.jfrog.io/artifactory/selenium</url>
         </repository>
         <repository>
           <snapshots/>
           <id>snapshots</id>
-          <name>new-libs-snapshot</name>
-          <url>https://mta.jfrog.io/artifactory/new-libs-snapshot</url>
+          <name>selenium</name>
+          <url>https://mta.jfrog.io/artifactory/selenium</url>
         </repository>
       </repositories>
       <pluginRepositories>
@@ -35,14 +35,14 @@
             <enabled>false</enabled>
           </snapshots>
           <id>central</id>
-          <name>new-libs-release</name>
-          <url>https://mta.jfrog.io/artifactory/new-libs-release</url>
+          <name>selenium</name>
+          <url>https://mta.jfrog.io/artifactory/selenium</url>
         </pluginRepository>
         <pluginRepository>
           <snapshots/>
           <id>snapshots</id>
-          <name>new-libs-snapshot</name>
-          <url>https://mta.jfrog.io/artifactory/new-libs-snapshot</url>
+          <name>selenium</name>
+          <url>https://mta.jfrog.io/artifactory/selenium</url>
         </pluginRepository>
       </pluginRepositories>
       <id>artifactory</id>
