@@ -1,13 +1,13 @@
 <settings xmlns="http://maven.apache.org/SETTINGS/1.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.2.0 http://maven.apache.org/xsd/settings-1.2.0.xsd">
   <servers>
     <server>
-      <username>mohammedtaher10295@gmail.com</username>
-      <password>AKCp8ohdyhKzHtGRLVKAjSggxqfnzq335z9LpeTTXVK5KVHYxwqrNPp719UphKCFLD4oVDr6F</password>
+<!--      <username>mohammedtaher10295@gmail.com</username>-->
+<!--      <password>AKCp8ohdyhKzHtGRLVKAjSggxqfnzq335z9LpeTTXVK5KVHYxwqrNPp719UphKCFLD4oVDr6F</password>-->
       <id>central</id>
     </server>
     <server>
-      <username>mohammedtaher10295@gmail.com</username>
-      <password>AKCp8ohdyhKzHtGRLVKAjSggxqfnzq335z9LpeTTXVK5KVHYxwqrNPp719UphKCFLD4oVDr6F</password>
+<!--      <username>mohammedtaher10295@gmail.com</username>-->
+<!--      <password>AKCp8ohdyhKzHtGRLVKAjSggxqfnzq335z9LpeTTXVK5KVHYxwqrNPp719UphKCFLD4oVDr6F</password>-->
       <id>snapshots</id>
     </server>
   </servers>
