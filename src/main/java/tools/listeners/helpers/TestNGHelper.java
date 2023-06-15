@@ -1,15 +1,19 @@
 package tools.listeners.helpers;
 
 import constants.CrossBrowserMode;
+import driverfactory.Webdriver;
 import org.apache.commons.io.FileUtils;
+import org.testng.ITestResult;
 import org.testng.xml.XmlClass;
 import org.testng.xml.XmlSuite;
 import org.testng.xml.XmlTest;
 
 import utilities.Classloader;
+import utilities.LoggingManager;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,12 +31,12 @@ public class TestNGHelper {
     static XmlTest test;
     static String browserName = "browserName";
 
-    private TestNGHelper(){
+    private TestNGHelper() {
 
     }
 
     public static XmlSuite suiteGenerator(XmlSuite suite) throws IOException {
-
+        LoggingManager.info("Generating TestNG Suite.....");
         testSuite = suite;
         test = suite.getTests().get(0);
 
@@ -45,11 +49,9 @@ public class TestNGHelper {
         testSuite.setName("WebDriver Suite");
         testSuite.setListeners(Collections.singletonList("tools.listeners.TestNGListener"));
 
-        if(CrossBrowserMode.valueOf(getPlatform().crossBrowserMode()) == CrossBrowserMode.OFF){
+        if (CrossBrowserMode.valueOf(getPlatform().crossBrowserMode()) == CrossBrowserMode.OFF) {
             initializeNormalExecution();
-        }
-
-        else {
+        } else {
             initializeCrossBrowserSuite();
         }
 
@@ -57,10 +59,9 @@ public class TestNGHelper {
         File newFile = new File("TestNG.xml");
 
         try {
-            if(newFile.exists()){
+            if (newFile.exists()) {
                 Files.delete(destination);
-            }
-            else{
+            } else {
                 FileUtils.forceMkdir(newFile);
             }
             Files.writeString(destination, testSuite.toXml());
@@ -70,14 +71,17 @@ public class TestNGHelper {
         return testSuite;
     }
 
-    private static void initializeCrossBrowserSuite(){
+    private static void initializeCrossBrowserSuite() {
 
-        if(CrossBrowserMode.valueOf(getPlatform().crossBrowserMode()) == CrossBrowserMode.PARALLEL){
+        if (CrossBrowserMode.valueOf(getPlatform().crossBrowserMode()) == CrossBrowserMode.PARALLEL) {
             testSuite.setParallel(XmlSuite.ParallelMode.TESTS);
+            LoggingManager.info("Cross Browsing Mode Enabled, Tests will run in Parallel Mode");
         }
 
-        if(CrossBrowserMode.valueOf(getPlatform().crossBrowserMode()) == CrossBrowserMode.SEQUENTIAL){
+        if (CrossBrowserMode.valueOf(getPlatform().crossBrowserMode()) == CrossBrowserMode.SEQUENTIAL) {
             testSuite.setParallel(XmlSuite.ParallelMode.NONE);
+            LoggingManager.info("Cross Browsing Mode Enabled, Tests will run in Sequential Mode");
+
         }
 
         XmlTest chromeTest = test;
@@ -94,7 +98,7 @@ public class TestNGHelper {
         firefoxTest.addParameter(browserName, "firefox");
         firefoxTest.setXmlClasses(test.getXmlClasses());
 
-        if(getPlatform().runAllTests()){
+        if (getPlatform().runAllTests()) {
             List<XmlClass> classes = new ArrayList<>();
             Set<Class<?>> newSet = Classloader.findAllClasses("tests");
             for (Class<?> aClass : newSet) {
@@ -106,7 +110,8 @@ public class TestNGHelper {
 
     }
 
-    private static void initializeNormalExecution(){
+    private static void initializeNormalExecution() {
+        LoggingManager.info("Tests will run in Normal Mode");
         testSuite.setParallel(XmlSuite.ParallelMode.NONE);
         XmlTest singleTest = test;
         singleTest.setName("Test");
@@ -115,7 +120,7 @@ public class TestNGHelper {
         singleTest.setParallel(XmlSuite.ParallelMode.NONE);
         singleTest.setXmlClasses(test.getXmlClasses());
 
-        if(getPlatform().runAllTests()){
+        if (getPlatform().runAllTests()) {
             List<XmlClass> classes = new ArrayList<>();
             Set<Class<?>> newSet = Classloader.findAllClasses("tests");
             for (Class<?> aClass : newSet) {
@@ -126,4 +131,34 @@ public class TestNGHelper {
 
     }
 
+    public static Webdriver getDriverInstance(ITestResult result) {
+        Webdriver driver = null;
+        ThreadLocal<driverfactory.Webdriver> driverThreadlocal;
+        Object currentClass = result.getInstance();
+        if (currentClass != null) {
+            Class<?> testClass = result.getTestClass().getRealClass();
+            Field[] fields = testClass.getDeclaredFields();
+            for (Field field : fields) {
+                if (field.getType() == Webdriver.class) {
+                    try {
+                        field.setAccessible(true);
+                        driver = (Webdriver) field.get(currentClass);
+                    } catch (IllegalAccessException e) {
+                        LoggingManager.error("Unable to access field: " + field.getName());
+                    }
+                }
+                if (field.getType() == ThreadLocal.class) {
+                    try {
+                        field.setAccessible(true);
+                        driverThreadlocal = (ThreadLocal<Webdriver>) field.get(currentClass);
+                        driver = driverThreadlocal.get();
+                    } catch (IllegalAccessException e) {
+                        LoggingManager.error("Unable to access field:" + field.getName());
+
+                    }
+                }
+            }
+        }
+        return driver;
+    }
 }

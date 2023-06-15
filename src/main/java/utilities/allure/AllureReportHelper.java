@@ -1,5 +1,7 @@
 package utilities.allure;
 
+import utilities.LoggingManager;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -65,14 +67,14 @@ public class AllureReportHelper {
                         }
                     });
                 } catch (IOException e) {
-                    System.out.println("Allure Report Already Cleaned");
+                    LoggingManager.info("Allure Report Cleaned");
                 }
 
                 // Delete the directory
                 try {
                     Files.deleteIfExists(currentDir);
                 } catch (IOException e) {
-                    System.out.println("Allure Report Already Cleaned");
+                    LoggingManager.info("Allure Report Cleaned");
                 }
             }
         }

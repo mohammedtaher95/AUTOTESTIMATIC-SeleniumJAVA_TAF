@@ -25,6 +25,7 @@ public class Webdriver{
     private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
 
     public Webdriver() {
+        LoggingManager.info("Initializing WebDriver.....");
         createWebDriver();
         if(driverThreadLocal.get() == null){
             createWebDriver();
@@ -46,6 +47,7 @@ public class Webdriver{
     public synchronized void localDriverInit() {
         String baseURL = getCapabilities().baseURL();
         String browserName = Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName");
+        LoggingManager.info("Starting " + browserName + " Driver Locally in " + getCapabilities().executionMethod() + " mode");
         WebDriver driver = DriverFactory.getDriverFactory(DriverType.valueOf(browserName.toUpperCase())).getDriver();
         assert driver != null;
         driver.manage().window().maximize();
@@ -61,6 +63,7 @@ public class Webdriver{
         DesiredCapabilities capabilities = new DesiredCapabilities();
         String browserName = Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName");
         capabilities.setBrowserName(browserName);
+        LoggingManager.info("Starting Selenium Grid on: " + getPlatform().remoteURL());
         try {
             RemoteWebDriver driver = new RemoteWebDriver(new URL(getPlatform().remoteURL()), capabilities);
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
@@ -92,6 +95,7 @@ public class Webdriver{
     }
 
     public synchronized void quit() {
+        LoggingManager.info("Quitting Driver.....");
         assert driverThreadLocal.get() != null;
         driverThreadLocal.get().manage().deleteAllCookies();
         driverThreadLocal.get().quit();

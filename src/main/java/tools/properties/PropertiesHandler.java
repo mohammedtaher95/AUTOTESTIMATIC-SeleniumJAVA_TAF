@@ -39,6 +39,7 @@ public class PropertiesHandler {
 
     public static synchronized void initializeProperties() throws IOException {
 
+        LoggingManager.info("Initializing Properties........");
         platform = ConfigFactory.create(ExecutionPlatform.class);
         capabilities = ConfigFactory.create(WebCapabilities.class);
         reporting = ConfigFactory.create(Reporting.class);
@@ -48,7 +49,7 @@ public class PropertiesHandler {
     }
 
     private static synchronized void generateDefaultProperties() throws IOException {
-
+        LoggingManager.info("Checking if Properties files exist.....");
         propertiesDirectory = new File(propertiesDirectoryPath);
         platformProperties = new File(platformPath);
         capProperties = new File(webCapPath);
@@ -93,6 +94,7 @@ public class PropertiesHandler {
             printFooter(testNGFile);
             outputStream.close();
         }
+        LoggingManager.info("All Properties initialized successfully");
     }
 
     private static void printHeader(File file) throws IOException {

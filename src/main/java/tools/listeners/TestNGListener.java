@@ -82,28 +82,28 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
 
     @Override
     public void afterInvocation(IInvokedMethod method, ITestResult result) {
+        Webdriver driver = TestNGHelper.getDriverInstance(result);
         if (result.getStatus() == ITestResult.FAILURE) {
             LoggingManager.error("Failure of test cases and its details are : " + result.getName());
             LoggingManager.error("Failed!");
             LoggingManager.error("Taking Screenshot....");
-//            String fullPath = null;
-//            try {
-//                fullPath = System.getProperty("user.dir")
-//                        + ScreenshotHelper.captureScreenshot(Webdriver.getDriver(),
-//
-//                        result.getMethod().getConstructorOrMethod().getName());
-//                LoggingManager.info("Screenshot captured for Test case: " + result.getName());
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            try {
-//                assert fullPath != null;
-//                Allure.addAttachment(result.getMethod().getConstructorOrMethod().getName(),
-//                        FileUtils.openInputStream(new File(fullPath)));
-//            } catch (IOException e) {
-//                throw new RuntimeException("Attachment isn't Found");
-//            }
+            String fullPath = null;
+            try {
+                fullPath = System.getProperty("user.dir")
+                        + ScreenshotHelper.captureScreenshot(driver,
+                        result.getMethod().getConstructorOrMethod().getName());
+                LoggingManager.info("Screenshot captured for Test case: " + result.getName());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                assert fullPath != null;
+                Allure.addAttachment(result.getMethod().getConstructorOrMethod().getName(),
+                        FileUtils.openInputStream(new File(fullPath)));
+            } catch (IOException e) {
+                throw new RuntimeException("Attachment isn't Found");
+            }
         }
 
     }

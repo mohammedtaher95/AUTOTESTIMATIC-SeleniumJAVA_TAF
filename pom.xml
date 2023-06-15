@@ -6,7 +6,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>SeleniumJAVA_TAF</artifactId>
-    <version>1.2.4</version>
+    <version>1.2.5</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -15,6 +15,7 @@
         <selenium.version>4.9.1</selenium.version>
         <cucumber.version>7.11.1</cucumber.version>
         <allure.version>2.21.0</allure.version>
+        <log4j.version>2.20.0</log4j.version>
         <aspectj.version>1.9.19</aspectj.version>
         <maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
         <platform.properties>src/main/resources/properties/ExecutionPlatform.properties</platform.properties>
@@ -205,13 +206,24 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.20.0</version>
+            <version>${log4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>2.20.0</version>
+            <version>${log4j.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-jul</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
@@ -391,6 +403,7 @@
                         <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
                         <allure.link.issue.pattern>https://example.org/browse/{}</allure.link.issue.pattern>
                         <allure.link.tms.pattern>https://example.org/browse/{}</allure.link.tms.pattern>
+                        <log4j.configurationFile>src/main/resources/properties/log4j2.properties</log4j.configurationFile>
                     </systemPropertyVariables>
                 </configuration>
                 <dependencies>
@@ -444,6 +457,7 @@
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>0.8.10</version>
                         <executions>
                             <execution>
                                 <id>prepare-agent</id>
@@ -479,19 +493,19 @@
                     <!--                            </execution>-->
                     <!--                        </executions>-->
                     <!--                    </plugin>-->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.5.0</version>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
+<!--                    <plugin>-->
+<!--                        <groupId>org.apache.maven.plugins</groupId>-->
+<!--                        <artifactId>maven-javadoc-plugin</artifactId>-->
+<!--                        <version>3.5.0</version>-->
+<!--                        <executions>-->
+<!--                            <execution>-->
+<!--                                <id>attach-javadocs</id>-->
+<!--                                <goals>-->
+<!--                                    <goal>jar</goal>-->
+<!--                                </goals>-->
+<!--                            </execution>-->
+<!--                        </executions>-->
+<!--                    </plugin>-->
                     <!--                    <plugin>-->
                     <!--                        <groupId>org.apache.maven.plugins</groupId>-->
                     <!--                        <artifactId>maven-gpg-plugin</artifactId>-->

@@ -1,5 +1,6 @@
 package utilities;
 
+import driverfactory.Webdriver;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -14,10 +15,10 @@ public class ScreenshotHelper {
     private ScreenshotHelper(){
 
     }
-    public static Path captureScreenshot(WebDriver driver, String screenshotName) throws IOException {
+    public static Path captureScreenshot(Webdriver driver, String screenshotName) throws IOException {
 
         Path destination = Paths.get("./screenshots", screenshotName + ".jpg");
-        byte[] byteArray = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+        byte[] byteArray = ((TakesScreenshot) driver.getDriver()).getScreenshotAs(OutputType.BYTES);
         Files.write(destination, byteArray, StandardOpenOption.CREATE);
         return destination;
     }
