@@ -36,9 +36,10 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
     public void onExecutionFinish() {
         if (getReporting().automaticOpenAllureReport()) {
             try {
+                LoggingManager.info("Generating Allure Report.....");
                 Runtime.getRuntime().exec("generateAllureReport.bat");
             } catch (IOException e) {
-                e.printStackTrace();
+                LoggingManager.error("Unable to open Allure Report " + e.getMessage());
             }
         }
     }
@@ -77,7 +78,6 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
         method.getTestMethod().setThreadPoolSize(50);
         method.getTestMethod().setInvocationCount(50);
 //        method.getTestMethod().setRetryAnalyzerClass(RetryAnalyzer.class);
-//        method.getTestMethod().setTimeOut(1000000);
     }
 
     @Override
@@ -95,14 +95,14 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
                 LoggingManager.info("Screenshot captured for Test case: " + result.getName());
 
             } catch (IOException e) {
-                e.printStackTrace();
+                LoggingManager.error("Unable to capture Screenshot " + e.getMessage());
             }
             try {
                 assert fullPath != null;
                 Allure.addAttachment(result.getMethod().getConstructorOrMethod().getName(),
                         FileUtils.openInputStream(new File(fullPath)));
             } catch (IOException e) {
-                throw new RuntimeException("Attachment isn't Found");
+                LoggingManager.error("Attachment isn't Found");
             }
         }
 
@@ -133,12 +133,7 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
 
     @Override
     public void onStart(ISuite suite) {
-        try {
-            AllureBatchGenerator.generateBatFile();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
+        AllureBatchGenerator.generateBatFile();
         if (getReporting().cleanAllureReport()) {
             AllureReportHelper.cleanAllureReport();
         }
@@ -148,18 +143,8 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
     public void alter(List<XmlSuite> suites) {
 
         LoggingManager.startLog();
-
-        try {
-            initializeProperties();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            suites.set(0, TestNGHelper.suiteGenerator(suites.get(0)));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        initializeProperties();
+        suites.set(0, TestNGHelper.suiteGenerator(suites.get(0)));
 
     }
 

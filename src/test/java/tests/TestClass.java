@@ -6,7 +6,6 @@ import org.testng.annotations.*;
 import pages.homepage.HomePage;
 import utilities.UserFormData;
 
-
 public class TestClass{
 
     public static ThreadLocal<driverfactory.Webdriver> driver;

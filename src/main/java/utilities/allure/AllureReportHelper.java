@@ -63,7 +63,7 @@ public class AllureReportHelper {
                             }
                             Files.delete(path);
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            LoggingManager.error(e.getMessage());
                         }
                     });
                 } catch (IOException e) {

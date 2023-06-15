@@ -27,7 +27,6 @@ import static tools.properties.PropertiesHandler.*;
 
 public class TestNGHelper {
 
-    public static XmlSuite testSuite;
     static XmlTest test;
     static String browserName = "browserName";
 
@@ -35,24 +34,23 @@ public class TestNGHelper {
 
     }
 
-    public static XmlSuite suiteGenerator(XmlSuite suite) throws IOException {
+    public static XmlSuite suiteGenerator(XmlSuite testSuite) {
         LoggingManager.info("Generating TestNG Suite.....");
-        testSuite = suite;
-        test = suite.getTests().get(0);
+        test = testSuite.getTests().get(0);
 
         testSuite.setPreserveOrder(getTestNG().preserveOrder());
         testSuite.setGroupByInstances(getTestNG().groupByInstances());
         testSuite.setVerbose(getTestNG().verbose());
-        testSuite.setParallel(XmlSuite.ParallelMode.valueOf(getTestNG().parallel()));
         testSuite.setThreadCount(getTestNG().threadCount());
         testSuite.setDataProviderThreadCount(getTestNG().dataProviderThreadCount());
         testSuite.setName("WebDriver Suite");
         testSuite.setListeners(Collections.singletonList("tools.listeners.TestNGListener"));
 
         if (CrossBrowserMode.valueOf(getPlatform().crossBrowserMode()) == CrossBrowserMode.OFF) {
+            testSuite.setParallel(XmlSuite.ParallelMode.valueOf(getTestNG().parallel()));
             initializeNormalExecution();
         } else {
-            initializeCrossBrowserSuite();
+            initializeCrossBrowserSuite(testSuite);
         }
 
         Path destination = Paths.get(".", "TestNG.xml");
@@ -65,13 +63,14 @@ public class TestNGHelper {
                 FileUtils.forceMkdir(newFile);
             }
             Files.writeString(destination, testSuite.toXml());
+            LoggingManager.info("TestNG Suite Generated successfully");
         } catch (IOException e) {
-            e.printStackTrace();
+            LoggingManager.error("Unable to generate TestNG.xml file, " + e.getMessage());
         }
         return testSuite;
     }
 
-    private static void initializeCrossBrowserSuite() {
+    private static void initializeCrossBrowserSuite(XmlSuite testSuite) {
 
         if (CrossBrowserMode.valueOf(getPlatform().crossBrowserMode()) == CrossBrowserMode.PARALLEL) {
             testSuite.setParallel(XmlSuite.ParallelMode.TESTS);
@@ -112,7 +111,6 @@ public class TestNGHelper {
 
     private static void initializeNormalExecution() {
         LoggingManager.info("Tests will run in Normal Mode");
-        testSuite.setParallel(XmlSuite.ParallelMode.NONE);
         XmlTest singleTest = test;
         singleTest.setName("Test");
         singleTest.addParameter(browserName, getCapabilities().targetBrowserName());
@@ -139,23 +137,20 @@ public class TestNGHelper {
             Class<?> testClass = result.getTestClass().getRealClass();
             Field[] fields = testClass.getDeclaredFields();
             for (Field field : fields) {
-                if (field.getType() == Webdriver.class) {
-                    try {
+                try {
+                    if (field.getType() == Webdriver.class) {
                         field.setAccessible(true);
                         driver = (Webdriver) field.get(currentClass);
-                    } catch (IllegalAccessException e) {
-                        LoggingManager.error("Unable to access field: " + field.getName());
                     }
-                }
-                if (field.getType() == ThreadLocal.class) {
-                    try {
+
+                    if (field.getType() == ThreadLocal.class) {
                         field.setAccessible(true);
                         driverThreadlocal = (ThreadLocal<Webdriver>) field.get(currentClass);
                         driver = driverThreadlocal.get();
-                    } catch (IllegalAccessException e) {
-                        LoggingManager.error("Unable to access field:" + field.getName());
-
                     }
+
+                } catch (IllegalAccessException e) {
+                    LoggingManager.error("Unable to access field: " + field.getName());
                 }
             }
         }

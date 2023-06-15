@@ -71,7 +71,7 @@ public class Webdriver{
             driver.manage().window().maximize();
             setRemoteDriver(driver);
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            LoggingManager.error("Unable to create Remote WebDriver: " + e.getMessage());
         }
         if (!baseURL.isEmpty()) {
             getDriver().navigate().to(baseURL);

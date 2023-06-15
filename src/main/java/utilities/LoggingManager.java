@@ -5,7 +5,6 @@ import org.apache.logging.log4j.*;
 import org.apache.logging.log4j.jul.Log4jBridgeHandler;
 import org.apache.logging.log4j.core.config.Configurator;
 import tools.properties.Log4j;
-
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;

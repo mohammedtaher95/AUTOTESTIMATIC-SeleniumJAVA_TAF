@@ -68,9 +68,9 @@ public class EmailableReportGenerator {
 
             // Send the email message
             Transport.send(message);
-            System.out.println("Email sent successfully!");
+            LoggingManager.info("Email sent successfully!");
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            LoggingManager.error(e.getMessage());
         }
     }
 }

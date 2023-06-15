@@ -40,7 +40,7 @@ public class PropertiesHandler {
     static String log4jPath = "src/main/resources/properties/log4j2.properties";
 
 
-    public static synchronized void initializeProperties() throws IOException {
+    public static synchronized void initializeProperties(){
 
         LoggingManager.info("Initializing Properties........");
         platform = ConfigFactory.create(ExecutionPlatform.class);
@@ -52,7 +52,7 @@ public class PropertiesHandler {
         generateDefaultProperties();
     }
 
-    private static synchronized void generateDefaultProperties() throws IOException {
+    private static synchronized void generateDefaultProperties() {
         LoggingManager.info("Checking if Properties files exist.....");
         propertiesDirectory = new File(propertiesDirectoryPath);
         platformProperties = new File(platformPath);
@@ -68,49 +68,58 @@ public class PropertiesHandler {
             }
         }
 
-        if(!platformProperties.exists()){
-            printHeader(platformProperties);
-            FileOutputStream outputStream = new FileOutputStream(platformPath, true);
-            platform.store(outputStream, null);
-            printFooter(platformProperties);
-            outputStream.close();
+        try{
+            if(!platformProperties.exists()){
+                printHeader(platformProperties);
+                FileOutputStream outputStream = new FileOutputStream(platformPath, true);
+                platform.store(outputStream, null);
+                printFooter(platformProperties);
+                outputStream.close();
+            }
+
+            if(!capProperties.exists()){
+                printHeader(capProperties);
+                FileOutputStream outputStream = new FileOutputStream(webCapPath, true);
+                capabilities.store(outputStream, null);
+                printFooter(capProperties);
+                outputStream.close();
+            }
+
+            if(!reportingFile.exists()){
+                printHeader(reportingFile);
+                FileOutputStream outputStream = new FileOutputStream(reportingPath, true);
+                reporting.store(outputStream, null);
+                printFooter(reportingFile);
+                outputStream.close();
+            }
+
+            if(!testNGFile.exists()){
+                printHeader(testNGFile);
+                FileOutputStream outputStream = new FileOutputStream(testNGPath, true);
+                testNG.store(outputStream, null);
+                printFooter(testNGFile);
+                outputStream.close();
+            }
+            if(!log4jFile.exists()){
+                printHeader(log4jFile);
+                FileOutputStream outputStream = new FileOutputStream(log4jPath, true);
+                log4j.store(outputStream, null);
+                printFooter(log4jFile);
+                outputStream.close();
+            }
+        }
+        catch (IOException e){
+            LoggingManager.error("Unable to create Properties files");
         }
 
-        if(!capProperties.exists()){
-            printHeader(capProperties);
-            FileOutputStream outputStream = new FileOutputStream(webCapPath, true);
-            capabilities.store(outputStream, null);
-            printFooter(capProperties);
-            outputStream.close();
-        }
 
-        if(!reportingFile.exists()){
-            printHeader(reportingFile);
-            FileOutputStream outputStream = new FileOutputStream(reportingPath, true);
-            reporting.store(outputStream, null);
-            printFooter(reportingFile);
-            outputStream.close();
-        }
-
-        if(!testNGFile.exists()){
-            printHeader(testNGFile);
-            FileOutputStream outputStream = new FileOutputStream(testNGPath, true);
-            testNG.store(outputStream, null);
-            printFooter(testNGFile);
-            outputStream.close();
-        }
-        if(!log4jFile.exists()){
-            printHeader(log4jFile);
-            FileOutputStream outputStream = new FileOutputStream(log4jPath, true);
-            log4j.store(outputStream, null);
-            printFooter(log4jFile);
-            outputStream.close();
-        }
         LoggingManager.info("All Properties initialized successfully");
     }
 
     private static void printHeader(File file) throws IOException {
+
         Files.writeString(Paths.get(file.toURI()), header, StandardOpenOption.CREATE,StandardOpenOption.APPEND);
+
         if(file.equals(platformProperties)){
             Files.writeString(Paths.get(file.toURI()), "\n########## TAF Execution Platform Properties ##########\n"
                     , StandardOpenOption.CREATE,StandardOpenOption.APPEND);
@@ -126,6 +135,10 @@ public class PropertiesHandler {
                     , StandardOpenOption.CREATE,StandardOpenOption.APPEND);
         }
 
+        if(file.equals(testNGFile)){
+            Files.writeString(Paths.get(file.toURI()), "\n################## TAF TestNG Options #################\n"
+                    , StandardOpenOption.CREATE,StandardOpenOption.APPEND);
+        }
         if(file.equals(testNGFile)){
             Files.writeString(Paths.get(file.toURI()), "\n################## TAF TestNG Options #################\n"
                     , StandardOpenOption.CREATE,StandardOpenOption.APPEND);
