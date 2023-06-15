@@ -22,20 +22,23 @@ public class PropertiesHandler {
     private static ExecutionPlatform platform;
     private static WebCapabilities capabilities;
     private static Reporting reporting;
-
     private static TestNG testNG;
+    private static Log4j log4j;
 
     private static File propertiesDirectory;
     private static File platformProperties;
     private static File capProperties;
     private static File reportingFile;
     private static File testNGFile;
+    private static File log4jFile;
 
     static String propertiesDirectoryPath = "src/main/resources/properties/";
     static String platformPath = "src/main/resources/properties/ExecutionPlatform.properties";
     static String webCapPath = "src/main/resources/properties/WebCapabilities.properties";
     static String reportingPath = "src/main/resources/properties/Reporting.properties";
     static String testNGPath = "src/main/resources/properties/TestNG.properties";
+    static String log4jPath = "src/main/resources/properties/log4j2.properties";
+
 
     public static synchronized void initializeProperties() throws IOException {
 
@@ -44,6 +47,7 @@ public class PropertiesHandler {
         capabilities = ConfigFactory.create(WebCapabilities.class);
         reporting = ConfigFactory.create(Reporting.class);
         testNG = ConfigFactory.create(TestNG.class);
+        log4j = ConfigFactory.create(Log4j.class);
 
         generateDefaultProperties();
     }
@@ -55,6 +59,7 @@ public class PropertiesHandler {
         capProperties = new File(webCapPath);
         reportingFile = new File(reportingPath);
         testNGFile = new File(testNGPath);
+        log4jFile = new File(log4jPath);
 
         if(!propertiesDirectory.exists()){
             boolean created = propertiesDirectory.mkdirs();
@@ -92,6 +97,13 @@ public class PropertiesHandler {
             FileOutputStream outputStream = new FileOutputStream(testNGPath, true);
             testNG.store(outputStream, null);
             printFooter(testNGFile);
+            outputStream.close();
+        }
+        if(!log4jFile.exists()){
+            printHeader(log4jFile);
+            FileOutputStream outputStream = new FileOutputStream(log4jPath, true);
+            log4j.store(outputStream, null);
+            printFooter(log4jFile);
             outputStream.close();
         }
         LoggingManager.info("All Properties initialized successfully");
@@ -154,7 +166,6 @@ public class PropertiesHandler {
     public static WebCapabilities getCapabilities() {
         return capabilities;
     }
-
 
     public static Reporting getReporting() {
         return reporting;

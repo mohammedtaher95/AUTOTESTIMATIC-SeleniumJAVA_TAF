@@ -1,5 +1,6 @@
 package driverfactory;
 
+import assertions.Assertions;
 import browseractions.BrowserActions;
 import constants.DriverType;
 import constants.EnvType;
@@ -108,6 +109,10 @@ public class Webdriver{
 
     public synchronized BrowserActions browser(){
         return new BrowserActions(getDriver());
+    }
+
+    public synchronized Assertions assertThat(){
+        return new Assertions(getDriver());
     }
 
 }

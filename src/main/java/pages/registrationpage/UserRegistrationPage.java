@@ -1,10 +1,8 @@
 package pages.registrationpage;
 
-
 import driverfactory.Webdriver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
-import org.testng.Assert;
 
 public class UserRegistrationPage
 {
@@ -28,8 +26,8 @@ public class UserRegistrationPage
 
 	@Step("Then User should be Navigated to Registration page")
 	public UserRegistrationPage validateThatUserNavigatedToRegistrationPage(){
-
-		Assert.assertTrue(driver.browser().getCurrentURL().contains("register"));
+		driver.assertThat().browser().url().contains("register");
+		//Assert.assertTrue(driver.browser().getCurrentURL().contains("register"));
 		return this;
 	}
 
@@ -53,7 +51,7 @@ public class UserRegistrationPage
 	@Step("And clicks on Register Button")
 	public UserRegistrationPage clickOnRegisterButton(){
 		driver.element().waitForVisibility(registerBtn);
-		Assert.assertTrue(driver.element().isDisplayed(registerBtn));
+		driver.assertThat().element(registerBtn).isDisplayed();
 		driver.element().click(registerBtn);
 		return this;
 	}
@@ -61,7 +59,7 @@ public class UserRegistrationPage
 	@Step("Then Success Message should be displayed")
 	public UserRegistrationPage validateThatSuccessMessageShouldBeDisplayed(){
 		driver.element().waitForVisibility(continueBtn);
-		Assert.assertTrue(driver.element().isDisplayed(continueBtn));
+		driver.assertThat().element(continueBtn).isDisplayed();
 		//Assert.assertTrue(elementDisplayed(successMessage));
 		//Assert.assertTrue(getElementText(successMessage).contains("Your registration completed"));
 		return this;

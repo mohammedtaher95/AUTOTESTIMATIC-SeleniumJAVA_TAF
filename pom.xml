@@ -6,7 +6,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>SeleniumJAVA_TAF</artifactId>
-    <version>1.2.5</version>
+    <version>1.2.4.5</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -376,7 +376,7 @@
                 <version>3.1.2</version>
                 <configuration>
                     <testFailureIgnore>true</testFailureIgnore>
-                    <forkMode>never</forkMode>
+<!--                    <forkMode>never</forkMode>-->
                     <failIfNoSpecifiedTests>false</failIfNoSpecifiedTests>
                     <failIfNoTests>false</failIfNoTests>
                     <useUnlimitedThreads>true</useUnlimitedThreads>

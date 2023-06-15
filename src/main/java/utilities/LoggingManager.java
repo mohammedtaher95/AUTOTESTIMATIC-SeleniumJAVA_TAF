@@ -1,10 +1,14 @@
 package utilities;
 
+import org.aeonbits.owner.ConfigFactory;
 import org.apache.logging.log4j.*;
 import org.apache.logging.log4j.jul.Log4jBridgeHandler;
 import org.apache.logging.log4j.core.config.Configurator;
+import tools.properties.Log4j;
 
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class LoggingManager {
 
@@ -18,6 +22,10 @@ public class LoggingManager {
     }
 
     public static void startLog() {
+        if(!Files.exists(Path.of("properties/log4j2.properties"))){
+            Log4j log4j = ConfigFactory.create(Log4j.class);
+        }
+
         System.setProperty("log4j.configurationFile", "properties/log4j2.properties");
         System.setProperty("java.util.logging.config.file", "");
         Configurator.reconfigure(URI.create("properties/log4j2.properties"));
