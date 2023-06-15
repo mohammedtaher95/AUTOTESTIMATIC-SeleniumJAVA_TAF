@@ -360,7 +360,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.5.0</version>
+                <version>3.6.0</version>
                 <executions>
                     <execution>
                         <id>getClasspathFilenames</id>
@@ -373,7 +373,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M5</version>
+                <version>3.1.2</version>
                 <configuration>
                     <testFailureIgnore>true</testFailureIgnore>
                     <forkMode>never</forkMode>
@@ -446,84 +446,7 @@
             <url>https://repo.clojars.org/</url>
         </repository>
     </repositories>
-    <profiles>
-        <profile>
-            <id>coverage</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.jacoco</groupId>
-                        <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>0.8.10</version>
-                        <executions>
-                            <execution>
-                                <id>prepare-agent</id>
-                                <goals>
-                                    <goal>prepare-agent</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>report</id>
-                                <goals>
-                                    <goal>report</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>release</id>
-            <build>
-                <plugins>
-                    <!--                    <plugin>-->
-                    <!--                        <groupId>org.apache.maven.plugins</groupId>-->
-                    <!--                        <artifactId>maven-source-plugin</artifactId>-->
-                    <!--                        <version>3.2.1</version>-->
-                    <!--                        <executions>-->
-                    <!--                            <execution>-->
-                    <!--                                <id>attach-sources</id>-->
-                    <!--                                <goals>-->
-                    <!--                                    <goal>jar-no-fork</goal>-->
-                    <!--                                </goals>-->
-                    <!--                            </execution>-->
-                    <!--                        </executions>-->
-                    <!--                    </plugin>-->
-<!--                    <plugin>-->
-<!--                        <groupId>org.apache.maven.plugins</groupId>-->
-<!--                        <artifactId>maven-javadoc-plugin</artifactId>-->
-<!--                        <version>3.5.0</version>-->
-<!--                        <executions>-->
-<!--                            <execution>-->
-<!--                                <id>attach-javadocs</id>-->
-<!--                                <goals>-->
-<!--                                    <goal>jar</goal>-->
-<!--                                </goals>-->
-<!--                            </execution>-->
-<!--                        </executions>-->
-<!--                    </plugin>-->
-                    <!--                    <plugin>-->
-                    <!--                        <groupId>org.apache.maven.plugins</groupId>-->
-                    <!--                        <artifactId>maven-gpg-plugin</artifactId>-->
-                    <!--                        <version>3.0.1</version>-->
-                    <!--                        <executions>-->
-                    <!--                            <execution>-->
-                    <!--                                <id>sign-artifacts</id>-->
-                    <!--                                <phase>verify</phase>-->
-                    <!--                                <goals>-->
-                    <!--                                    <goal>sign</goal>-->
-                    <!--                                </goals>-->
-                    <!--                            </execution>-->
-                    <!--                        </executions>-->
-                    <!--                    </plugin>-->
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+
     <pluginRepositories>
         <pluginRepository>
             <id>Maven-Artifactory-Plugin</id>

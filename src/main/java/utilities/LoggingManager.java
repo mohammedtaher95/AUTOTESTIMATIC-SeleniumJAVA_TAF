@@ -19,6 +19,7 @@ public class LoggingManager {
 
     public static void startLog() {
         System.setProperty("log4j.configurationFile", "properties/log4j2.properties");
+        System.setProperty("java.util.logging.config.file", "");
         Configurator.reconfigure(URI.create("properties/log4j2.properties"));
 
         java.util.logging.Logger rootLogger = java.util.logging.LogManager.getLogManager().getLogger("");
