@@ -51,8 +51,7 @@ import org.testng.annotations.*;
 
         driver.browser().navigateToURL("http://demo.nopcommerce.com");
         driver.element().clickButton(registerLink);
-        Assert.assertTrue(driver.browser().getCurrentURL().contains("register"));
-
+        driver.assertThat().browser().url().contains("register");
     }
 
     @AfterClass
@@ -64,5 +63,5 @@ import org.testng.annotations.*;
 ### Step 3: Running Tests
 - Run your TestClass.java as a TestNG Test Class.
 - The execution report will open automatically in your default web browser after the test run is completed
-- After Running your test, propeties files will be generated automatically in the following directory
+- After Running your test, properties files will be generated automatically in the following directory
   `src\main\resources\properties`, so you can edit them according to the needed options you want to use
