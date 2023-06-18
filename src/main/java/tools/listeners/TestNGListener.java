@@ -33,7 +33,6 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
     public void onExecutionFinish() {
         if (getReporting().automaticOpenAllureReport()) {
             try {
-                LoggingManager.info("Generating Allure Report.....");
                 Runtime.getRuntime().exec("generateAllureReport.bat");
             } catch (IOException e) {
                 LoggingManager.error("Unable to open Allure Report " + e.getMessage());
@@ -114,7 +113,7 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
     @Override
     public void onFinish(ITestContext context) {
         //TO-DO
-
+        LoggingManager.info("Generating Allure Report.....");
     }
 
     @Override
