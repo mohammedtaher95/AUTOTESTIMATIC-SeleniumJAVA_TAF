@@ -16,8 +16,8 @@ import java.util.NoSuchElementException;
 
 
 public class ElementActions {
-    private static final ThreadLocal<WebDriver> eActionsDriver = new ThreadLocal<>();
-    private static FluentWait<WebDriver> driverWait;
+    private final ThreadLocal<WebDriver> eActionsDriver = new ThreadLocal<>();
+    private final FluentWait<WebDriver> driverWait;
     Actions action;
 
     public ElementActions(WebDriver driver){

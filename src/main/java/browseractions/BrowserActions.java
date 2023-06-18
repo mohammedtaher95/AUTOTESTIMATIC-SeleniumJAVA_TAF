@@ -8,9 +8,8 @@ import java.util.Set;
 public class BrowserActions {
 
     private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
-    private static JavascriptExecutor jSE;
-
-    private static Actions actions;
+    final JavascriptExecutor jSE;
+    private final Actions actions;
 
     public BrowserActions(WebDriver driver){
         driverThreadLocal.set(driver);
