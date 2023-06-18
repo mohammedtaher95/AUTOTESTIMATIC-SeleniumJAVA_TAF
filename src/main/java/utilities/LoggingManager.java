@@ -1,16 +1,13 @@
 package utilities;
 
-import org.aeonbits.owner.ConfigFactory;
 import org.apache.logging.log4j.*;
 import org.apache.logging.log4j.jul.Log4jBridgeHandler;
 import org.apache.logging.log4j.core.config.Configurator;
-import tools.properties.Log4j;
 import java.net.URI;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 public class LoggingManager {
 
+    private static final String FRAME = "\n********************************************************************************************************************************************\n";
     private LoggingManager(){
 
     }
@@ -21,10 +18,6 @@ public class LoggingManager {
     }
 
     public static void startLog() {
-        if(!Files.exists(Path.of("properties/log4j2.properties"))){
-            Log4j log4j = ConfigFactory.create(Log4j.class);
-        }
-
         System.setProperty("log4j.configurationFile", "properties/log4j2.properties");
         System.setProperty("java.util.logging.config.file", "");
         Configurator.reconfigure(URI.create("properties/log4j2.properties"));
@@ -35,21 +28,21 @@ public class LoggingManager {
         }
         // Add Log4jBridgeHandler to the root logger
         Log4jBridgeHandler.install(true,null,true);
-        info("\n********************************************************************************************************************************************\n"
+        info(FRAME
             +"                                                          SeleniumJava TAF v1.2.5                                            "
-            +"\n********************************************************************************************************************************************\n");
+            + FRAME);
     }
 
     public static synchronized void startTestCase(String txt) {
-        info("\n********************************************************************************************************************************************\n"
+        info(FRAME
                 +"                                                  Starting Execution of: " + txt
-                +"\n********************************************************************************************************************************************\n");
+                + FRAME);
     }
 
     public static void endTestCase(String txt) {
-        info("\n********************************************************************************************************************************************\n"
+        info(FRAME
                 +"                                                   Execution Ended for: " + txt
-                +"\n********************************************************************************************************************************************\n");
+                + FRAME);
     }
 
     public static void trace(Object message){

@@ -87,7 +87,12 @@ public class ElementActions {
 
 
     public List<WebElement> findElements(By by){
+        LoggingManager.info("Finding List of Elements by:" + by.toString().split(":",2)[1]);
         return eActionsDriver.get().findElements(by);
+    }
+
+    public void removeDriver(){
+        eActionsDriver.remove();
     }
 
 }

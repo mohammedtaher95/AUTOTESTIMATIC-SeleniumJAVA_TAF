@@ -33,7 +33,6 @@ public class SearchPage{
     {
         driver.element().fillField(searchField, searchText);
         driver.element().findElements(productList).get(0).click();
-        //driver.element().clickButton((By) productList.get(0));
         return new ProductDetailsPage(driver);
     }
 }

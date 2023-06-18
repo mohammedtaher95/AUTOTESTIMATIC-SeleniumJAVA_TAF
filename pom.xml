@@ -39,24 +39,16 @@
     </licenses>
 
     <distributionManagement>
-<!--        <snapshotRepository>-->
-<!--            <id>ossrh</id>-->
-<!--            <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
-<!--        </snapshotRepository>-->
-<!--        <repository>-->
-<!--            <id>ossrh</id>-->
-<!--            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
-<!--        </repository>-->
-            <repository>
-                <id>central</id>
-                <name>a0zxdmc0sgv6v-artifactory-primary-0-releases</name>
-                <url>https://mta.jfrog.io/artifactory/selenium</url>
-            </repository>
-            <snapshotRepository>
-                <id>snapshots</id>
-                <name>a0zxdmc0sgv6v-artifactory-primary-0-snapshots</name>
-                <url>https://mta.jfrog.io/artifactory/selenium</url>
-            </snapshotRepository>
+        <repository>
+            <id>central</id>
+            <name>a0zxdmc0sgv6v-artifactory-primary-0-releases</name>
+            <url>https://mta.jfrog.io/artifactory/selenium</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>a0zxdmc0sgv6v-artifactory-primary-0-snapshots</name>
+            <url>https://mta.jfrog.io/artifactory/selenium</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <scm>
@@ -301,9 +293,8 @@
                                 <publisher>
                                     <contextURL>https://mta.jfrog.io/artifactory/</contextURL>
                                     <username>mohammedtaher10295@gmail.com</username>
-                                    <password>cmVmdGtuOjAxOjE3MTc0NDMxNjY6NmtzREJkcEp4S3U2Y0ZXUFV2MU5Qb1M4Uk1C</password>
-                                    <!--                    <repo-key>myrepo</repo-key>-->
-                                    <!--                    <snapshot-repo-key>new-libs-snapshot-local</snapshot-repo-key>-->
+                                    <password>cmVmdGtuOjAxOjE3MTc0NDMxNjY6NmtzREJkcEp4S3U2Y0ZXUFV2MU5Qb1M4Uk1C
+                                    </password>
                                 </publisher>
                             </configuration>
                         </execution>
@@ -313,41 +304,6 @@
 
         </pluginManagement>
         <plugins>
-<!--            <plugin>-->
-<!--                <groupId>org.sonatype.plugins</groupId>-->
-<!--                <artifactId>nexus-staging-maven-plugin</artifactId>-->
-<!--                <version>1.6.7</version>-->
-<!--                <extensions>true</extensions>-->
-<!--                <configuration>-->
-<!--                    <serverId>ossrh</serverId>-->
-<!--                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>-->
-<!--                    <autoReleaseAfterClose>true</autoReleaseAfterClose>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-<!--            <plugin>-->
-<!--                <groupId>org.jacoco</groupId>-->
-<!--                <artifactId>jacoco-maven-plugin</artifactId>-->
-<!--                <version>0.8.7</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>prepare-agent</id>-->
-<!--                        <goals>-->
-<!--                            <goal>prepare-agent</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                    <execution>-->
-<!--                        <id>report</id>-->
-<!--                        <goals>-->
-<!--                            <goal>report</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <formats>-->
-<!--                                <format>XML</format>-->
-<!--                            </formats>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -376,7 +332,7 @@
                 <version>3.1.2</version>
                 <configuration>
                     <testFailureIgnore>true</testFailureIgnore>
-<!--                    <forkMode>never</forkMode>-->
+                    <!--                    <forkMode>never</forkMode>-->
                     <failIfNoSpecifiedTests>false</failIfNoSpecifiedTests>
                     <failIfNoTests>false</failIfNoTests>
                     <useUnlimitedThreads>true</useUnlimitedThreads>
@@ -391,9 +347,9 @@
                             <value>tools.listeners.TestNGListener</value>
                         </property>
                     </properties>
-<!--                    <parallel>instances</parallel>-->
-<!--                    <threadCount>3</threadCount>-->
-<!--                    <suiteXmlFiles>TestNG.xml</suiteXmlFiles>-->
+                    <!--                    <parallel>instances</parallel>-->
+                    <!--                    <threadCount>3</threadCount>-->
+                    <!--                    <suiteXmlFiles>TestNG.xml</suiteXmlFiles>-->
                     <!--suppress UnresolvedMavenProperty -->
                     <argLine>
                         -Dfile.encoding=UTF-8
@@ -403,7 +359,8 @@
                         <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
                         <allure.link.issue.pattern>https://example.org/browse/{}</allure.link.issue.pattern>
                         <allure.link.tms.pattern>https://example.org/browse/{}</allure.link.tms.pattern>
-                        <log4j.configurationFile>src/main/resources/properties/log4j2.properties</log4j.configurationFile>
+                        <log4j.configurationFile>src/main/resources/properties/log4j2.properties
+                        </log4j.configurationFile>
                     </systemPropertyVariables>
                 </configuration>
                 <dependencies>
