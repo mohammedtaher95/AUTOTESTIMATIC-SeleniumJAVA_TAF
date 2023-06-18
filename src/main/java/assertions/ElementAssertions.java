@@ -10,7 +10,6 @@ public class ElementAssertions {
     private final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
     private final By by;
     private String actual;
-    private String elementAttribute;
 
     public ElementAssertions(Assertion assertion, By by, WebDriver driver){
         this.assertion = assertion;
@@ -63,6 +62,10 @@ public class ElementAssertions {
 
     public void isNotSelected(){
         this.assertion.assertTrue(!driverThreadLocal.get().findElement(by).isSelected());
+    }
+
+    public void removeDriver(){
+        driverThreadLocal.remove();
     }
 
 

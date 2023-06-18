@@ -1,12 +1,8 @@
 package utilities.allure;
 
 import utilities.LoggingManager;
-
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayDeque;
-import java.util.Queue;
 
 public class AllureReportHelper {
 
@@ -24,9 +20,17 @@ public class AllureReportHelper {
                 if (file.isDirectory()) {
                     deleteDirectory(file);
                 } else {
-                    file.delete();
+                    try {
+                        Files.delete(file.toPath());
+                    } catch (IOException e) {
+                        LoggingManager.error("File Not Found, " + e.getMessage());
+                    }
                 }
             }
+            LoggingManager.info("Allure Report Cleaned successfully");
+        }
+        else {
+            LoggingManager.info("Allure Report Already Cleaned");
         }
     }
 
@@ -37,46 +41,19 @@ public class AllureReportHelper {
                 if (file.isDirectory()) {
                     deleteDirectory(file);
                 } else {
-                    file.delete();
+                    try {
+                        Files.delete(file.toPath());
+                    } catch (IOException e) {
+                        LoggingManager.error("File Not Found, " + e.getMessage());
+                    }
                 }
             }
         }
-        directory.delete();
-    }
-
-    public static void cleanReport(){
-        if (allureReportDir.exists()) {
-
-            Queue<Path> queue = new ArrayDeque<>();
-            queue.add(allureReportDir.toPath());
-
-            // Loop through the queue until it is empty
-            while (!queue.isEmpty()) {
-                Path currentDir = queue.remove();
-
-                // Loop through the contents of the directory
-                try (var stream = Files.list(currentDir)) {
-                    stream.forEach(path -> {
-                        try {
-                            if (Files.isDirectory(path)) {
-                                queue.add(path);
-                            }
-                            Files.delete(path);
-                        } catch (IOException e) {
-                            LoggingManager.error(e.getMessage());
-                        }
-                    });
-                } catch (IOException e) {
-                    LoggingManager.info("Allure Report Cleaned");
-                }
-
-                // Delete the directory
-                try {
-                    Files.deleteIfExists(currentDir);
-                } catch (IOException e) {
-                    LoggingManager.info("Allure Report Cleaned");
-                }
-            }
+        try {
+            Files.delete(directory.toPath());
+        } catch (IOException e) {
+            LoggingManager.error("Directory Not Found, " + e.getMessage());
         }
     }
+
 }

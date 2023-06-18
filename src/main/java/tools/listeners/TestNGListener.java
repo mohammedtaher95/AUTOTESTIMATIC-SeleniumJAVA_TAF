@@ -5,14 +5,13 @@ import io.qameta.allure.Allure;
 import org.apache.commons.io.FileUtils;
 import org.testng.*;
 import org.testng.xml.XmlSuite;
+import tools.listeners.helpers.RetryAnalyzer;
 import tools.listeners.helpers.TestNGHelper;
 import utilities.allure.AllureBatchGenerator;
-
 import utilities.EmailableReportGenerator;
 import utilities.LoggingManager;
 import utilities.ScreenshotHelper;
 import utilities.allure.AllureReportHelper;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -23,8 +22,6 @@ import static tools.properties.PropertiesHandler.*;
 public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuiteListener,
         IExecutionListener, IInvokedMethodListener {
 
-    private int retryCount = 0;
-    private int maxRetryCount = 5;
 
     @Override
     public void onExecutionStart() {
@@ -61,15 +58,8 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
 
     @Override
     public void onTestFailure(ITestResult result) {
-        // To be implemented later
         LoggingManager.endTestCase(result.getName());
         EmailableReportGenerator.addFailedTest(result);
-        if (retryCount < maxRetryCount) {
-            retryCount++;
-            result.setStatus(ITestResult.FAILURE);
-        } else {
-            result.setStatus(ITestResult.FAILURE);
-        }
     }
 
     @Override
@@ -77,7 +67,9 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
         method.getTestMethod().getXmlTest().setThreadCount(50);
         method.getTestMethod().setThreadPoolSize(50);
         method.getTestMethod().setInvocationCount(50);
-//        method.getTestMethod().setRetryAnalyzerClass(RetryAnalyzer.class);
+        if(getTestNG().retryFailedTestAttempts() > 0){
+            method.getTestMethod().setRetryAnalyzerClass(RetryAnalyzer.class);
+        }
     }
 
     @Override
@@ -87,18 +79,12 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
             LoggingManager.error("Failure of test cases and its details are : " + result.getName());
             LoggingManager.error("Failed!");
             LoggingManager.error("Taking Screenshot....");
-            String fullPath = null;
-            try {
-                fullPath = System.getProperty("user.dir")
-                        + ScreenshotHelper.captureScreenshot(driver,
-                        result.getMethod().getConstructorOrMethod().getName());
-                LoggingManager.info("Screenshot captured for Test case: " + result.getName());
+            String fullPath = System.getProperty("user.dir")
+                    + ScreenshotHelper.captureScreenshot(driver,
+                    result.getMethod().getConstructorOrMethod().getName());
+            LoggingManager.info("Screenshot captured for Test case: " + result.getName());
 
-            } catch (IOException e) {
-                LoggingManager.error("Unable to capture Screenshot " + e.getMessage());
-            }
             try {
-                assert fullPath != null;
                 Allure.addAttachment(result.getMethod().getConstructorOrMethod().getName(),
                         FileUtils.openInputStream(new File(fullPath)));
             } catch (IOException e) {

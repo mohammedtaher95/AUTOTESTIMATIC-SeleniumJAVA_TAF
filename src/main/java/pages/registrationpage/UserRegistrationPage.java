@@ -18,7 +18,7 @@ public class UserRegistrationPage
 	By registerBtn = By.id("register-button");
 	By successMessage = By.cssSelector("div.result");
 
-	By continueBtn = By.cssSelector("a.button-1.register-continue-button");
+	By continueBtn = By.cssSelector("a.button-1.register-continuebutton");
 
 	public UserRegistrationPage(Webdriver driver) {
 		this.driver = driver;

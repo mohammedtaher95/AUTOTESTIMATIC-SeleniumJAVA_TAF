@@ -35,4 +35,8 @@ public interface TestNG extends Config, Accessible {
     @DefaultValue("1")
     int dataProviderThreadCount();
 
+    @Key("setRetryFailedTestAttempts")
+    @DefaultValue("0")
+    int retryFailedTestAttempts();
+
 }

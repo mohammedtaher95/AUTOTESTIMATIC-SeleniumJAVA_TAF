@@ -23,7 +23,7 @@ import static tools.properties.PropertiesHandler.*;
 
 public class Webdriver{
 
-    private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
+    private final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
 
     public Webdriver() {
         LoggingManager.info("Initializing WebDriver.....");

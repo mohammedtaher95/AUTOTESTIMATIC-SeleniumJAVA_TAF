@@ -25,7 +25,7 @@ public interface Log4j extends Config, Accessible {
 
     @Key("appender.console.target")
     @DefaultValue("SYSTEM_OUT")
-    String appenderConsoletarget();
+    String appenderConsoleTarget();
 
     @Key("appender.console.layout.type")
     @DefaultValue("PatternLayout")
@@ -57,7 +57,7 @@ public interface Log4j extends Config, Accessible {
 
     @Key("appender.file.fileName")
     @DefaultValue("target/logs/log4j.log")
-    String appenderFile_FileName();
+    String appenderFileFileName();
 
     @Key("appender.file.layout.type")
     @DefaultValue("PatternLayout")

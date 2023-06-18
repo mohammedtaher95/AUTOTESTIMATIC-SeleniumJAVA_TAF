@@ -8,7 +8,6 @@ public class BrowserAssertions {
     private final Assertion assertion;
     private final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
     private String actual;
-    private String browserAttribute;
 
     public BrowserAssertions(Assertion assertion, WebDriver driver){
         this.assertion = assertion;
@@ -25,10 +24,6 @@ public class BrowserAssertions {
         return this;
     }
 
-//    public void attribute(String browserAttribute){
-//        this.browserAttribute = driverThreadLocal.get().
-//    }
-
     public void contains(String expected){
         this.assertion.assertTrue(actual.contains(expected));
     }
@@ -44,5 +39,9 @@ public class BrowserAssertions {
 
     public void isEqualTo(String expectedText){
         this.assertion.assertEquals(actual, expectedText);
+    }
+
+    public void removeDriver(){
+        driverThreadLocal.remove();
     }
 }
