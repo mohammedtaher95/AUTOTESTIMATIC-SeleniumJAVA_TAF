@@ -51,9 +51,9 @@ node {
         // Run the maven build
         withEnv(["MVN_HOME=$mvnHome"]) {
             if (isUnix()) {
-                sh '"$MVN_HOME/bin/mvn" -Dmaven.test.failure.ignore clean deploy -s settings.xml -X'
+                sh '"$MVN_HOME/bin/mvn" -Dmaven.test.failure.ignore clean test -X'
             } else {
-                bat(/"%MVN_HOME%\bin\mvn" -Dmaven.test.failure.ignore clean deploy -s settings.xml -X/)
+                bat(/"%MVN_HOME%\bin\mvn" -Dmaven.test.failure.ignore clean test -X/)
             }
         }
     }
