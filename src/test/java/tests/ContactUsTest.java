@@ -1,13 +1,13 @@
 package tests;
 
-import driverfactory.Webdriver;
+import driverfactory.WebDriver;
 import org.testng.annotations.*;
 import pages.homepage.HomePage;
 import utilities.UserFormData;
 
 public class ContactUsTest{
 
-    public static ThreadLocal<Webdriver> driver;
+    public static ThreadLocal<WebDriver> driver;
     UserFormData newUser = new UserFormData();
     String successMessage = "Your enquiry has been successfully sent to the store owner.";
 
@@ -24,7 +24,7 @@ public class ContactUsTest{
     @BeforeClass(description = "Setup Driver")
     public synchronized void setUp(){
         driver = new ThreadLocal<>();
-        driver.set(new Webdriver());
+        driver.set(new WebDriver());
     }
 
     @AfterClass(description = "Tear down")

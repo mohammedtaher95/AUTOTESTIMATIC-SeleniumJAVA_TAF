@@ -1,6 +1,6 @@
 package tests;
 
-import driverfactory.Webdriver;
+import driverfactory.WebDriver;
 import org.testng.annotations.*;
 import pages.LoginPage;
 import pages.ProductDetailsPage;
@@ -12,13 +12,13 @@ public class EmailFriendTest{
 
     String ProductName = "Apple MacBook Pro 13-inch";
     String SuccessMessage = "Your message has been sent.";
-    public static ThreadLocal<driverfactory.Webdriver> driver;
+    public static ThreadLocal<driverfactory.WebDriver> driver;
     UserFormData user = new UserFormData();
 
     @BeforeClass(description = "Setup Driver")
     public synchronized void setUp(){
         driver = new ThreadLocal<>();
-        driver.set(new Webdriver());
+        driver.set(new WebDriver());
 
     }
 

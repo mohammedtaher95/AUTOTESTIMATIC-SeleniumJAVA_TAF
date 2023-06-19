@@ -1,6 +1,6 @@
 package tests;
 
-import driverfactory.Webdriver;
+import driverfactory.WebDriver;
 import org.testng.annotations.*;
 import pages.LoginPage;
 import pages.ProductDetailsPage;
@@ -11,7 +11,7 @@ import utilities.UserFormData;
 
 public class AddProductReviewTest{
 
-    public static ThreadLocal<driverfactory.Webdriver> driver;
+    public static ThreadLocal<driverfactory.WebDriver> driver;
     String ProductName = "Apple MacBook Pro 13-inch";
     String SuccessMessage = "Product review is successfully added.";
 
@@ -21,7 +21,7 @@ public class AddProductReviewTest{
     @BeforeClass(description = "Setup Driver")
     public synchronized void setUp(){
         driver = new ThreadLocal<>();
-        driver.set(new Webdriver());
+        driver.set(new WebDriver());
     }
 
     @Test(priority = 1)

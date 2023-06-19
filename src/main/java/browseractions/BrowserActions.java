@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class BrowserActions {
 
-    private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
+    private final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
     final JavascriptExecutor jSE;
     private final Actions actions;
 

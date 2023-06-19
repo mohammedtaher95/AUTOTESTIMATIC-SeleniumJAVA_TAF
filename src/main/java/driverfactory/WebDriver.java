@@ -6,26 +6,20 @@ import constants.DriverType;
 import constants.EnvType;
 import driverfactory.localdriver.*;
 import elementactions.ElementActions;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ThreadGuard;
 import org.testng.Reporter;
 import utilities.LoggingManager;
-
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.Duration;
-
-
 import static tools.properties.PropertiesHandler.*;
 
+public class WebDriver{
 
-public class Webdriver{
+    private final ThreadLocal<org.openqa.selenium.WebDriver> driverThreadLocal = new ThreadLocal<>();
 
-    private final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
-
-    public Webdriver() {
+    public WebDriver() {
         LoggingManager.info("Initializing WebDriver.....");
         createWebDriver();
         if(driverThreadLocal.get() == null){
@@ -33,7 +27,7 @@ public class Webdriver{
         }
     }
 
-    private synchronized void createWebDriver() {
+    private void createWebDriver() {
         if (EnvType.valueOf(getPlatform().environmentType()) == EnvType.LOCAL) {
             localDriverInit();
         }
@@ -45,11 +39,11 @@ public class Webdriver{
     }
 
 
-    public synchronized void localDriverInit() {
+    public void localDriverInit() {
         String baseURL = getCapabilities().baseURL();
         String browserName = Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName");
         LoggingManager.info("Starting " + browserName + " Driver Locally in " + getCapabilities().executionMethod() + " mode");
-        WebDriver driver = DriverFactory.getDriverFactory(DriverType.valueOf(browserName.toUpperCase())).getDriver();
+        org.openqa.selenium.WebDriver driver = DriverFactory.getDriverFactory(DriverType.valueOf(browserName.toUpperCase())).getDriver();
         assert driver != null;
         driver.manage().window().maximize();
         setDriver(ThreadGuard.protect(driver));
@@ -59,7 +53,7 @@ public class Webdriver{
 
     }
 
-    public synchronized void gridInit() {
+    public void gridInit() {
         String baseURL = getCapabilities().baseURL();
         DesiredCapabilities capabilities = new DesiredCapabilities();
         String browserName = Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName");
@@ -67,7 +61,6 @@ public class Webdriver{
         LoggingManager.info("Starting Selenium Grid on: " + getPlatform().remoteURL());
         try {
             RemoteWebDriver driver = new RemoteWebDriver(new URL(getPlatform().remoteURL()), capabilities);
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
             driver.manage().window().maximize();
             setRemoteDriver(driver);
         } catch (MalformedURLException e) {
@@ -79,15 +72,15 @@ public class Webdriver{
     }
 
 
-    private synchronized void setDriver(WebDriver driver) {
+    private void setDriver(org.openqa.selenium.WebDriver driver) {
         driverThreadLocal.set(driver);
     }
 
-    private synchronized void setRemoteDriver(RemoteWebDriver driver) {
+    private void setRemoteDriver(RemoteWebDriver driver) {
         driverThreadLocal.set(driver);
     }
 
-    public synchronized WebDriver getDriver() {
+    public org.openqa.selenium.WebDriver getDriver() {
         if(driverThreadLocal.get() == null){
             createWebDriver();
         }
@@ -95,7 +88,7 @@ public class Webdriver{
         return driverThreadLocal.get();
     }
 
-    public synchronized void quit() {
+    public void quit() {
         LoggingManager.info("Quitting Driver.....");
         assert driverThreadLocal.get() != null;
         driverThreadLocal.get().manage().deleteAllCookies();
@@ -103,15 +96,15 @@ public class Webdriver{
         driverThreadLocal.remove();
     }
 
-    public synchronized ElementActions element(){
+    public ElementActions element(){
         return new ElementActions(getDriver());
     }
 
-    public synchronized BrowserActions browser(){
+    public BrowserActions browser(){
         return new BrowserActions(getDriver());
     }
 
-    public synchronized Assertions assertThat(){
+    public Assertions assertThat(){
         return new Assertions(getDriver());
     }
 

@@ -1,6 +1,6 @@
 package pages;
 
-import driverfactory.Webdriver;
+import driverfactory.WebDriver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.testng.Assert;
@@ -8,7 +8,7 @@ import pages.homepage.HomePage;
 
 public class MyAccountPage{
 
-    private final Webdriver driver;
+    private final WebDriver driver;
 
     By changePasswordLink = By.linkText("Change password");
     By customerInfo = By.linkText("Customer info");
@@ -20,7 +20,7 @@ public class MyAccountPage{
     By messageCloseBtn = By.cssSelector("span.close");
     By logoutLink = By.cssSelector("a.ico-logout");
 
-	public MyAccountPage(Webdriver driver) {
+	public MyAccountPage(WebDriver driver) {
 		this.driver = driver;
 	}
 

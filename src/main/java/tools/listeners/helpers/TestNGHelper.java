@@ -1,16 +1,14 @@
 package tools.listeners.helpers;
 
 import constants.CrossBrowserMode;
-import driverfactory.Webdriver;
+import driverfactory.WebDriver;
 import org.apache.commons.io.FileUtils;
 import org.testng.ITestResult;
 import org.testng.xml.XmlClass;
 import org.testng.xml.XmlSuite;
 import org.testng.xml.XmlTest;
-
 import utilities.Classloader;
 import utilities.LoggingManager;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -129,23 +127,23 @@ public class TestNGHelper {
 
     }
 
-    public static Webdriver getDriverInstance(ITestResult result) {
-        Webdriver driver = null;
-        ThreadLocal<driverfactory.Webdriver> driverThreadlocal;
+    public static WebDriver getDriverInstance(ITestResult result) {
+        WebDriver driver = null;
+        ThreadLocal<driverfactory.WebDriver> driverThreadlocal;
         Object currentClass = result.getInstance();
         if (currentClass != null) {
             Class<?> testClass = result.getTestClass().getRealClass();
             Field[] fields = testClass.getDeclaredFields();
             for (Field field : fields) {
                 try {
-                    if (field.getType() == Webdriver.class) {
+                    if (field.getType() == WebDriver.class) {
                         field.setAccessible(true);
-                        driver = (Webdriver) field.get(currentClass);
+                        driver = (WebDriver) field.get(currentClass);
                     }
 
                     if (field.getType() == ThreadLocal.class) {
                         field.setAccessible(true);
-                        driverThreadlocal = (ThreadLocal<Webdriver>) field.get(currentClass);
+                        driverThreadlocal = (ThreadLocal<driverfactory.WebDriver>) field.get(currentClass);
                         driver = driverThreadlocal.get();
                     }
 

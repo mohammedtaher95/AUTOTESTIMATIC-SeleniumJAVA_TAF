@@ -1,19 +1,19 @@
 package pages;
 
-import driverfactory.Webdriver;
+import driverfactory.WebDriver;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 
 public class ProductDetailsPage{
 
-    private final Webdriver driver;
+    private final WebDriver driver;
 
     By productNameBreadCrumb = By.cssSelector("strong.current-item");
     By emailButton = By.cssSelector("button.button-2.email-a-friend-button");
     By productPriceLabel = By.id("price-value-4");
     By reviewHyperlink = By.xpath("//a[@href=\"/productreviews/4\"][2]");
 
-    public ProductDetailsPage(Webdriver driver) {
+    public ProductDetailsPage(WebDriver driver) {
         this.driver = driver;
     }
 

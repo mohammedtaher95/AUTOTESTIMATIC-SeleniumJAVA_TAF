@@ -1,6 +1,6 @@
 package tests;
 
-import driverfactory.Webdriver;
+import driverfactory.WebDriver;
 import io.qameta.allure.*;
 import org.testng.annotations.*;
 import pages.homepage.HomePage;
@@ -8,7 +8,7 @@ import utilities.UserFormData;
 
 public class TestClass{
 
-    public static ThreadLocal<driverfactory.Webdriver> driver;
+    public static ThreadLocal<driverfactory.WebDriver> driver;
     UserFormData newUser;
 
     @Issue(" ")
@@ -30,7 +30,7 @@ public class TestClass{
     @BeforeClass(description = "Setup Driver")
     public void setUp(){
         driver = new ThreadLocal<>();
-        driver.set(new Webdriver());
+        driver.set(new WebDriver());
     }
 
     @AfterClass(description = "Tear down")

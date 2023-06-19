@@ -1,12 +1,12 @@
 package pages;
 
-import driverfactory.Webdriver;
+import driverfactory.WebDriver;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 
 public class ProductReviewPage{
 
-    private final Webdriver driver;
+    private final WebDriver driver;
 
     By reviewTitleField = By.id("AddProductReview_Title");
     By reviewTextField = By.id("AddProductReview_ReviewText");
@@ -15,7 +15,7 @@ public class ProductReviewPage{
     By successMessage = By.cssSelector("div.result");
     By addedReviewTitle = By.cssSelector("div.review-title");
 
-    public ProductReviewPage(Webdriver driver) {
+    public ProductReviewPage(WebDriver driver) {
         this.driver = driver;
     }
 

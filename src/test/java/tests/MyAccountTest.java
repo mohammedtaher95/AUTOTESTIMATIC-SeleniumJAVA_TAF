@@ -1,6 +1,6 @@
 package tests;
 
-import driverfactory.Webdriver;
+import driverfactory.WebDriver;
 import org.testng.annotations.*;
 import pages.homepage.HomePage;
 import utilities.UserFormData;
@@ -8,13 +8,13 @@ import utilities.UserFormData;
 
 public class MyAccountTest{
 
-	public static ThreadLocal<driverfactory.Webdriver> driver;
+	public static ThreadLocal<driverfactory.WebDriver> driver;
 	UserFormData user = new UserFormData();
 
 	@BeforeClass(description = "Setup Driver")
 	public synchronized void setUp(){
 		driver = new ThreadLocal<>();
-		driver.set(new Webdriver());
+		driver.set(new WebDriver());
 	}
 	
 	@Test(priority = 1)

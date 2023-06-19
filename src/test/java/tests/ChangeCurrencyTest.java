@@ -1,18 +1,18 @@
 package tests;
 
-import driverfactory.Webdriver;
+import driverfactory.WebDriver;
 import org.testng.annotations.*;
 import pages.SearchPage;
 import pages.homepage.HomePage;
 
 public class ChangeCurrencyTest{
 
-    public static ThreadLocal<driverfactory.Webdriver> driver;
+    public static ThreadLocal<driverfactory.WebDriver> driver;
 
     @BeforeClass(description = "Setup Driver")
     public void setUp(){
         driver = new ThreadLocal<>();
-        driver.set(new Webdriver());
+        driver.set(new WebDriver());
     }
 
     @Test(priority = 1, alwaysRun = true)

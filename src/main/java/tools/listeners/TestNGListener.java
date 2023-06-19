@@ -1,6 +1,6 @@
 package tools.listeners;
 
-import driverfactory.Webdriver;
+import driverfactory.WebDriver;
 import io.qameta.allure.Allure;
 import org.apache.commons.io.FileUtils;
 import org.testng.*;
@@ -73,7 +73,7 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
 
     @Override
     public void afterInvocation(IInvokedMethod method, ITestResult result) {
-        Webdriver driver = TestNGHelper.getDriverInstance(result);
+        WebDriver driver = TestNGHelper.getDriverInstance(result);
         if (result.getStatus() == ITestResult.FAILURE) {
             LoggingManager.error("Failure of test cases and its details are : " + result.getName());
             LoggingManager.error("Failed!");

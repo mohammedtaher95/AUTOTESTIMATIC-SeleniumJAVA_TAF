@@ -1,18 +1,18 @@
 package pages;
 
-import driverfactory.Webdriver;
+import driverfactory.WebDriver;
 import org.openqa.selenium.By;
 
 public class SearchPage{
 
-    private final Webdriver driver;
+    private final WebDriver driver;
 
     By searchField = By.id("small-searchterms");
     By searchButton = By.cssSelector("button.button-1.search-box-button");
     By productResult = By.cssSelector("div.picture");
     By productList = By.id("ui-id-1");
 
-    public SearchPage(Webdriver driver) {
+    public SearchPage(WebDriver driver) {
         this.driver = driver;
     }
 

@@ -1,12 +1,12 @@
 package pages;
 
-import driverfactory.Webdriver;
+import driverfactory.WebDriver;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 
 public class EmailFriendPage{
 
-    private final Webdriver driver;
+    private final WebDriver driver;
 
     By friendEmailField = By.id("FriendEmail");
     By yourEmailField = By.id("YourEmailAddress");
@@ -14,7 +14,7 @@ public class EmailFriendPage{
     By sendBtn = By.cssSelector("button.button-1.send-email-a-friend-button");
     By successMessage = By.cssSelector("div.result");
 
-    public EmailFriendPage(Webdriver driver) {
+    public EmailFriendPage(WebDriver driver) {
         this.driver = driver;
     }
 

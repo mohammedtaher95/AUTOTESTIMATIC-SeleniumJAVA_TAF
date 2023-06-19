@@ -1,20 +1,20 @@
 package pages;
 
-import driverfactory.Webdriver;
+import driverfactory.WebDriver;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import pages.homepage.HomePage;
 
 public class LoginPage{
 
-	private final Webdriver driver;
+	private final WebDriver driver;
 
 	By emailField = By.id("Email");
 	By passwordField = By.id("Password");
 	By loginBtn = By.cssSelector("button.button-1.login-button");
 	By logoutLink = By.cssSelector("a.ico-logout");
 
-	public LoginPage(Webdriver driver) {
+	public LoginPage(WebDriver driver) {
 		this.driver = driver;
 	}
 

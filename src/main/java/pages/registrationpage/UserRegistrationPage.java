@@ -1,13 +1,13 @@
 package pages.registrationpage;
 
-import driverfactory.Webdriver;
+import driverfactory.WebDriver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 public class UserRegistrationPage
 {
 
-	private final Webdriver driver;
+	private final WebDriver driver;
 
 	By genderMaleRadioBtn = By.id("gender-male");
 	By firstName = By.id("FirstName");
@@ -20,7 +20,7 @@ public class UserRegistrationPage
 
 	By continueBtn = By.cssSelector("a.button-1.register-continue-button");
 
-	public UserRegistrationPage(Webdriver driver) {
+	public UserRegistrationPage(WebDriver driver) {
 		this.driver = driver;
 	}
 

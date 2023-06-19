@@ -21,4 +21,8 @@ public class Assertions {
     public BrowserAssertions browser(){
         return new BrowserAssertions(this.assertion, driverThreadLocal.get());
     }
+
+    public void removeDriver(){
+        driverThreadLocal.remove();
+    }
 }

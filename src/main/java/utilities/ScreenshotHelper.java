@@ -1,6 +1,6 @@
 package utilities;
 
-import driverfactory.Webdriver;
+import driverfactory.WebDriver;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
@@ -19,7 +19,7 @@ public class ScreenshotHelper {
     private ScreenshotHelper(){
 
     }
-    public static Path captureScreenshot(Webdriver driver, String screenshotName){
+    public static Path captureScreenshot(WebDriver driver, String screenshotName){
 
         if(!screenshotsDirectory.exists()){
             boolean created = screenshotsDirectory.mkdirs();

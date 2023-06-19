@@ -1,13 +1,13 @@
 package pages;
 
-import driverfactory.Webdriver;
+import driverfactory.WebDriver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 
 public class ContactUsPage{
 
-    private final Webdriver driver;
+    private final WebDriver driver;
 
     By nameField = By.id("FullName");
     By emailField = By.id("Email");
@@ -15,7 +15,7 @@ public class ContactUsPage{
     By submitBtn = By.name("send-email");
     By successMessage = By.cssSelector("div.result");
 
-    public ContactUsPage(Webdriver driver) {
+    public ContactUsPage(WebDriver driver) {
         this.driver = driver;
     }
 

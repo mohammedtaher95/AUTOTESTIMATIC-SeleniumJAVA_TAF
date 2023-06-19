@@ -32,7 +32,7 @@ which provides easy to use syntax, and easy to setup environment according to th
 - Create a new Package "tests" under src/test/java and create a new Java Class TestClass under that package.
 - Copy the following imports into your Test Class
 ```
-import driverfactory.Webdriver;
+import driverfactory.WebDriver;
 import org.openqa.selenium.By;
 import org.testng.annotations.*;
 ```
@@ -43,7 +43,7 @@ import org.testng.annotations.*;
 
     @BeforeClass
     public void setUp() throws IOException {
-        driver = new Webdriver();
+        driver = new WebDriver();
     }
 
     @Test

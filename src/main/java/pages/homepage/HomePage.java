@@ -1,6 +1,6 @@
 package pages.homepage;
 
-import driverfactory.Webdriver;
+import driverfactory.WebDriver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import pages.ContactUsPage;
@@ -11,7 +11,7 @@ import pages.registrationpage.UserRegistrationPage;
 
 public class HomePage{
 
-	private final Webdriver driver;
+	private final WebDriver driver;
 
 	By registerLink = By.linkText("Register");
 	By loginLink = By.linkText("Log in");
@@ -21,7 +21,7 @@ public class HomePage{
 	By notebooksMenu = By.linkText("Notebooks");
 	By myAccountLink = By.linkText("My account");
 
-	public HomePage(Webdriver driver) {
+	public HomePage(WebDriver driver) {
 		this.driver = driver;
 	}
 
