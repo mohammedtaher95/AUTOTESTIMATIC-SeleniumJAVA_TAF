@@ -38,18 +38,18 @@
         </license>
     </licenses>
 
-    <distributionManagement>
-        <repository>
-            <id>central</id>
-            <name>a0zxdmc0sgv6v-artifactory-primary-0-releases</name>
-            <url>https://mta.jfrog.io/artifactory/selenium</url>
-        </repository>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>a0zxdmc0sgv6v-artifactory-primary-0-snapshots</name>
-            <url>https://mta.jfrog.io/artifactory/selenium</url>
-        </snapshotRepository>
-    </distributionManagement>
+<!--    <distributionManagement>-->
+<!--        <repository>-->
+<!--            <id>central</id>-->
+<!--            <name>a0zxdmc0sgv6v-artifactory-primary-0-releases</name>-->
+<!--            <url>https://mta.jfrog.io/artifactory/selenium</url>-->
+<!--        </repository>-->
+<!--        <snapshotRepository>-->
+<!--            <id>snapshots</id>-->
+<!--            <name>a0zxdmc0sgv6v-artifactory-primary-0-snapshots</name>-->
+<!--            <url>https://mta.jfrog.io/artifactory/selenium</url>-->
+<!--        </snapshotRepository>-->
+<!--    </distributionManagement>-->
 
     <scm>
         <connection>scm:git:git://github.com/mohammedtaher95/SeleniumJAVA_TAF.git</connection>
@@ -278,28 +278,28 @@
                     <artifactId>allure-maven</artifactId>
                     <version>2.12.0</version>
                 </plugin>
-                <plugin>
-                    <groupId>org.jfrog.buildinfo</groupId>
-                    <artifactId>artifactory-maven-plugin</artifactId>
-                    <version>3.6.1</version>
-                    <inherited>false</inherited>
-                    <executions>
-                        <execution>
-                            <id>build-info</id>
-                            <goals>
-                                <goal>publish</goal>
-                            </goals>
-                            <configuration>
-                                <publisher>
-                                    <contextURL>https://mta.jfrog.io/artifactory/</contextURL>
-                                    <username>mohammedtaher10295@gmail.com</username>
-                                    <password>cmVmdGtuOjAxOjE3MTc0NDMxNjY6NmtzREJkcEp4S3U2Y0ZXUFV2MU5Qb1M4Uk1C
-                                    </password>
-                                </publisher>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
+<!--                <plugin>-->
+<!--                    <groupId>org.jfrog.buildinfo</groupId>-->
+<!--                    <artifactId>artifactory-maven-plugin</artifactId>-->
+<!--                    <version>3.6.1</version>-->
+<!--                    <inherited>false</inherited>-->
+<!--                    <executions>-->
+<!--                        <execution>-->
+<!--                            <id>build-info</id>-->
+<!--                            <goals>-->
+<!--                                <goal>publish</goal>-->
+<!--                            </goals>-->
+<!--                            <configuration>-->
+<!--                                <publisher>-->
+<!--                                    <contextURL>https://mta.jfrog.io/artifactory/</contextURL>-->
+<!--                                    <username>mohammedtaher10295@gmail.com</username>-->
+<!--                                    <password>cmVmdGtuOjAxOjE3MTc0NDMxNjY6NmtzREJkcEp4S3U2Y0ZXUFV2MU5Qb1M4Uk1C-->
+<!--                                    </password>-->
+<!--                                </publisher>-->
+<!--                            </configuration>-->
+<!--                        </execution>-->
+<!--                    </executions>-->
+<!--                </plugin>-->
             </plugins>
 
         </pluginManagement>
