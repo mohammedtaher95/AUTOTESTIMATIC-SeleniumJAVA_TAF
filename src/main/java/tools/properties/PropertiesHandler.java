@@ -40,7 +40,7 @@ public class PropertiesHandler {
     static String log4jPath = "src/main/resources/properties/log4j2.properties";
 
 
-    public static synchronized void initializeProperties(){
+    public static void initializeProperties(){
 
         LoggingManager.info("Initializing Properties........");
         platform = ConfigFactory.create(ExecutionPlatform.class);
@@ -52,7 +52,7 @@ public class PropertiesHandler {
         generateDefaultProperties();
     }
 
-    private static synchronized void generateDefaultProperties() {
+    private static void generateDefaultProperties() {
         LoggingManager.info("Checking if Properties files exist.....");
         propertiesDirectory = new File(propertiesDirectoryPath);
         platformProperties = new File(platformPath);
