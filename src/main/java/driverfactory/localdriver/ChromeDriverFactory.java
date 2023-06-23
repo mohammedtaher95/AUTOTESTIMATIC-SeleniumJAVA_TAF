@@ -11,6 +11,8 @@ public class ChromeDriverFactory extends DriverAbstract {
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
+        options.addArguments("--log-level=SEVERE");
+        options.addArguments("--enable-logging");
         options.addArguments("--" + getCapabilities().executionMethod(), "--window-size=1920,1080");
         driver = new ChromeDriver(options);
     }

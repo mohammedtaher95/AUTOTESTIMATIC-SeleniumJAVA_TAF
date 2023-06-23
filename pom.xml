@@ -154,6 +154,19 @@
             <version>${allure.version}</version>
         </dependency>
 
+        <!-- RestAssured dependencies -->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>5.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-path</artifactId>
+            <version>5.3.1</version>
+        </dependency>
+
+
         <!--  Java Mail Dependencies  -->
         <dependency>
             <groupId>com.sun.mail</groupId>
@@ -195,6 +208,7 @@
             <version>5.3.2</version>
         </dependency>
 
+        <!-- Log4j dependencies -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>

@@ -2,6 +2,7 @@ package assertions;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.asserts.Assertion;
+import utilities.LoggingManager;
 
 public class BrowserAssertions {
 
@@ -26,6 +27,7 @@ public class BrowserAssertions {
 
     public void contains(String expected){
         this.assertion.assertTrue(actual.contains(expected));
+        LoggingManager.info("Expected: " + expected + " and Actual: " + this.actual);
     }
 
     public void doesNotContain(String expected){
@@ -34,7 +36,6 @@ public class BrowserAssertions {
 
     public void isNotEqualTo(String expectedText){
         this.assertion.assertNotEquals(actual, expectedText);
-
     }
 
     public void isEqualTo(String expectedText){

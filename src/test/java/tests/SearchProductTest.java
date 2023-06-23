@@ -3,14 +3,18 @@ package tests;
 import driverfactory.WebDriver;
 import org.testng.annotations.*;
 import pages.SearchPage;
+import utilities.JSONFileHandler;
 
 public class SearchProductTest{
 
     public static ThreadLocal<driverfactory.WebDriver> driver;
-    String ProductName = "Apple MacBook Pro 13-inch";
+
+    JSONFileHandler testData;
+    String ProductName;
 
     @Test
     public void UserCanSearchForProducts() {
+        ProductName = testData.getData("searchQuery.FirstItem");
         new SearchPage(driver.get())
                 .productSearch(ProductName)
                 .openProductPage()
@@ -21,6 +25,7 @@ public class SearchProductTest{
     public void setUp(){
         driver = new ThreadLocal<>();
         driver.set(new WebDriver());
+        testData = new JSONFileHandler("simpleFile.json");
 
     }
 

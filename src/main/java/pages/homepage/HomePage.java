@@ -59,11 +59,9 @@ public class HomePage{
 		driver.element().selectItemByIndex(currencyDropDownList, index);
 	}
 
-//	public void SelectNotebookMenu()
-//	{
-//		action.moveToElement(ComputersMenu)
-//				.moveToElement(NotebooksMenu)
-//				.click().build().perform();
-//	}
+	public void SelectNotebookMenu()
+	{
+		driver.element().hoverOnItem(computersMenu).hoverOnItem(notebooksMenu);
+	}
 
 }
