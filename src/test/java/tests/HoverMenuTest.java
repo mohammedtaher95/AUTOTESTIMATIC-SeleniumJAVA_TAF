@@ -14,7 +14,7 @@ public class HoverMenuTest {
     public void UserCanHoverOnMenu() {
         HomePage home = new HomePage(driver.get());
         home.SelectNotebookMenu();
-        driver.get().assertThat().browser().url().contains("laptop");
+        driver.get().assertThat().browser().url().contains("notebooks");
     }
 
     @BeforeClass(description = "Setup Driver")
