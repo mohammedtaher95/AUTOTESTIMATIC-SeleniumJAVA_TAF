@@ -13,7 +13,7 @@ public class HoverMenuTest {
     @Test
     public void UserCanHoverOnMenu() {
         HomePage home = new HomePage(driver.get());
-        home.SelectNotebookMenu();
+        home.selectNotebookMenu();
         driver.get().assertThat().browser().url().contains("notebooks");
     }
 
