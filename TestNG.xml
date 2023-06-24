@@ -7,7 +7,7 @@
   <test thread-count="1" name="Test">
     <parameter name="browserName" value="chrome"/>
     <classes>
-      <class name="tests.SearchProductTest"/>
+      <class name="tests.HoverMenuTest"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- WebDriver Suite -->
