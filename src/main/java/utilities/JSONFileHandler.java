@@ -26,7 +26,7 @@ public class JSONFileHandler {
 
     }
     public String getData(String jsonPath){
-        Object data = getData(cleanJsonPath(jsonPath), 0);
+        Object data = getData(cleanJsonPath(jsonPath), DataType.STRING);
         if(data != null){
             return String.valueOf(data);
         }
@@ -36,7 +36,7 @@ public class JSONFileHandler {
     }
 
     public List<?> getDataAsList(String jsonPath){
-        Object data = getData(cleanJsonPath(jsonPath), 1);
+        Object data = getData(cleanJsonPath(jsonPath), DataType.LIST);
         if(data != null){
             return (List<?>) data;
         }
@@ -46,7 +46,7 @@ public class JSONFileHandler {
     }
 
     public Map<?,?> getDataAsMap(String jsonPath){
-        Object data = getData(cleanJsonPath(jsonPath), 2);
+        Object data = getData(cleanJsonPath(jsonPath), DataType.MAP);
         if(data != null){
             return (Map<?, ?>) data;
         }
@@ -55,13 +55,13 @@ public class JSONFileHandler {
         }
     }
 
-    private Object getData(String jsonPath, int type){
+    private Object getData(String jsonPath, DataType type){
         Object data = null;
         initializeFileReader();
         switch (type){
-            case 0 -> data = JsonPath.from(jsonFileReader.get()).getString(jsonPath);
-            case 1 -> data = JsonPath.from(jsonFileReader.get()).getList(jsonPath);
-            case 2 -> data = JsonPath.from(jsonFileReader.get()).getMap(jsonPath);
+            case STRING -> data = JsonPath.from(jsonFileReader.get()).getString(jsonPath);
+            case LIST -> data = JsonPath.from(jsonFileReader.get()).getList(jsonPath);
+            case MAP -> data = JsonPath.from(jsonFileReader.get()).getMap(jsonPath);
         }
         return data;
     }
@@ -75,5 +75,16 @@ public class JSONFileHandler {
         } catch (IOException e) {
             LoggingManager.error("JSON File didn't match the required format", e);
         }
+    }
+
+    public void removeReader(){
+        jsonFileReader.remove();
+    }
+
+
+    public enum DataType{
+        STRING,
+        LIST,
+        MAP
     }
 }

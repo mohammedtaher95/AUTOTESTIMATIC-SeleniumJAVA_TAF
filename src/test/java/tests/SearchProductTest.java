@@ -14,7 +14,7 @@ public class SearchProductTest{
 
     @Test
     public void UserCanSearchForProducts() {
-        ProductName = testData.getData("searchQuery.FirstItem");
+        ProductName = testData.getData("searchQueryList.FirstItem");
         new SearchPage(driver.get())
                 .productSearch(ProductName)
                 .openProductPage()
