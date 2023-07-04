@@ -1,6 +1,6 @@
 package pages;
 
-import driverfactory.WebDriver;
+import driverfactory.webdriver.WebDriver;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 
@@ -18,7 +18,7 @@ public class ProductDetailsPage{
     }
 
     public ProductDetailsPage checkThatProductPageShouldBeDisplayed(String productName){
-        Assert.assertTrue(driver.element().getElementText(productNameBreadCrumb).equalsIgnoreCase(productName));
+        driver.assertThat().element(productNameBreadCrumb).text().isEqualTo(productName);
         return this;
     }
 
@@ -37,7 +37,7 @@ public class ProductDetailsPage{
 
     public ProductDetailsPage checkCurrency(String currency)
     {
-        Assert.assertTrue(driver.element().getElementText(productPriceLabel).contains(currency));
+        driver.assertThat().element(productPriceLabel).text().contains(currency);
         return this;
     }
 

@@ -1,6 +1,6 @@
 package tests;
 
-import driverfactory.WebDriver;
+import driverfactory.webdriver.WebDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -8,7 +8,7 @@ import pages.homepage.HomePage;
 
 public class HoverMenuTest {
 
-    public static ThreadLocal<driverfactory.WebDriver> driver;
+    public static ThreadLocal<WebDriver> driver;
 
     @Test
     public void UserCanHoverOnMenu() {

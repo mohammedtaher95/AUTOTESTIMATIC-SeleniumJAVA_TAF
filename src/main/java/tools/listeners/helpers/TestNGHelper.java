@@ -1,7 +1,7 @@
 package tools.listeners.helpers;
 
 import constants.CrossBrowserMode;
-import driverfactory.WebDriver;
+import driverfactory.webdriver.WebDriver;
 import org.apache.commons.io.FileUtils;
 import org.testng.ITestResult;
 import org.testng.xml.XmlClass;
@@ -112,6 +112,7 @@ public class TestNGHelper {
         XmlTest singleTest = test;
         singleTest.setName("Test");
         singleTest.addParameter(browserName, getCapabilities().targetBrowserName());
+        //singleTest.addParameter("config", "parallel.conf.json");
         singleTest.setThreadCount(1);
         singleTest.setParallel(XmlSuite.ParallelMode.NONE);
         singleTest.setXmlClasses(test.getXmlClasses());
@@ -129,7 +130,7 @@ public class TestNGHelper {
 
     public static WebDriver getDriverInstance(ITestResult result) {
         WebDriver driver = null;
-        ThreadLocal<driverfactory.WebDriver> driverThreadlocal;
+        ThreadLocal<WebDriver> driverThreadlocal;
         Object currentClass = result.getInstance();
         if (currentClass != null) {
             Class<?> testClass = result.getTestClass().getRealClass();
@@ -143,7 +144,7 @@ public class TestNGHelper {
 
                     if (field.getType() == ThreadLocal.class) {
                         field.setAccessible(true);
-                        driverThreadlocal = (ThreadLocal<driverfactory.WebDriver>) field.get(currentClass);
+                        driverThreadlocal = (ThreadLocal<WebDriver>) field.get(currentClass);
                         driver = driverThreadlocal.get();
                     }
 

@@ -1,6 +1,6 @@
 package pages;
 
-import driverfactory.WebDriver;
+import driverfactory.webdriver.WebDriver;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 
@@ -35,8 +35,8 @@ public class ProductReviewPage{
 
     public ProductReviewPage verifyThatReviewShouldBeSubmittedSuccessfully(String success, String userMsg)
     {
-        Assert.assertTrue(driver.element().getElementText(successMessage).equalsIgnoreCase(success));
-        Assert.assertEquals(userMsg, driver.element().getElementText(addedReviewTitle));
+        driver.assertThat().element(successMessage).text().isEqualTo(success);
+        driver.assertThat().element(addedReviewTitle).text().isEqualTo(userMsg);
         return this;
     }
 }

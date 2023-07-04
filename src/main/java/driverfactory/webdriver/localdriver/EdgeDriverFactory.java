@@ -1,4 +1,4 @@
-package driverfactory.localdriver;
+package driverfactory.webdriver.localdriver;
 
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;

@@ -1,6 +1,6 @@
 package pages;
 
-import driverfactory.WebDriver;
+import driverfactory.webdriver.WebDriver;
 import org.openqa.selenium.By;
 
 public class SearchPage{

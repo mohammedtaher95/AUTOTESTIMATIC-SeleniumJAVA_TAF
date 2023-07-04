@@ -1,6 +1,6 @@
 package pages;
 
-import driverfactory.WebDriver;
+import driverfactory.webdriver.WebDriver;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 
@@ -34,7 +34,7 @@ public class EmailFriendPage{
     public EmailFriendPage checkThatSuccessMessageShouldBeDisplayed(String message)
     {
         driver.element().waitForVisibility(successMessage);
-        Assert.assertTrue(driver.element().getElementText(successMessage).equalsIgnoreCase(message));
+        driver.assertThat().element(successMessage).text().isEqualTo(message);
         return this;
     }
 

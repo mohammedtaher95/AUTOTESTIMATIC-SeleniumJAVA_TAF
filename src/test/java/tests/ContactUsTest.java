@@ -1,6 +1,6 @@
 package tests;
 
-import driverfactory.WebDriver;
+import driverfactory.webdriver.WebDriver;
 import org.testng.annotations.*;
 import pages.homepage.HomePage;
 import utilities.UserFormData;

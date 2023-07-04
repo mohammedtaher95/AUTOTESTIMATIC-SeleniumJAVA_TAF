@@ -1,13 +1,13 @@
 package tests;
 
-import driverfactory.WebDriver;
+import driverfactory.webdriver.WebDriver;
 import org.testng.annotations.*;
 import pages.SearchPage;
 import utilities.JSONFileHandler;
 
 public class SearchProductTest{
 
-    public static ThreadLocal<driverfactory.WebDriver> driver;
+    public static ThreadLocal<WebDriver> driver;
 
     JSONFileHandler testData;
     String ProductName;

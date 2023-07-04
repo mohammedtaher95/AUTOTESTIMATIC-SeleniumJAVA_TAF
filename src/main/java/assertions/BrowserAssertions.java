@@ -15,34 +15,71 @@ public class BrowserAssertions {
         driverThreadLocal.set(driver);
     }
 
-    public BrowserAssertions url(){
+    public Validations url(){
         this.actual = driverThreadLocal.get().getCurrentUrl();
-        return this;
+        return new Validations();
     }
 
-    public BrowserAssertions title(){
+    public Validations title(){
         this.actual = driverThreadLocal.get().getTitle();
-        return this;
+        return new Validations();
     }
 
-    public void contains(String expected){
-        this.assertion.assertTrue(actual.contains(expected));
-        LoggingManager.info("Expected: " + expected + " and Actual: " + this.actual);
-    }
-
-    public void doesNotContain(String expected){
-        this.assertion.assertTrue(actual.contains(expected));
-    }
-
-    public void isNotEqualTo(String expectedText){
-        this.assertion.assertNotEquals(actual, expectedText);
-    }
-
-    public void isEqualTo(String expectedText){
-        this.assertion.assertEquals(actual, expectedText);
-    }
 
     public void removeDriver(){
         driverThreadLocal.remove();
+    }
+
+    public class Validations{
+
+        private Validations(){
+
+        }
+
+        public void contains(String expected){
+            try {
+                assertion.assertTrue(actual.contains(expected));
+                LoggingManager.info("Expected: " + expected + ", Actual: " + actual);
+
+            }
+            catch (AssertionError e){
+                LoggingManager.error("Expected: " + expected + ", but Actual: " + actual);
+                throw e;
+            }
+        }
+
+        public void doesNotContain(String expected){
+            try {
+                assertion.assertTrue(actual.contains(expected));
+                LoggingManager.info("Expected: " + expected + ", Actual: " + actual);
+            }
+            catch (AssertionError e){
+                LoggingManager.error("Expected: " + expected + ", but Actual: " + actual);
+                throw e;
+            }
+        }
+
+        public void isNotEqualTo(String expected){
+            try {
+                assertion.assertTrue(!actual.equalsIgnoreCase(expected));
+                LoggingManager.info("Expected: " + expected + ", Actual: " + actual);
+            }
+            catch (AssertionError e){
+                LoggingManager.error("Expected: " + expected + ", but Actual: " + actual);
+                throw e;
+            }
+        }
+
+        public void isEqualTo(String expected){
+            try {
+                assertion.assertTrue(actual.equalsIgnoreCase(expected));
+                LoggingManager.info("Expected: " + expected + ", Actual: " + actual);
+            }
+            catch (AssertionError e){
+                LoggingManager.error("Expected: " + expected + ", but Actual: " + actual);
+                throw e;
+            }
+        }
+
     }
 }

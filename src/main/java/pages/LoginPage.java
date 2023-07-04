@@ -1,6 +1,6 @@
 package pages;
 
-import driverfactory.WebDriver;
+import driverfactory.webdriver.WebDriver;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import pages.homepage.HomePage;
@@ -34,7 +34,7 @@ public class LoginPage{
 	public LoginPage checkThatLogoutButtonShouldBeDisplayed()
 	{
 		driver.element().waitForVisibility(logoutLink);
-		Assert.assertTrue(driver.element().isDisplayed(logoutLink));
+		driver.assertThat().element(logoutLink).isDisplayed();
 		return this;
 	}
 

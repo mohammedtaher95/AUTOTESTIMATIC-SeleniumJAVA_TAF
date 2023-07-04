@@ -1,4 +1,4 @@
-package driverfactory.localdriver;
+package driverfactory.webdriver.localdriver;
 
 import constants.DriverType;
 

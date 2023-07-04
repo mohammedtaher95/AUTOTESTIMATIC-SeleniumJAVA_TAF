@@ -1,6 +1,6 @@
 package pages;
 
-import driverfactory.WebDriver;
+import driverfactory.webdriver.WebDriver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.testng.Assert;
@@ -51,7 +51,7 @@ public class MyAccountPage{
     public MyAccountPage checkThatChangeMessageShouldBeDisplayed()
     {
         driver.element().waitForVisibility(changeResult);
-        Assert.assertTrue(driver.element().getElementText(changeResult).contains("Password was changed"));
+        driver.assertThat().element(changeResult).text().contains("Password was changed");
         return this;
     }
 
@@ -66,7 +66,7 @@ public class MyAccountPage{
     public HomePage clickOnLogoutButton()
     {
         driver.element().waitForVisibility(logoutLink);
-        Assert.assertTrue(driver.element().waitForElementToBeClickable(logoutLink));
+        driver.assertThat().element(logoutLink).isEnabled();
         driver.element().click(logoutLink);
         return new HomePage(driver);
     }

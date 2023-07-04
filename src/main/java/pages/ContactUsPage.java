@@ -1,6 +1,6 @@
 package pages;
 
-import driverfactory.WebDriver;
+import driverfactory.webdriver.WebDriver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.testng.Assert;
@@ -37,9 +37,8 @@ public class ContactUsPage{
     @Step("Then success Message Should Be Displayed")
     public ContactUsPage successMessageShouldBeDisplayed(String message){
         driver.element().waitForVisibility(successMessage);
-        Assert.assertTrue(driver.element().isDisplayed(successMessage));
-        Assert.assertTrue(driver.element().getElementText(successMessage).equalsIgnoreCase(message));
-
+        driver.assertThat().element(successMessage).isDisplayed();
+        driver.assertThat().element(successMessage).text().isEqualTo(message);
         return this;
     }
 }

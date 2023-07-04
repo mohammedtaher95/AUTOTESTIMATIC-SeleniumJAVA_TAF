@@ -1,6 +1,6 @@
 package tests;
 
-import driverfactory.WebDriver;
+import driverfactory.webdriver.WebDriver;
 import io.qameta.allure.*;
 import org.testng.annotations.*;
 import pages.homepage.HomePage;
@@ -8,7 +8,7 @@ import utilities.UserFormData;
 
 public class TestClass{
 
-    public static ThreadLocal<driverfactory.WebDriver> driver;
+    public static ThreadLocal<WebDriver> driver;
     UserFormData newUser;
 
     @Issue(" ")

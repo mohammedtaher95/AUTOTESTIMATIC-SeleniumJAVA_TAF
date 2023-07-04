@@ -1,12 +1,12 @@
 package tests;
 
-import driverfactory.WebDriver;
+import driverfactory.webdriver.WebDriver;
 import org.testng.annotations.*;
 import pages.SearchPage;
 
 public class SearchProductWithAutoSuggestTest{
 
-    public static ThreadLocal<driverfactory.WebDriver> driver;
+    public static ThreadLocal<WebDriver> driver;
     String ProductName = "Apple MacBook Pro 13-inch";
 
     @BeforeClass(description = "Setup Driver")

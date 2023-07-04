@@ -1,9 +1,8 @@
 package utilities;
 
-import driverfactory.WebDriver;
+import driverfactory.webdriver.WebDriver;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;

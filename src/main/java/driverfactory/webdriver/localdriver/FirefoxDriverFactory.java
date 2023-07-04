@@ -1,4 +1,4 @@
-package driverfactory.localdriver;
+package driverfactory.webdriver.localdriver;
 
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;

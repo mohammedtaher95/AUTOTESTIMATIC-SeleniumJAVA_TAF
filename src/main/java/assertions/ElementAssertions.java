@@ -3,6 +3,7 @@ package assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.asserts.Assertion;
+import utilities.LoggingManager;
 
 public class ElementAssertions {
 
@@ -17,56 +18,132 @@ public class ElementAssertions {
         driverThreadLocal.set(driver);
     }
 
-    public ElementAssertions text(){
+    public Validations text(){
         this.actual = driverThreadLocal.get().findElement(by).getText();
-        return this;
+        return new Validations();
     }
 
-    public ElementAssertions attribute(String addedAttribute){
+    public Validations attribute(String addedAttribute){
         this.actual = driverThreadLocal.get().findElement(by).getAttribute(addedAttribute);
-        return this;
-    }
-
-    public void contains(String expected){
-        this.assertion.assertTrue(actual.contains(expected));
-    }
-
-    public void doesNotContain(String expected){
-        this.assertion.assertTrue(actual.contains(expected));
-    }
-
-    public void isNotEqualTo(String expectedText){
-        this.assertion.assertNotEquals(actual, expectedText);
-
-    }
-
-    public void isEqualTo(String expectedText){
-        this.assertion.assertEquals(actual, expectedText);
+        return new Validations();
     }
 
     public void isDisplayed(){
-        this.assertion.assertTrue(driverThreadLocal.get().findElement(by).isDisplayed());
+        try {
+            this.assertion.assertTrue(driverThreadLocal.get().findElement(by).isDisplayed());
+            LoggingManager.info("Element: " + by.toString().split(":",2)[1] + " is Displayed");
+
+        }
+        catch (AssertionError e){
+            LoggingManager.error("Element: " + by.toString().split(":",2)[1] + " is NOT Displayed");
+            throw e;
+        }
+
     }
 
     public void isEnabled(){
-        this.assertion.assertTrue(driverThreadLocal.get().findElement(by).isEnabled());
+        try {
+            this.assertion.assertTrue(driverThreadLocal.get().findElement(by).isEnabled());
+            LoggingManager.info("Element: " + by.toString().split(":",2)[1] + " is Enabled");
+
+        }
+        catch (AssertionError e){
+            LoggingManager.error("Element: " + by.toString().split(":",2)[1] + " is NOT Enabled");
+            throw e;
+        }
     }
 
     public void isDisabled(){
-        this.assertion.assertTrue(!driverThreadLocal.get().findElement(by).isEnabled());
+        try {
+            this.assertion.assertTrue(!driverThreadLocal.get().findElement(by).isEnabled());
+            LoggingManager.info("Element: " + by.toString().split(":",2)[1] + " is Disabled");
+
+        }
+        catch (AssertionError e){
+            LoggingManager.error("Element: " + by.toString().split(":",2)[1] + " is NOT Disabled");
+            throw e;
+        }
     }
 
     public void isSelected(){
-        this.assertion.assertTrue(driverThreadLocal.get().findElement(by).isSelected());
+        try {
+            this.assertion.assertTrue(driverThreadLocal.get().findElement(by).isSelected());
+            LoggingManager.info("Element: " + by.toString().split(":",2)[1] + " is Selected");
+
+        }
+        catch (AssertionError e){
+            LoggingManager.error("Element: " + by.toString().split(":",2)[1] + " is NOT Selected");
+            throw e;
+        }
     }
 
     public void isNotSelected(){
-        this.assertion.assertTrue(!driverThreadLocal.get().findElement(by).isSelected());
+        try {
+            this.assertion.assertTrue(!driverThreadLocal.get().findElement(by).isSelected());
+            LoggingManager.info("Element: " + by.toString().split(":",2)[1] + " is not Selected");
+
+        }
+        catch (AssertionError e){
+            LoggingManager.error("Element: " + by.toString().split(":",2)[1] + " is SELECTED");
+            throw e;
+        }
     }
 
     public void removeDriver(){
         driverThreadLocal.remove();
     }
 
+    public class Validations{
+
+        private Validations(){
+
+        }
+
+        public void contains(String expected){
+            try {
+                assertion.assertTrue(actual.contains(expected));
+                LoggingManager.info("Expected: " + expected + ", Actual: " + actual);
+
+            }
+            catch (AssertionError e){
+                LoggingManager.error("Expected: " + expected + ", but Actual: " + actual);
+                throw e;
+            }
+        }
+
+        public void doesNotContain(String expected){
+            try {
+                assertion.assertTrue(actual.contains(expected));
+                LoggingManager.info("Expected: " + expected + ", Actual: " + actual);
+            }
+            catch (AssertionError e){
+                LoggingManager.error("Expected: " + expected + ", but Actual: " + actual);
+                throw e;
+            }
+        }
+
+        public void isNotEqualTo(String expected){
+            try {
+                assertion.assertTrue(!actual.equalsIgnoreCase(expected));
+                LoggingManager.info("Expected: " + expected + ", Actual: " + actual);
+            }
+            catch (AssertionError e){
+                LoggingManager.error("Expected: " + expected + ", but Actual: " + actual);
+                throw e;
+            }
+        }
+
+        public void isEqualTo(String expected){
+            try {
+                assertion.assertTrue(actual.equalsIgnoreCase(expected));
+                LoggingManager.info("Expected: " + expected + ", Actual: " + actual);
+            }
+            catch (AssertionError e){
+                LoggingManager.error("Expected: " + expected + ", but Actual: " + actual);
+                throw e;
+            }
+        }
+
+    }
 
 }

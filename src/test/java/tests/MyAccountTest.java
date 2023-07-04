@@ -1,6 +1,6 @@
 package tests;
 
-import driverfactory.WebDriver;
+import driverfactory.webdriver.WebDriver;
 import org.testng.annotations.*;
 import pages.homepage.HomePage;
 import utilities.UserFormData;
@@ -8,7 +8,7 @@ import utilities.UserFormData;
 
 public class MyAccountTest{
 
-	public static ThreadLocal<driverfactory.WebDriver> driver;
+	public static ThreadLocal<WebDriver> driver;
 	UserFormData user = new UserFormData();
 
 	@BeforeClass(description = "Setup Driver")
