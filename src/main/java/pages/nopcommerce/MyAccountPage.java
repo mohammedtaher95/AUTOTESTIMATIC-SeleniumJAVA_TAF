@@ -1,10 +1,9 @@
-package pages;
+package pages.nopcommerce;
 
 import driverfactory.webdriver.WebDriver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
-import org.testng.Assert;
-import pages.homepage.HomePage;
+import pages.nopcommerce.homepage.HomePage;
 
 public class MyAccountPage{
 

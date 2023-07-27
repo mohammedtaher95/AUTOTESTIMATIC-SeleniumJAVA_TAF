@@ -44,9 +44,9 @@ public class WebDriver {
             gridInit();
         }
 
-        if (EnvType.valueOf(getPlatform().environmentType()) == EnvType.CLOUD) {
-            cloudInit();
-        }
+//        if (EnvType.valueOf(getPlatform().environmentType()) == EnvType.CLOUD) {
+//            cloudInit();
+//        }
 
         LoggingManager.info("CURRENT THREAD: " + Thread.currentThread().getId() + ", " + "DRIVER = " + getDriver());
     }
@@ -84,33 +84,33 @@ public class WebDriver {
         }
     }
 
-    private void cloudInit() {
-        // You can also set an environment variable - "BROWSERSTACK_ACCESS_KEY".
-        HashMap<String, String> bsLocalArgs = new HashMap<>();
-
-        bsLocalArgs.put("user",json.getData("user"));
-        bsLocalArgs.put("key", json.getData("key"));
-        bsLocalArgs.put("server", json.getData("server"));
-        bsLocalArgs.put("browserName", "chrome");
-        bsLocalArgs.put("os", "Windows");
-        bsLocalArgs.put("osVersion", "10");
-        bsLocalArgs.put("browserstack.local", "true");
-        // Starts the Local instance with the required arguments.
-        try {
-            bsLocal.start(bsLocalArgs);
-            LoggingManager.info("Start Running on BrowserStack Grid......");
-        } catch (Exception e) {
-            LoggingManager.error("Failed to Start BrowserStack Instance, " + e.getMessage());
-        }
-        // Checks if BrowserStack local instance is running.
-        try {
-            LoggingManager.info(bsLocal.isRunning());
-        } catch (Exception e) {
-            LoggingManager.error("BrowserStack Connection isn't started, " + e.getMessage());
-        }
-        // Your test code goes here, from creating the driver instance till the end, i.e. driver.quit.
-        // Stops the Local instance.
-    }
+//    private void cloudInit() {
+//        // You can also set an environment variable - "BROWSERSTACK_ACCESS_KEY".
+//        HashMap<String, String> bsLocalArgs = new HashMap<>();
+//
+//        bsLocalArgs.put("user",json.getData("user"));
+//        bsLocalArgs.put("key", json.getData("key"));
+//        bsLocalArgs.put("server", json.getData("server"));
+//        bsLocalArgs.put("browserName", "chrome");
+//        bsLocalArgs.put("os", "Windows");
+//        bsLocalArgs.put("osVersion", "10");
+//        bsLocalArgs.put("browserstack.local", "true");
+//        // Starts the Local instance with the required arguments.
+//        try {
+//            bsLocal.start(bsLocalArgs);
+//            LoggingManager.info("Start Running on BrowserStack Grid......");
+//        } catch (Exception e) {
+//            LoggingManager.error("Failed to Start BrowserStack Instance, " + e.getMessage());
+//        }
+//        // Checks if BrowserStack local instance is running.
+//        try {
+//            LoggingManager.info(bsLocal.isRunning());
+//        } catch (Exception e) {
+//            LoggingManager.error("BrowserStack Connection isn't started, " + e.getMessage());
+//        }
+//        // Your test code goes here, from creating the driver instance till the end, i.e. driver.quit.
+//        // Stops the Local instance.
+//    }
 
 
     private void setDriver(org.openqa.selenium.WebDriver driver) {

@@ -12,7 +12,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <selenium.version>4.9.1</selenium.version>
+        <selenium.version>4.10.0</selenium.version>
         <appium.version>8.5.1</appium.version>
         <cucumber.version>7.12.1</cucumber.version>
         <allure.version>2.21.0</allure.version>

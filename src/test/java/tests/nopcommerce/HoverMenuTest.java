@@ -1,10 +1,10 @@
-package tests;
+package tests.nopcommerce;
 
 import driverfactory.webdriver.WebDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import pages.homepage.HomePage;
+import pages.nopcommerce.homepage.HomePage;
 
 public class HoverMenuTest {
 

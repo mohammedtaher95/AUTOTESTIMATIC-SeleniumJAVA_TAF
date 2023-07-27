@@ -1,8 +1,8 @@
-package tests;
+package tests.nopcommerce;
 
 import driverfactory.webdriver.WebDriver;
 import org.testng.annotations.*;
-import pages.SearchPage;
+import pages.nopcommerce.SearchPage;
 import utilities.JSONFileHandler;
 
 public class SearchProductTest{

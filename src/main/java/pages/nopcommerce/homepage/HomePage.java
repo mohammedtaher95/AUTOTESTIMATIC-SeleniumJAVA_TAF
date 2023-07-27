@@ -1,12 +1,12 @@
-package pages.homepage;
+package pages.nopcommerce.homepage;
 
 import driverfactory.webdriver.WebDriver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
-import pages.ContactUsPage;
-import pages.LoginPage;
-import pages.MyAccountPage;
-import pages.registrationpage.UserRegistrationPage;
+import pages.nopcommerce.ContactUsPage;
+import pages.nopcommerce.LoginPage;
+import pages.nopcommerce.MyAccountPage;
+import pages.nopcommerce.registrationpage.UserRegistrationPage;
 
 
 public class HomePage{

@@ -1,9 +1,9 @@
-package tests;
+package tests.nopcommerce;
 
 import driverfactory.webdriver.WebDriver;
 import org.testng.annotations.*;
-import pages.SearchPage;
-import pages.homepage.HomePage;
+import pages.nopcommerce.SearchPage;
+import pages.nopcommerce.homepage.HomePage;
 
 public class ChangeCurrencyTest{
 

@@ -1,5 +1,6 @@
 package utilities;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.*;
 import org.apache.logging.log4j.jul.Log4jBridgeHandler;
 import org.apache.logging.log4j.core.config.Configurator;
@@ -7,7 +8,7 @@ import java.net.URI;
 
 public class LoggingManager {
 
-    private static final String FRAME = "\n********************************************************************************************************************************************\n";
+    private static final String FRAME = StringUtils.repeat("-", 140);
     private LoggingManager(){
 
     }
@@ -28,20 +29,20 @@ public class LoggingManager {
         }
         // Add Log4jBridgeHandler to the root logger
         Log4jBridgeHandler.install(true,null,true);
-        info(FRAME
-            +"                                                          SeleniumJava TAF v1.2.5                                            "
+        info("\n" + FRAME
+            +"\n                                                        SeleniumJava TAF v1.2.5                                           \n"
             + FRAME);
     }
 
     public static synchronized void startTestCase(String txt) {
-        info(FRAME
-                +"                                                  Starting Execution of: " + txt
+        info("\n" + FRAME
+                +"\n                                                Starting Execution of: " + txt + "\n"
                 + FRAME);
     }
 
     public static void endTestCase(String txt) {
-        info(FRAME
-                +"                                                   Execution Ended for: " + txt
+        info("\n" + FRAME
+                +"\n                                                 Execution Ended for: " + txt + "\n"
                 + FRAME);
     }
 

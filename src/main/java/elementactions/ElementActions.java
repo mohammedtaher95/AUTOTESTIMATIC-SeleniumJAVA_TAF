@@ -90,6 +90,26 @@ public class ElementActions {
         return text;
     }
 
+    public void acceptAlert(){
+        Alert alert = eActionsDriver.get().switchTo().alert();
+        alert.accept();
+    }
+
+    public void dismissAlert(){
+        Alert alert = eActionsDriver.get().switchTo().alert();
+        alert.dismiss();
+    }
+
+    public String getAlertText(){
+        Alert alert = eActionsDriver.get().switchTo().alert();
+        return alert.getText();
+    }
+
+    public void addTextForAlert(String text){
+        Alert alert = eActionsDriver.get().switchTo().alert();
+        alert.sendKeys(text);
+    }
+
     public ElementActions waitForVisibility(By by){
         LoggingManager.info("Wait for" + by.toString().split(":",2)[1] + " to be visible");
         driverWait.until(ExpectedConditions.visibilityOfElementLocated(by));

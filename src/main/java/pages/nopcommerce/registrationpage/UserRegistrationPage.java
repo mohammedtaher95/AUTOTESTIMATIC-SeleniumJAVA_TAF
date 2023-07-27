@@ -1,4 +1,4 @@
-package pages.registrationpage;
+package pages.nopcommerce.registrationpage;
 
 import driverfactory.webdriver.WebDriver;
 import io.qameta.allure.Step;

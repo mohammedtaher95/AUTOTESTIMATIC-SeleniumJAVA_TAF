@@ -1,9 +1,9 @@
-package tests;
+package tests.nopcommerce;
 
 import driverfactory.webdriver.WebDriver;
 import io.qameta.allure.*;
 import org.testng.annotations.*;
-import pages.homepage.HomePage;
+import pages.nopcommerce.homepage.HomePage;
 import utilities.UserFormData;
 
 public class TestClass{
