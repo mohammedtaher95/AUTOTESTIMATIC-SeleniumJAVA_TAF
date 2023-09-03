@@ -1,20 +1,24 @@
-package tests.nopcommerce;
+package tests.junitTests;
 
 import driverfactory.webdriver.WebDriver;
-import io.qameta.allure.*;
-import org.testng.annotations.*;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
+import io.qameta.allure.TmsLink;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import pages.nopcommerce.homepage.HomePage;
 import utilities.UserFormData;
 
-public class TestClass{
+public class JunitTestClass {
 
-    public ThreadLocal<WebDriver> driver;
+    public static ThreadLocal<WebDriver> driver;
     UserFormData newUser;
 
     @Issue(" ")
     @TmsLink("Nop Commerce_1-User Registration")
     @Description("User can access registration page and register successfully")
-    @Test(description = "User Register on website successfully")
+    @Test
     public void testMethod(){
         newUser = new UserFormData();
 
@@ -27,14 +31,14 @@ public class TestClass{
 
     }
 
-    @BeforeClass(description = "Setup Driver")
-    public void setUp(){
+    @BeforeClass
+    public static void setUp(){
         driver = new ThreadLocal<>();
         driver.set(new WebDriver());
     }
 
-    @AfterClass(description = "Tear down")
-    public void tearDown(){
+    @AfterClass
+    public static void tearDown(){
         driver.get().browser().deleteCookies();
         driver.get().quit();
         driver.remove();

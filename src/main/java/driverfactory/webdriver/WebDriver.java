@@ -6,6 +6,10 @@ import constants.DriverType;
 import constants.EnvType;
 import driverfactory.webdriver.localdriver.DriverFactory;
 import elementactions.ElementActions;
+import junit.framework.JUnit4TestAdapter;
+import org.junit.matchers.JUnitMatchers;
+import org.junit.runner.JUnitCore;
+import org.junit.runners.JUnit4;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -25,7 +29,8 @@ import static tools.properties.PropertiesHandler.*;
 public class WebDriver {
 
     private final ThreadLocal<org.openqa.selenium.WebDriver> driverThreadLocal = new ThreadLocal<>();
-    private final String browserName = Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName");
+    private final String browserName =
+            Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName");
 
     JSONFileHandler config = new JSONFileHandler("parallel.conf.json");
 

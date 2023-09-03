@@ -41,12 +41,13 @@ public class TestNGHelper {
         testSuite.setVerbose(getTestNG().verbose());
         testSuite.setThreadCount(getTestNG().threadCount());
         testSuite.setDataProviderThreadCount(getTestNG().dataProviderThreadCount());
+        testSuite.setParallel(XmlSuite.ParallelMode.valueOf(getTestNG().parallel()));
         testSuite.setName("WebDriver Suite");
         testSuite.setListeners(Collections.singletonList("tools.listeners.testng.TestNGListener"));
 
         try{
             if (CrossBrowserMode.valueOf(getPlatform().crossBrowserMode()) == CrossBrowserMode.OFF) {
-                testSuite.setParallel(XmlSuite.ParallelMode.valueOf(getTestNG().parallel()));
+                testSuite.setParallel(XmlSuite.ParallelMode.NONE);
                 initializeNormalExecution();
             } else {
                 initializeCrossBrowserSuite(testSuite);
@@ -54,7 +55,7 @@ public class TestNGHelper {
         }
         catch (IllegalArgumentException exception){
             LoggingManager.warn("Cross Browsing Mode Parameter is not specified, so Running on Normal Mode By default");
-            testSuite.setParallel(XmlSuite.ParallelMode.valueOf(getTestNG().parallel()));
+            testSuite.setParallel(XmlSuite.ParallelMode.NONE);
             initializeNormalExecution();
         }
 
@@ -89,6 +90,8 @@ public class TestNGHelper {
 
         }
 
+        testSuite.setThreadCount(2);
+
         XmlTest chromeTest = test;
         chromeTest.setName("Chrome Test");
         chromeTest.addParameter(browserName, "chrome");
@@ -120,7 +123,6 @@ public class TestNGHelper {
         XmlTest singleTest = test;
         singleTest.setName("Test");
         singleTest.addParameter(browserName, getCapabilities().targetBrowserName());
-        //singleTest.addParameter("config", "parallel.conf.json");
         singleTest.setThreadCount(1);
         singleTest.setParallel(XmlSuite.ParallelMode.NONE);
         singleTest.setXmlClasses(test.getXmlClasses());
