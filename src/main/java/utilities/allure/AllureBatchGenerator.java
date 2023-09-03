@@ -15,7 +15,8 @@ public class AllureBatchGenerator {
         if(!Files.exists(file)){
             try {
                 Files.writeString(file,"@echo off\n", StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-                Files.writeString(file,"allure serve target/allure-results\n", StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+                Files.writeString(file,"allure serve target/allure-results\n", StandardOpenOption.CREATE,
+                        StandardOpenOption.APPEND);
                 Files.writeString(file,"pause\n", StandardOpenOption.CREATE, StandardOpenOption.APPEND);
                 Files.writeString(file,"exit", StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             } catch (IOException e) {

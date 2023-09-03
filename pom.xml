@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
 
+    <modelVersion>4.0.0</modelVersion>
     <groupId>org.example</groupId>
     <artifactId>SeleniumJAVA_TAF</artifactId>
     <version>1.2.5</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <selenium.version>4.10.0</selenium.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <surefire.plugin.version>3.0.0-M5</surefire.plugin.version>
+        <selenium.version>4.11.0</selenium.version>
         <appium.version>8.5.1</appium.version>
         <cucumber.version>7.12.1</cucumber.version>
         <allure.version>2.21.0</allure.version>
@@ -26,10 +26,12 @@
     <packaging>jar</packaging>
 
     <name>Selenium JAVA Test Automation Framework</name>
+
     <description>An open-source Test automation Framework that allows you to perform multiple actions
         to test a web application's functionality, behaviour, which provides easy to use syntax,
         and easy to set up environment according to the needed requirements for testing
     </description>
+
     <url>http://github.com/mohammedtaher95/SeleniumJAVA_TAF</url>
 
     <licenses>
@@ -37,20 +39,36 @@
             <name>MIT License</name>
             <url>http://www.opensource.org/licenses/mit-license.php</url>
         </license>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
     </licenses>
 
-<!--    <distributionManagement>-->
-<!--        <repository>-->
-<!--            <id>central</id>-->
-<!--            <name>a0zxdmc0sgv6v-artifactory-primary-0-releases</name>-->
-<!--            <url>https://mta.jfrog.io/artifactory/selenium</url>-->
-<!--        </repository>-->
-<!--        <snapshotRepository>-->
-<!--            <id>snapshots</id>-->
-<!--            <name>a0zxdmc0sgv6v-artifactory-primary-0-snapshots</name>-->
-<!--            <url>https://mta.jfrog.io/artifactory/selenium</url>-->
-<!--        </snapshotRepository>-->
-<!--    </distributionManagement>-->
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+
+    </distributionManagement>
+    <!--    <distributionManagement>-->
+    <!--        <repository>-->
+    <!--            <id>central</id>-->
+    <!--            <name>a0zxdmc0sgv6v-artifactory-primary-0-releases</name>-->
+    <!--            <url>https://mta.jfrog.io/artifactory/selenium</url>-->
+    <!--        </repository>-->
+    <!--        <snapshotRepository>-->
+    <!--            <id>snapshots</id>-->
+    <!--            <name>a0zxdmc0sgv6v-artifactory-primary-0-snapshots</name>-->
+    <!--            <url>https://mta.jfrog.io/artifactory/selenium</url>-->
+    <!--        </snapshotRepository>-->
+    <!--    </distributionManagement>-->
 
     <scm>
         <connection>scm:git:git://github.com/mohammedtaher95/SeleniumJAVA_TAF.git</connection>
@@ -67,19 +85,21 @@
         </developer>
     </developers>
 
-
     <dependencies>
+
         <!-- Selenium dependencies  -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>${selenium.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-manager</artifactId>
             <version>${selenium.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-http-jdk-client</artifactId>
@@ -87,45 +107,61 @@
         </dependency>
 
         <!-- TestNG dependencies -->
+
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>7.8.0</version>
         </dependency>
 
+        <!-- Junit dependencies -->
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+        </dependency>
+
         <!-- Cucumber dependencies-->
+
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
             <version>${cucumber.version}</version>
         </dependency>
+
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-core</artifactId>
             <version>${cucumber.version}</version>
         </dependency>
+
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>gherkin</artifactId>
             <version>26.0.1</version>
         </dependency>
+
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-jvm</artifactId>
             <version>${cucumber.version}</version>
             <type>pom</type>
         </dependency>
+
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-picocontainer</artifactId>
             <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-testng</artifactId>
             <version>${cucumber.version}</version>
         </dependency>
+
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
@@ -134,21 +170,25 @@
         </dependency>
 
         <!-- Allure dependencies  -->
+
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-java-commons</artifactId>
             <version>${allure.version}</version>
         </dependency>
+
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-attachments</artifactId>
             <version>${allure.version}</version>
         </dependency>
+
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-testng</artifactId>
             <version>${allure.version}</version>
         </dependency>
+
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-cucumber7-jvm</artifactId>
@@ -156,11 +196,13 @@
         </dependency>
 
         <!-- RestAssured dependencies -->
+
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
             <version>5.3.1</version>
         </dependency>
+
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>json-path</artifactId>
@@ -168,6 +210,7 @@
         </dependency>
 
         <!-- Appium dependencies -->
+
         <dependency>
             <groupId>io.appium</groupId>
             <artifactId>java-client</artifactId>
@@ -175,25 +218,31 @@
         </dependency>
 
         <!-- BrowserStack dependencies -->
+
         <dependency>
             <groupId>com.browserstack</groupId>
             <artifactId>browserstack-local-java</artifactId>
             <version>1.0.6</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.browserstack</groupId>
+            <artifactId>automate-client-java</artifactId>
+            <version>0.12</version>
+        </dependency>
 
         <!--  Java Mail Dependencies  -->
+
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>javax.mail</artifactId>
             <version>1.6.2</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-email</artifactId>
             <version>1.5</version>
         </dependency>
-
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -201,22 +250,26 @@
             <version>1.18.26</version>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
             <version>${aspectj.version}</version>
             <scope>runtime</scope>
         </dependency>
+
         <dependency>
             <groupId>com.aventstack</groupId>
             <artifactId>extentreports</artifactId>
             <version>5.0.9</version>
         </dependency>
+
         <dependency>
             <groupId>com.github.javafaker</groupId>
             <artifactId>javafaker</artifactId>
             <version>1.0.2</version>
         </dependency>
+
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
@@ -224,21 +277,25 @@
         </dependency>
 
         <!-- Log4j dependencies -->
+
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
             <version>${log4j.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
             <version>${log4j.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
             <version>${log4j.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-jul</artifactId>
@@ -250,17 +307,20 @@
             <artifactId>reflections</artifactId>
             <version>0.10.2</version>
         </dependency>
+
         <dependency>
             <groupId>org.aeonbits.owner</groupId>
             <artifactId>owner</artifactId>
             <version>1.0.12</version>
         </dependency>
+
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>24.0.1</version>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>org.sonarsource.scanner.maven</groupId>
             <artifactId>sonar-maven-plugin</artifactId>
@@ -269,14 +329,17 @@
     </dependencies>
 
     <build>
-        <pluginManagement> <!-- lock down plugins versions to avoid using Maven defaults (maybe moved to parent pom) -->
+        <pluginManagement>
+            <!-- lock down plugins versions to avoid using Maven defaults (maybe moved to parent pom) -->
             <plugins>
                 <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
                 <plugin>
                     <artifactId>maven-clean-plugin</artifactId>
                     <version>3.2.0</version>
                 </plugin>
+
                 <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
+
                 <plugin>
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>3.3.1</version>
@@ -293,7 +356,9 @@
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>3.1.1</version>
                 </plugin>
+
                 <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
+
                 <plugin>
                     <artifactId>maven-site-plugin</artifactId>
                     <version>4.0.0-M6</version>
@@ -307,39 +372,64 @@
                     <artifactId>allure-maven</artifactId>
                     <version>2.12.0</version>
                 </plugin>
-<!--                <plugin>-->
-<!--                    <groupId>org.jfrog.buildinfo</groupId>-->
-<!--                    <artifactId>artifactory-maven-plugin</artifactId>-->
-<!--                    <version>3.6.1</version>-->
-<!--                    <inherited>false</inherited>-->
-<!--                    <executions>-->
-<!--                        <execution>-->
-<!--                            <id>build-info</id>-->
-<!--                            <goals>-->
-<!--                                <goal>publish</goal>-->
-<!--                            </goals>-->
-<!--                            <configuration>-->
-<!--                                <publisher>-->
-<!--                                    <contextURL>https://mta.jfrog.io/artifactory/</contextURL>-->
-<!--                                    <username>mohammedtaher10295@gmail.com</username>-->
-<!--                                    <password>cmVmdGtuOjAxOjE3MTc0NDMxNjY6NmtzREJkcEp4S3U2Y0ZXUFV2MU5Qb1M4Uk1C-->
-<!--                                    </password>-->
-<!--                                </publisher>-->
-<!--                            </configuration>-->
-<!--                        </execution>-->
-<!--                    </executions>-->
-<!--                </plugin>-->
+                <!--                <plugin>-->
+                <!--                    <groupId>org.jfrog.buildinfo</groupId>-->
+                <!--                    <artifactId>artifactory-maven-plugin</artifactId>-->
+                <!--                    <version>3.6.1</version>-->
+                <!--                    <inherited>false</inherited>-->
+                <!--                    <executions>-->
+                <!--                        <execution>-->
+                <!--                            <id>build-info</id>-->
+                <!--                            <goals>-->
+                <!--                                <goal>publish</goal>-->
+                <!--                            </goals>-->
+                <!--                            <configuration>-->
+                <!--                                <publisher>-->
+                <!--                                    <contextURL>https://mta.jfrog.io/artifactory/</contextURL>-->
+                <!--                                    <username>mohammedtaher10295@gmail.com</username>-->
+                <!--                                    <password>cmVmdGtuOjAxOjE3MTc0NDMxNjY6NmtzREJkcEp4S3U2Y0ZXUFV2MU5Qb1M4Uk1C-->
+                <!--                                    </password>-->
+                <!--                                </publisher>-->
+                <!--                            </configuration>-->
+                <!--                        </execution>-->
+                <!--                    </executions>-->
+                <!--                </plugin>-->
             </plugins>
-
         </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
+                    <source>14</source>
+                    <target>14</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -361,7 +451,6 @@
                 <version>3.1.2</version>
                 <configuration>
                     <testFailureIgnore>true</testFailureIgnore>
-                    <!--                    <forkMode>never</forkMode>-->
                     <failIfNoSpecifiedTests>false</failIfNoSpecifiedTests>
                     <failIfNoTests>false</failIfNoTests>
                     <useUnlimitedThreads>true</useUnlimitedThreads>
@@ -369,11 +458,12 @@
                     <properties>
                         <property>
                             <name>usedefaultlisteners</name>
-                            <value>false</value> <!-- disabling default listeners is optional -->
+                            <value>false</value>
+                            <!-- disabling default listeners is optional -->
                         </property>
                         <property>
                             <name>listener</name>
-                            <value>tools.listeners.TestNGListener</value>
+                            <value>tools.listeners.testng.TestNGListener</value>
                         </property>
                     </properties>
                     <!--                    <parallel>instances</parallel>-->
@@ -432,7 +522,37 @@
             <url>https://repo.clojars.org/</url>
         </repository>
     </repositories>
-
+    <profiles>
+<!--        <profile>-->
+<!--            <id>ci-cd</id>-->
+<!--            <build>-->
+<!--                <plugins>-->
+<!--                    <plugin>-->
+<!--                        <groupId>org.apache.maven.plugins</groupId>-->
+<!--                        <artifactId>maven-gpg-plugin</artifactId>-->
+<!--                        <version>1.6</version>-->
+<!--                        <executions>-->
+<!--                            <execution>-->
+<!--                                <id>sign-artifacts</id>-->
+<!--                                <phase>verify</phase>-->
+<!--                                <goals>-->
+<!--                                    <goal>sign</goal>-->
+<!--                                </goals>-->
+<!--                                <configuration>-->
+<!--                                    &lt;!&ndash; Prevent gpg from using pinentry programs. Fixes: gpg: signing-->
+<!--                                        failed: Inappropriate ioctl for device &ndash;&gt;-->
+<!--                                    <gpgArguments>-->
+<!--                                        <arg>&#45;&#45;pinentry-mode</arg>-->
+<!--                                        <arg>loopback</arg>-->
+<!--                                    </gpgArguments>-->
+<!--                                </configuration>-->
+<!--                            </execution>-->
+<!--                        </executions>-->
+<!--                    </plugin>-->
+<!--                </plugins>-->
+<!--            </build>-->
+<!--        </profile>-->
+    </profiles>
     <pluginRepositories>
         <pluginRepository>
             <id>Maven-Artifactory-Plugin</id>

@@ -1,4 +1,4 @@
-package tools.listeners.helpers;
+package tools.listeners.testng.helpers;
 
 import constants.CrossBrowserMode;
 import driverfactory.webdriver.WebDriver;
@@ -42,14 +42,22 @@ public class TestNGHelper {
         testSuite.setThreadCount(getTestNG().threadCount());
         testSuite.setDataProviderThreadCount(getTestNG().dataProviderThreadCount());
         testSuite.setName("WebDriver Suite");
-        testSuite.setListeners(Collections.singletonList("tools.listeners.TestNGListener"));
+        testSuite.setListeners(Collections.singletonList("tools.listeners.testng.TestNGListener"));
 
-        if (CrossBrowserMode.valueOf(getPlatform().crossBrowserMode()) == CrossBrowserMode.OFF) {
+        try{
+            if (CrossBrowserMode.valueOf(getPlatform().crossBrowserMode()) == CrossBrowserMode.OFF) {
+                testSuite.setParallel(XmlSuite.ParallelMode.valueOf(getTestNG().parallel()));
+                initializeNormalExecution();
+            } else {
+                initializeCrossBrowserSuite(testSuite);
+            }
+        }
+        catch (IllegalArgumentException exception){
+            LoggingManager.warn("Cross Browsing Mode Parameter is not specified, so Running on Normal Mode By default");
             testSuite.setParallel(XmlSuite.ParallelMode.valueOf(getTestNG().parallel()));
             initializeNormalExecution();
-        } else {
-            initializeCrossBrowserSuite(testSuite);
         }
+
 
         Path destination = Paths.get(".", "TestNG.xml");
         File newFile = new File("TestNG.xml");

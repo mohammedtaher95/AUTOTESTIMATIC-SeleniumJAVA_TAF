@@ -107,6 +107,7 @@ public class PropertiesHandler {
                 printFooter(log4jFile);
                 outputStream.close();
             }
+            LoggingManager.info("Properties Files are generated with default settings");
         }
         catch (IOException e){
             LoggingManager.error("Unable to create Properties files");

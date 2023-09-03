@@ -25,7 +25,7 @@ which provides easy to use syntax, and easy to setup environment according to th
 ### Step 1: Setup Project
 - Create a new Java/Maven project using Eclipse, IntelliJ or your favourite IDE
 - Copy the highlighted contents of this [pom.xml](https://github.com/mohammedtaher95/testJARProject/blob/9905f207dfa95ce1d44b92cc574ead9852064d10/pom.xml#L15-L126) into yours inside `<project>` tag
-- Click on Run dropdown menu and then select Edit Configuration, then Add `tools.listeners.TestNGListener` to TestNG Configuration
+- Click on Run dropdown menu and then select Edit Configuration, then Add `tools.listeners.testng.TestNGListener` to TestNG Configuration
 
 
 ### Step 2: Create a new Test Class
