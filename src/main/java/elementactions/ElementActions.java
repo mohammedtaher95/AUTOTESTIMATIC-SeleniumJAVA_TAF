@@ -106,7 +106,7 @@ public class ElementActions {
         return this;
     }
 
-    public String getElementText(By by){
+    public String getText(By by){
         waitForVisibility(by);
         String text =  eActionsDriver.get().findElement(by).getText();
         LoggingManager.info("Getting" + text + " from element: " + by.toString().split(":",2)[1]);
