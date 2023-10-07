@@ -7,9 +7,13 @@ import io.qameta.allure.TmsLink;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import pages.nopcommerce.homepage.HomePage;
+import tools.listeners.junit.JunitListener;
+import tools.listeners.junit.helpers.JunitHelper;
 import utilities.UserFormData;
 
+//@RunWith(JunitHelper.class)
 public class JunitTestClass {
 
     public static ThreadLocal<WebDriver> driver;

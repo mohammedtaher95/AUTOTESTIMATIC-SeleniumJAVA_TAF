@@ -2,14 +2,11 @@ package driverfactory.webdriver;
 
 import assertions.Assertions;
 import browseractions.BrowserActions;
+import constants.CrossBrowserMode;
 import constants.DriverType;
 import constants.EnvType;
 import driverfactory.webdriver.localdriver.DriverFactory;
-import elementactions.ElementActions;
-import junit.framework.JUnit4TestAdapter;
-import org.junit.matchers.JUnitMatchers;
-import org.junit.runner.JUnitCore;
-import org.junit.runners.JUnit4;
+import elementactions.*;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -18,19 +15,19 @@ import org.openqa.selenium.support.ThreadGuard;
 import org.testng.Reporter;
 import utilities.JSONFileHandler;
 import utilities.LoggingManager;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.HashMap;
 
-
-import static tools.properties.PropertiesHandler.*;
+import static tools.properties.PropertiesHandler.getCapabilities;
+import static tools.properties.PropertiesHandler.getPlatform;
 
 public class WebDriver {
 
     private final ThreadLocal<org.openqa.selenium.WebDriver> driverThreadLocal = new ThreadLocal<>();
-    private final String browserName =
-            Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName");
+    private String browserName = getCapabilities().targetBrowserName();
 
     JSONFileHandler config = new JSONFileHandler("parallel.conf.json");
 
@@ -66,6 +63,9 @@ public class WebDriver {
 
 
     private void localDriverInit() {
+        if (CrossBrowserMode.valueOf(getPlatform().crossBrowserMode()) != CrossBrowserMode.OFF){
+            browserName = Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName");
+        }
         String baseURL = getCapabilities().baseURL();
         LoggingManager.info("Starting " + browserName + " Driver Locally in " + getCapabilities().executionMethod() + " mode");
         org.openqa.selenium.WebDriver driver = DriverFactory.getDriverFactory(DriverType.valueOf(browserName.toUpperCase())).getDriver();
@@ -80,6 +80,9 @@ public class WebDriver {
     }
 
     private void gridInit() {
+        if (CrossBrowserMode.valueOf(getPlatform().crossBrowserMode()) != CrossBrowserMode.OFF){
+            browserName = Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName");
+        }
         String baseURL = getCapabilities().baseURL();
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setBrowserName(browserName);

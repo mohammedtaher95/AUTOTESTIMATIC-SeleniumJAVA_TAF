@@ -3,6 +3,7 @@ package tools.listeners.junit;
 import driverfactory.webdriver.WebDriver;
 import io.qameta.allure.Allure;
 import org.apache.commons.io.FileUtils;
+import org.junit.platform.launcher.LauncherSessionListener;
 import org.junit.runner.Description;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
@@ -12,6 +13,8 @@ import tools.listeners.junit.helpers.JunitHelper;
 
 import utilities.LoggingManager;
 import utilities.ScreenshotHelper;
+import utilities.allure.AllureBatchGenerator;
+import utilities.allure.AllureReportHelper;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,9 +28,12 @@ public class JunitListener extends RunListener {
 
     @Override
     public void testRunStarted(Description description) throws Exception {
-        Allure.getLifecycle();
         LoggingManager.startLog();
         initializeProperties();
+        AllureBatchGenerator.generateBatFile();
+        if (getReporting().cleanAllureReport()) {
+            AllureReportHelper.cleanAllureReport();
+        }
     }
 
     /**
@@ -36,6 +42,7 @@ public class JunitListener extends RunListener {
      *
      * @param result the summary of the test run, including all the tests that failed
      */
+
     @Override
     public void testRunFinished(Result result) throws Exception {
 

@@ -20,7 +20,7 @@ public class ElementActions {
 
     public ElementActions(WebDriver driver){
         eActionsDriver.set(driver);
-        driverWait = new FluentWait<>(eActionsDriver.get()).withTimeout(Duration.ofSeconds(5))
+        driverWait = new FluentWait<>(eActionsDriver.get()).withTimeout(Duration.ofSeconds(20))
                 .pollingEvery(Duration.ofMillis(500))
                 .ignoring(NoSuchElementException.class)
                 .ignoring(StaleElementReferenceException.class);
@@ -30,7 +30,17 @@ public class ElementActions {
 
     public ElementActions click(By btn){
         LoggingManager.info("Click on" + btn.toString().split(":",2)[1] + " button");
-        eActionsDriver.get().findElement(btn).click();
+        try{
+            eActionsDriver.get().findElement(btn).click();
+        }
+        catch (ElementClickInterceptedException exception) {
+            scrollToElement(btn);
+            clickUsingJavaScript(btn);
+        }
+        catch (NoSuchElementException exception) {
+            LoggingManager.info("Element " + btn.toString().split(":",2)[1] + " isn't clickable");
+            clickUsingJavaScript(btn);
+        }
         return this;
     }
 
@@ -46,15 +56,24 @@ public class ElementActions {
         return this;
     }
 
-    public void fillField(By field, String value){
+    public ElementActions scrollToElement(By element) {
+        LoggingManager.info("Scrolling to " + element.toString().split(":",2)[1]);
+        jSE.executeScript("arguments[0].scrollIntoView(true);", eActionsDriver.get().findElement(element));
+        return this;
+    }
+
+    public ElementActions fillField(By field, String value){
         clearField(field);
         LoggingManager.info("Fill" + field.toString().split(":",2)[1] + " field with: " + value);
         eActionsDriver.get().findElement(field).sendKeys(value);
+        return this;
     }
 
-    public void clearField(By field){
+    public ElementActions clearField(By field){
+        waitForElementToBeClickable(field);
         LoggingManager.info("Clear" + field.toString().split(":",2)[1]);
         eActionsDriver.get().findElement(field).clear();
+        return this;
     }
 
     public boolean isDisplayed(By by){
@@ -72,42 +91,53 @@ public class ElementActions {
         return eActionsDriver.get().findElement(by).isSelected();
     }
 
-    public void selectItemByIndex(By by, int index)
+    public ElementActions selectItemByIndex(By by, int index)
     {
         LoggingManager.info("Select item no." + index + " from dropdown: " + by.toString().split(":",2)[1]);
         new Select(eActionsDriver.get().findElement(by)).selectByIndex(index);
+        return this;
     }
 
-    public void selectItemByText(By by, String text)
+    public ElementActions selectItemByText(By by, String text)
     {
         LoggingManager.info("Select" + text + " from dropdown: " + by.toString().split(":",2)[1]);
+        waitForElementToBeClickable(by);
         new Select(eActionsDriver.get().findElement(by)).selectByVisibleText(text);
+        return this;
     }
 
     public String getElementText(By by){
+        waitForVisibility(by);
         String text =  eActionsDriver.get().findElement(by).getText();
         LoggingManager.info("Getting" + text + " from element: " + by.toString().split(":",2)[1]);
         return text;
     }
 
-    public void acceptAlert(){
+    public ElementActions acceptAlert(){
         Alert alert = eActionsDriver.get().switchTo().alert();
         alert.accept();
+        LoggingManager.info("Alert Accepted");
+        return this;
     }
 
-    public void dismissAlert(){
+    public ElementActions dismissAlert(){
         Alert alert = eActionsDriver.get().switchTo().alert();
         alert.dismiss();
+        LoggingManager.info("Alert Dismissed");
+        return this;
     }
 
     public String getAlertText(){
         Alert alert = eActionsDriver.get().switchTo().alert();
+        LoggingManager.info("Getting Alert Text");
         return alert.getText();
     }
 
-    public void addTextForAlert(String text){
+    public ElementActions addTextForAlert(String text){
         Alert alert = eActionsDriver.get().switchTo().alert();
+        LoggingManager.info("Adding Text: " + text + " to Alert");
         alert.sendKeys(text);
+        return this;
     }
 
     public ElementActions waitForVisibility(By by){
@@ -122,11 +152,11 @@ public class ElementActions {
         return this;
     }
 
-    public boolean waitForElementToBeClickable(By by)
+    public ElementActions waitForElementToBeClickable(By by)
     {
-        waitForVisibility(by);
         LoggingManager.info("Wait for" + by.toString().split(":",2)[1] + " to be clickable");
-        return eActionsDriver.get().findElement(by).isEnabled();
+        driverWait.until(ExpectedConditions.elementToBeClickable(by));
+        return this;
     }
 
 
