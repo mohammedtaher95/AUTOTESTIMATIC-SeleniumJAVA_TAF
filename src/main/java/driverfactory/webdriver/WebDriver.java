@@ -7,6 +7,7 @@ import constants.EnvType;
 import driverfactory.webdriver.localdriver.DriverFactory;
 import elementactions.*;
 import org.openqa.selenium.MutableCapabilities;
+import org.openqa.selenium.Proxy;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -91,7 +92,10 @@ public class WebDriver {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setBrowserName(browserName);
         if(!getPlatform().proxySettings().isEmpty()){
-            capabilities.setCapability(CapabilityType.PROXY, getPlatform().proxySettings());
+            Proxy proxy = new Proxy();
+            proxy.setHttpProxy(getPlatform().proxySettings());
+            proxy.setSslProxy(getPlatform().proxySettings());
+            capabilities.setCapability(CapabilityType.PROXY, proxy);
         }
         LoggingManager.info("Starting Selenium Grid on: " + getPlatform().remoteURL());
         try {
