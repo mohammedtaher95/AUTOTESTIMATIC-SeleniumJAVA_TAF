@@ -2,16 +2,18 @@ package driverfactory.webdriver;
 
 import assertions.Assertions;
 import browseractions.BrowserActions;
-import constants.CrossBrowserMode;
 import constants.DriverType;
 import constants.EnvType;
 import driverfactory.webdriver.localdriver.DriverFactory;
 import elementactions.*;
 import org.openqa.selenium.MutableCapabilities;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.support.ThreadGuard;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.testng.Reporter;
 import utilities.JSONFileHandler;
 import utilities.LoggingManager;
@@ -20,14 +22,17 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
-import static tools.properties.PropertiesHandler.getCapabilities;
-import static tools.properties.PropertiesHandler.getPlatform;
+import static tools.properties.PropertiesHandler.*;
 
 public class WebDriver {
 
     private final ThreadLocal<org.openqa.selenium.WebDriver> driverThreadLocal = new ThreadLocal<>();
-    private String browserName = getCapabilities().targetBrowserName();
+    private String browserName =
+            Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName");
+
+    private final FluentWait<org.openqa.selenium.WebDriver> driverWait;
 
     JSONFileHandler config = new JSONFileHandler("parallel.conf.json");
 
@@ -37,6 +42,11 @@ public class WebDriver {
         if (driverThreadLocal.get() == null) {
             createWebDriver();
         }
+        driverWait = new FluentWait<>(driverThreadLocal.get())
+                .withTimeout(Duration.ofSeconds(getTimeouts().elementIdentificationTimeout()))
+                .pollingEvery(Duration.ofMillis(500))
+                .ignoring(NoSuchElementException.class)
+                .ignoring(StaleElementReferenceException.class);
     }
 
     private void createWebDriver() {
@@ -63,9 +73,6 @@ public class WebDriver {
 
 
     private void localDriverInit() {
-        if (CrossBrowserMode.valueOf(getPlatform().crossBrowserMode()) != CrossBrowserMode.OFF){
-            browserName = Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName");
-        }
         String baseURL = getCapabilities().baseURL();
         LoggingManager.info("Starting " + browserName + " Driver Locally in " + getCapabilities().executionMethod() + " mode");
         org.openqa.selenium.WebDriver driver = DriverFactory.getDriverFactory(DriverType.valueOf(browserName.toUpperCase())).getDriver();
@@ -80,12 +87,12 @@ public class WebDriver {
     }
 
     private void gridInit() {
-        if (CrossBrowserMode.valueOf(getPlatform().crossBrowserMode()) != CrossBrowserMode.OFF){
-            browserName = Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName");
-        }
         String baseURL = getCapabilities().baseURL();
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setBrowserName(browserName);
+        if(!getPlatform().proxySettings().isEmpty()){
+            capabilities.setCapability(CapabilityType.PROXY, getPlatform().proxySettings());
+        }
         LoggingManager.info("Starting Selenium Grid on: " + getPlatform().remoteURL());
         try {
             RemoteWebDriver driver = new RemoteWebDriver(new URL(getPlatform().remoteURL()), capabilities);
@@ -176,7 +183,7 @@ public class WebDriver {
     }
 
     public ElementActions element() {
-        return new ElementActions(getDriver());
+        return new ElementActions(getDriver(), driverWait);
     }
 
     public BrowserActions browser() {
@@ -184,7 +191,7 @@ public class WebDriver {
     }
 
     public Assertions assertThat() {
-        return new Assertions(getDriver());
+        return new Assertions(getDriver(), driverWait);
     }
 
 }

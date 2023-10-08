@@ -18,12 +18,9 @@ public class ElementActions {
     final JavascriptExecutor jSE;
     Actions action;
 
-    public ElementActions(WebDriver driver){
+    public ElementActions(WebDriver driver, FluentWait<WebDriver> wait){
         eActionsDriver.set(driver);
-        driverWait = new FluentWait<>(eActionsDriver.get()).withTimeout(Duration.ofSeconds(20))
-                .pollingEvery(Duration.ofMillis(500))
-                .ignoring(NoSuchElementException.class)
-                .ignoring(StaleElementReferenceException.class);
+        this.driverWait = wait;
         action = new Actions(eActionsDriver.get());
         jSE = (JavascriptExecutor) eActionsDriver.get();
     }

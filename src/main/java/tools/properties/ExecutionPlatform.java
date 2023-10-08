@@ -21,8 +21,9 @@ public interface ExecutionPlatform extends Config, Accessible {
     @DefaultValue("")
     String remoteURL();
 
-    @Key("RUN_ALL_TESTS")
-    @DefaultValue("false")
-    boolean runAllTests();
+    @Key("PROXY_SETTINGS")
+    @DefaultValue("")
+    String proxySettings();
+
 
 }

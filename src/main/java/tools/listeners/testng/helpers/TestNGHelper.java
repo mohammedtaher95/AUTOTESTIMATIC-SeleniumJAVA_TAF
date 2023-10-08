@@ -4,6 +4,7 @@ import constants.CrossBrowserMode;
 import driverfactory.webdriver.WebDriver;
 import org.apache.commons.io.FileUtils;
 import org.testng.ITestResult;
+import org.testng.Reporter;
 import org.testng.xml.XmlClass;
 import org.testng.xml.XmlSuite;
 import org.testng.xml.XmlTest;
@@ -33,47 +34,40 @@ public class TestNGHelper {
     }
 
     public static XmlSuite suiteGenerator(XmlSuite testSuite) {
-        LoggingManager.info("Generating TestNG Suite.....");
+
         test = testSuite.getTests().get(0);
 
-        testSuite.setPreserveOrder(getTestNG().preserveOrder());
-        testSuite.setGroupByInstances(getTestNG().groupByInstances());
-        testSuite.setVerbose(getTestNG().verbose());
-        testSuite.setThreadCount(getTestNG().threadCount());
-        testSuite.setDataProviderThreadCount(getTestNG().dataProviderThreadCount());
-        testSuite.setParallel(XmlSuite.ParallelMode.valueOf(getTestNG().parallel()));
-        testSuite.setName("WebDriver Suite");
-        testSuite.setListeners(Collections.singletonList("tools.listeners.testng.TestNGListener"));
+        if (test.getParameter("browserName") != null) {
+            LoggingManager.info("Running from Existing XML File");
+            testSuite.setListeners(Collections.singletonList("tools.listeners.testng.TestNGListener"));
+        }
+        else {
+            LoggingManager.info("Generating TestNG Suite.....");
+            testSuite.setPreserveOrder(getTestNG().preserveOrder());
+            testSuite.setGroupByInstances(getTestNG().groupByInstances());
+            testSuite.setVerbose(getTestNG().verbose());
+            testSuite.setThreadCount(getTestNG().threadCount());
+            testSuite.setDataProviderThreadCount(getTestNG().dataProviderThreadCount());
+            testSuite.setParallel(XmlSuite.ParallelMode.valueOf(getTestNG().parallel()));
+            testSuite.setName("WebDriver Suite");
+            testSuite.setListeners(Collections.singletonList("tools.listeners.testng.TestNGListener"));
 
-        try{
-            if (CrossBrowserMode.valueOf(getPlatform().crossBrowserMode()) == CrossBrowserMode.OFF) {
+            try{
+                if (CrossBrowserMode.valueOf(getPlatform().crossBrowserMode()) == CrossBrowserMode.OFF) {
+                    testSuite.setParallel(XmlSuite.ParallelMode.NONE);
+                    initializeNormalExecution();
+                } else {
+                    initializeCrossBrowserSuite(testSuite);
+                }
+            }
+            catch (IllegalArgumentException exception){
+                LoggingManager.warn("Cross Browsing Mode Parameter is not specified, so Running on Normal Mode By default");
                 testSuite.setParallel(XmlSuite.ParallelMode.NONE);
                 initializeNormalExecution();
-            } else {
-                initializeCrossBrowserSuite(testSuite);
             }
-        }
-        catch (IllegalArgumentException exception){
-            LoggingManager.warn("Cross Browsing Mode Parameter is not specified, so Running on Normal Mode By default");
-            testSuite.setParallel(XmlSuite.ParallelMode.NONE);
-            initializeNormalExecution();
-        }
-
-
-        Path destination = Paths.get(".", "TestNG.xml");
-        File newFile = new File("TestNG.xml");
-
-        try {
-            if (newFile.exists()) {
-                Files.delete(destination);
-            } else {
-                FileUtils.forceMkdir(newFile);
-            }
-            Files.writeString(destination, testSuite.toXml());
             LoggingManager.info("TestNG Suite Generated successfully");
-        } catch (IOException e) {
-            LoggingManager.error("Unable to generate TestNG.xml file, " + e.getMessage());
         }
+
         return testSuite;
     }
 
@@ -106,15 +100,15 @@ public class TestNGHelper {
         firefoxTest.addParameter(browserName, "firefox");
         firefoxTest.setXmlClasses(test.getXmlClasses());
 
-        if (getPlatform().runAllTests()) {
-            List<XmlClass> classes = new ArrayList<>();
-            Set<Class<?>> newSet = Classloader.findAllClasses("tests");
-            for (Class<?> aClass : newSet) {
-                classes.add(new XmlClass(String.valueOf(aClass).replaceFirst("class ", "")));
-            }
-            chromeTest.setXmlClasses(classes);
-            firefoxTest.setXmlClasses(classes);
-        }
+//        if (getPlatform().runAllTests()) {
+//            List<XmlClass> classes = new ArrayList<>();
+//            Set<Class<?>> newSet = Classloader.findAllClasses("tests");
+//            for (Class<?> aClass : newSet) {
+//                classes.add(new XmlClass(String.valueOf(aClass).replaceFirst("class ", "")));
+//            }
+//            chromeTest.setXmlClasses(classes);
+//            firefoxTest.setXmlClasses(classes);
+//        }
 
     }
 
@@ -127,14 +121,14 @@ public class TestNGHelper {
         singleTest.setParallel(XmlSuite.ParallelMode.NONE);
         singleTest.setXmlClasses(test.getXmlClasses());
 
-        if (getPlatform().runAllTests()) {
-            List<XmlClass> classes = new ArrayList<>();
-            Set<Class<?>> newSet = Classloader.findAllClasses("tests");
-            for (Class<?> aClass : newSet) {
-                classes.add(new XmlClass(String.valueOf(aClass).replaceFirst("class ", "")));
-            }
-            singleTest.setXmlClasses(classes);
-        }
+//        if (getPlatform().runAllTests()) {
+//            List<XmlClass> classes = new ArrayList<>();
+//            Set<Class<?>> newSet = Classloader.findAllClasses("tests");
+//            for (Class<?> aClass : newSet) {
+//                classes.add(new XmlClass(String.valueOf(aClass).replaceFirst("class ", "")));
+//            }
+//            singleTest.setXmlClasses(classes);
+//        }
 
     }
 

@@ -24,6 +24,7 @@ public class PropertiesHandler {
     private static Reporting reporting;
     private static TestNG testNG;
     private static Log4j log4j;
+    private static Timeouts timeouts;
 
     private static File propertiesDirectory;
     private static File platformProperties;
@@ -31,6 +32,7 @@ public class PropertiesHandler {
     private static File reportingFile;
     private static File testNGFile;
     private static File log4jFile;
+    private static File timeoutsFile;
 
     static String propertiesDirectoryPath = "src/main/resources/properties/";
     static String platformPath = "src/main/resources/properties/ExecutionPlatform.properties";
@@ -38,6 +40,7 @@ public class PropertiesHandler {
     static String reportingPath = "src/main/resources/properties/Reporting.properties";
     static String testNGPath = "src/main/resources/properties/TestNG.properties";
     static String log4jPath = "src/main/resources/properties/log4j2.properties";
+    static String timeoutsPath = "src/main/resources/properties/Timeouts.properties";
 
 
     public static void initializeProperties(){
@@ -48,6 +51,7 @@ public class PropertiesHandler {
         reporting = ConfigFactory.create(Reporting.class);
         testNG = ConfigFactory.create(TestNG.class);
         log4j = ConfigFactory.create(Log4j.class);
+        timeouts = ConfigFactory.create(Timeouts.class);
 
         generateDefaultProperties();
     }
@@ -60,6 +64,7 @@ public class PropertiesHandler {
         reportingFile = new File(reportingPath);
         testNGFile = new File(testNGPath);
         log4jFile = new File(log4jPath);
+        timeoutsFile = new File(timeoutsPath);
 
         if(!propertiesDirectory.exists()){
             boolean created = propertiesDirectory.mkdirs();
@@ -107,6 +112,13 @@ public class PropertiesHandler {
                 printFooter(log4jFile);
                 outputStream.close();
             }
+            if(!timeoutsFile.exists()){
+                printHeader(timeoutsFile);
+                FileOutputStream outputStream = new FileOutputStream(timeoutsPath, true);
+                timeouts.store(outputStream, null);
+                printFooter(timeoutsFile);
+                outputStream.close();
+            }
             LoggingManager.info("Properties Files are generated with default settings");
         }
         catch (IOException e){
@@ -140,8 +152,12 @@ public class PropertiesHandler {
             Files.writeString(Paths.get(file.toURI()), "\n################## TAF TestNG Options #################\n"
                     , StandardOpenOption.CREATE,StandardOpenOption.APPEND);
         }
-        if(file.equals(testNGFile)){
-            Files.writeString(Paths.get(file.toURI()), "\n################## TAF TestNG Options #################\n"
+        if(file.equals(log4jFile)){
+            Files.writeString(Paths.get(file.toURI()), "\n################## TAF Log4j Options #################\n"
+                    , StandardOpenOption.CREATE,StandardOpenOption.APPEND);
+        }
+        if(file.equals(timeoutsFile)){
+            Files.writeString(Paths.get(file.toURI()), "\n################ TAF Timeouts Options #################\n"
                     , StandardOpenOption.CREATE,StandardOpenOption.APPEND);
         }
         Files.writeString(Paths.get(file.toURI()), header + "\n", StandardOpenOption.CREATE,StandardOpenOption.APPEND);
@@ -169,6 +185,10 @@ public class PropertiesHandler {
         PropertiesHandler.testNG = testNG;
     }
 
+    public static void setTimeouts(Timeouts timeouts) {
+        PropertiesHandler.timeouts = timeouts;
+    }
+
     public static TestNG getTestNG() {
         return testNG;
     }
@@ -183,6 +203,9 @@ public class PropertiesHandler {
 
     public static Reporting getReporting() {
         return reporting;
+    }
+    public static Timeouts getTimeouts() {
+        return timeouts;
     }
 
 }
