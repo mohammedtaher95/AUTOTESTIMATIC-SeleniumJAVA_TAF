@@ -1,5 +1,6 @@
 package driverfactory.webdriver.localdriver;
 
+import org.openqa.selenium.Proxy;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
@@ -17,7 +18,10 @@ public class FirefoxDriverFactory extends DriverAbstract {
         options.setPageLoadTimeout(Duration.ofSeconds(getTimeouts().pageLoadTimeout()));
 
         if(!getPlatform().proxySettings().isEmpty()){
-            options.addArguments("--proxy-server=http://", getPlatform().proxySettings());
+            Proxy proxy = new Proxy();
+            proxy.setHttpProxy(getPlatform().proxySettings());
+            proxy.setSslProxy(getPlatform().proxySettings());
+            options.setProxy(proxy);
         }
 
         driver = new FirefoxDriver(options);

@@ -1,10 +1,13 @@
 package assertions;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.testng.asserts.Assertion;
+import utilities.LoggingManager;
 
 public class Assertions {
 
@@ -19,7 +22,12 @@ public class Assertions {
     }
 
     public ElementAssertions element(By by){
-        this.driverWait.until(ExpectedConditions.visibilityOfElementLocated(by));
+        try{
+            this.driverWait.until(ExpectedConditions.visibilityOfElementLocated(by));
+        }
+        catch (TimeoutException exception){
+            throw new NoSuchElementException("Element doesn't exist");
+        }
         return new ElementAssertions(this.assertion, by, driverThreadLocal.get());
     }
 

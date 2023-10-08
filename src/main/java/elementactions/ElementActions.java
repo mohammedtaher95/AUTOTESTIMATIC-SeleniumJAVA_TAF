@@ -27,19 +27,17 @@ public class ElementActions {
 
     public ElementActions click(By btn){
         LoggingManager.info("Click on" + btn.toString().split(":",2)[1] + " button");
-        waitForVisibility(btn);
-        waitForElementToBeClickable(btn);
         try{
+            driverWait.until(ExpectedConditions.visibilityOfElementLocated(btn));
+            driverWait.until(ExpectedConditions.elementToBeClickable(btn));
             eActionsDriver.get().findElement(btn).click();
         }
-        catch (ElementClickInterceptedException exception) {
+        catch (ElementClickInterceptedException | NoSuchElementException |
+                StaleElementReferenceException | TimeoutException exception) {
             scrollToElement(btn);
             clickUsingJavaScript(btn);
         }
-        catch (NoSuchElementException exception) {
-            LoggingManager.info("Element " + btn.toString().split(":",2)[1] + " isn't clickable");
-            clickUsingJavaScript(btn);
-        }
+
         return this;
     }
 
@@ -62,6 +60,8 @@ public class ElementActions {
     }
 
     public ElementActions fillField(By field, String value){
+        driverWait.until(ExpectedConditions.visibilityOfElementLocated(field));
+        driverWait.until(ExpectedConditions.elementToBeClickable(field));
         clearField(field);
         LoggingManager.info("Fill" + field.toString().split(":",2)[1] + " field with: " + value);
         eActionsDriver.get().findElement(field).sendKeys(value);
@@ -141,7 +141,12 @@ public class ElementActions {
 
     public ElementActions waitForVisibility(By by){
         LoggingManager.info("Wait for" + by.toString().split(":",2)[1] + " to be visible");
-        driverWait.until(ExpectedConditions.visibilityOfElementLocated(by));
+        try{
+            driverWait.until(ExpectedConditions.visibilityOfElementLocated(by));
+        }
+        catch (TimeoutException exception) {
+            throw new org.openqa.selenium.NoSuchElementException("Element doesn't exist");
+        }
         return this;
     }
 
@@ -154,7 +159,13 @@ public class ElementActions {
     public ElementActions waitForElementToBeClickable(By by)
     {
         LoggingManager.info("Wait for" + by.toString().split(":",2)[1] + " to be clickable");
-        driverWait.until(ExpectedConditions.elementToBeClickable(by));
+        try {
+            driverWait.until(ExpectedConditions.elementToBeClickable(by));
+        }
+        catch (ElementNotInteractableException exception){
+            LoggingManager.error("Element isn't interactable");
+            throw exception;
+        }
         return this;
     }
 

@@ -1,5 +1,6 @@
 package driverfactory.webdriver.localdriver;
 
+import org.openqa.selenium.Proxy;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 
@@ -18,7 +19,10 @@ public class EdgeDriverFactory extends DriverAbstract {
         options.setPageLoadTimeout(Duration.ofSeconds(getTimeouts().pageLoadTimeout()));
 
         if(!getPlatform().proxySettings().isEmpty()){
-            options.addArguments("--proxy-server=http://", getPlatform().proxySettings());
+            Proxy proxy = new Proxy();
+            proxy.setHttpProxy(getPlatform().proxySettings());
+            proxy.setSslProxy(getPlatform().proxySettings());
+            options.setProxy(proxy);
         }
 
         driver = new EdgeDriver(options);

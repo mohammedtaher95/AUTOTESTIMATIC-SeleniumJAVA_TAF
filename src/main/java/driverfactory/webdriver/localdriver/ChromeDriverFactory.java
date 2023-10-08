@@ -1,5 +1,6 @@
 package driverfactory.webdriver.localdriver;
 
+import org.openqa.selenium.Proxy;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import java.time.Duration;
@@ -17,8 +18,12 @@ public class ChromeDriverFactory extends DriverAbstract {
         options.setScriptTimeout(Duration.ofSeconds(getTimeouts().scriptTimeout()));
         options.setPageLoadTimeout(Duration.ofSeconds(getTimeouts().pageLoadTimeout()));
 
+
         if(!getPlatform().proxySettings().isEmpty()){
-            options.addArguments("--proxy-server=http://", getPlatform().proxySettings());
+            Proxy proxy = new Proxy();
+            proxy.setHttpProxy(getPlatform().proxySettings());
+            proxy.setSslProxy(getPlatform().proxySettings());
+            options.setProxy(proxy);
         }
         driver = new ChromeDriver(options);
     }
