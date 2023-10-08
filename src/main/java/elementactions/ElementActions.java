@@ -27,6 +27,8 @@ public class ElementActions {
 
     public ElementActions click(By btn){
         LoggingManager.info("Click on" + btn.toString().split(":",2)[1] + " button");
+        waitForVisibility(btn);
+        waitForElementToBeClickable(btn);
         try{
             eActionsDriver.get().findElement(btn).click();
         }
