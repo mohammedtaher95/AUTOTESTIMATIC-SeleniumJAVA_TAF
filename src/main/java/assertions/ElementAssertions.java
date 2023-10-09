@@ -38,7 +38,18 @@ public class ElementAssertions {
             LoggingManager.error("Element: " + by.toString().split(":",2)[1] + " is NOT Displayed");
             throw e;
         }
+    }
 
+    public void isNotDisplayed(){
+        try {
+            this.assertion.assertTrue(!driverThreadLocal.get().findElement(by).isDisplayed());
+            LoggingManager.info("Element: " + by.toString().split(":",2)[1] + " is NOT Displayed");
+
+        }
+        catch (AssertionError e){
+            LoggingManager.error("Element: " + by.toString().split(":",2)[1] + " is DISPLAYED");
+            throw e;
+        }
     }
 
     public void isEnabled(){
