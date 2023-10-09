@@ -8,7 +8,7 @@ public class ObjectAssertions {
 
     private final Assertion assertion;
     private final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
-    private Object actualObject;
+    private final Object actualObject;
 
     public ObjectAssertions(Assertion assertion, Object object, WebDriver driver){
         this.assertion = assertion;
@@ -60,4 +60,9 @@ public class ObjectAssertions {
             throw e;
         }
     }
+
+    public void removeDriver(){
+        driverThreadLocal.remove();
+    }
+
 }

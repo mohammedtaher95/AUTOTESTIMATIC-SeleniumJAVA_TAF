@@ -6,7 +6,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 import utilities.LoggingManager;
-import java.time.Duration;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -26,10 +25,7 @@ public class ElementActions {
     }
 
     public ElementActions click(By btn){
-        LoggingManager.info("Click on" + btn.toString().split(":",2)[1] + " button");
         try{
-            driverWait.until(ExpectedConditions.visibilityOfElementLocated(btn));
-            driverWait.until(ExpectedConditions.elementToBeClickable(btn));
             eActionsDriver.get().findElement(btn).click();
         }
         catch (ElementClickInterceptedException | NoSuchElementException |
@@ -60,17 +56,12 @@ public class ElementActions {
     }
 
     public ElementActions fillField(By field, String value){
-        driverWait.until(ExpectedConditions.visibilityOfElementLocated(field));
-        driverWait.until(ExpectedConditions.elementToBeClickable(field));
         clearField(field);
-        LoggingManager.info("Fill" + field.toString().split(":",2)[1] + " field with: " + value);
         eActionsDriver.get().findElement(field).sendKeys(value);
         return this;
     }
 
     public ElementActions clearField(By field){
-        waitForElementToBeClickable(field);
-        LoggingManager.info("Clear" + field.toString().split(":",2)[1]);
         eActionsDriver.get().findElement(field).clear();
         return this;
     }
@@ -134,7 +125,6 @@ public class ElementActions {
 
     public ElementActions addTextForAlert(String text){
         Alert alert = eActionsDriver.get().switchTo().alert();
-        LoggingManager.info("Adding Text: " + text + " to Alert");
         alert.sendKeys(text);
         return this;
     }
