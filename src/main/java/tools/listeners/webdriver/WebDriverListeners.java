@@ -103,7 +103,7 @@ public class WebDriverListeners implements org.openqa.selenium.support.events.We
                     .pollingEvery(Duration.ofMillis(500))
                     .ignoring(NoSuchElementException.class)
                     .ignoring(StaleElementReferenceException.class)
-                    .until(nestedDriver -> nestedDriver.findElement(locator));
+                    .until(ExpectedConditions.visibilityOfElementLocated(locator));
         } catch (org.openqa.selenium.TimeoutException timeoutException) {
             // In case the element was not found / not visible and the timeout expired
             LoggingManager.error(timeoutException.getMessage() + " || " + timeoutException.getCause().getMessage().substring(0, timeoutException.getCause().getMessage().indexOf("\n")));
