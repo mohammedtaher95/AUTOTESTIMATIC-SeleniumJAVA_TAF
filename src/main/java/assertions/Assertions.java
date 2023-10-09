@@ -35,6 +35,10 @@ public class Assertions {
         return new BrowserAssertions(this.assertion, driverThreadLocal.get());
     }
 
+    public ObjectAssertions object(Object object) {
+        return new ObjectAssertions(this.assertion, object, driverThreadLocal.get());
+    }
+
     public void removeDriver(){
         driverThreadLocal.remove();
     }
