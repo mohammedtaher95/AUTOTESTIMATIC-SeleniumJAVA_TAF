@@ -1,0 +1,36 @@
+{
+  "server": "hub.browserstack.com/wd/hub",
+  "user": "mohammedtaher3",
+  "key": "zzrpfakxLdpeBWmsSTzB",
+  "capabilities": {
+    "options": {
+      "buildName": "browserstack-build-1",
+      "sessionName": "BStack parallel testng",
+      "browserVersion": "latest",
+      "debug": true,
+      "local": false
+    }
+  },
+  "environments": {
+    "env1": {
+      "options": {
+        "os": "Windows",
+        "osVersion": "10"
+      },
+      "browserName": "chrome"
+    },
+    "env2": {
+      "options":{
+        "os": "Windows",
+        "osVersion": "10"
+      },
+      "browserName": "firefox"
+    },
+    "env3": {
+      "options": {
+        "os": "OS X"
+      },
+      "browserName": "safari"
+    }
+  }
+}
