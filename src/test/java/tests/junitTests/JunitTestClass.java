@@ -43,7 +43,7 @@ public class JunitTestClass {
 
     @AfterClass
     public static void tearDown(){
-        driver.get().browser().deleteCookies();
+        driver.get().browser().deleteAllCookies();
         driver.get().quit();
         driver.remove();
     }

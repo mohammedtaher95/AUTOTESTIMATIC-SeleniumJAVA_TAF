@@ -70,7 +70,7 @@ public class EmailFriendTest{
 
     @AfterClass(description = "Tear down")
     public void tearDown(){
-        driver.get().browser().deleteCookies();
+        driver.get().browser().deleteAllCookies();
         driver.get().quit();
         driver.remove();
     }

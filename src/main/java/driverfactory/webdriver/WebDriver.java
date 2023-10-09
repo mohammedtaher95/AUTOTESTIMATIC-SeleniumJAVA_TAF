@@ -14,11 +14,12 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.support.ThreadGuard;
+import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.testng.Reporter;
+import tools.listeners.webdriver.WebDriverListeners;
 import utilities.JSONFileHandler;
 import utilities.LoggingManager;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
@@ -30,7 +31,7 @@ import static tools.properties.PropertiesHandler.*;
 public class WebDriver {
 
     private final ThreadLocal<org.openqa.selenium.WebDriver> driverThreadLocal = new ThreadLocal<>();
-    private String browserName =
+    private final String browserName =
             Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName");
 
     private final FluentWait<org.openqa.selenium.WebDriver> driverWait;
@@ -79,7 +80,9 @@ public class WebDriver {
         org.openqa.selenium.WebDriver driver = DriverFactory.getDriverFactory(DriverType.valueOf(browserName.toUpperCase())).getDriver();
         assert driver != null;
         driver.manage().window().maximize();
-        setDriver(ThreadGuard.protect(driver));
+        setDriver(ThreadGuard.protect(
+                new EventFiringDecorator<>(org.openqa.selenium.WebDriver.class, new WebDriverListeners(driver))
+                .decorate(driver)));
         if (!baseURL.isEmpty()) {
             getDriver().navigate().to(baseURL);
         }
@@ -101,7 +104,8 @@ public class WebDriver {
         try {
             RemoteWebDriver driver = new RemoteWebDriver(new URL(getPlatform().remoteURL()), capabilities);
             driver.manage().window().maximize();
-            setRemoteDriver(driver);
+            setRemoteDriver(new EventFiringDecorator<>(org.openqa.selenium.remote.RemoteWebDriver.class, new WebDriverListeners(driver))
+                    .decorate(driver));
         } catch (MalformedURLException e) {
             LoggingManager.error("Unable to create Remote WebDriver: " + e.getMessage());
         }
@@ -147,7 +151,8 @@ public class WebDriver {
                     .oneOf(capabilities)
                     .build();
             driver.manage().window().maximize();
-            setRemoteDriver(driver);
+            setRemoteDriver(new EventFiringDecorator<>(org.openqa.selenium.remote.RemoteWebDriver.class, new WebDriverListeners(driver))
+                    .decorate(driver));
             LoggingManager.info("BrowserStack Started on " + browserName + ", " + os + " " + osVersion);
         } catch (Exception e) {
             LoggingManager.error("Failed to Start BrowserStack Instance, " + e.getMessage());

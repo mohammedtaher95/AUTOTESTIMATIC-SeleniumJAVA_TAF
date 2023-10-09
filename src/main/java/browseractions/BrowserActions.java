@@ -21,69 +21,66 @@ public class BrowserActions {
 
     public String getCurrentURL(){
         String url = driverThreadLocal.get().getCurrentUrl();
-        LoggingManager.info("Getting Current URL: " + url);
         return url;
     }
 
-    public void getToURL(String url){
-        LoggingManager.info("Getting to URL: " + url);
+    public BrowserActions getToURL(String url){
         driverThreadLocal.get().get(url);
+        return this;
     }
 
-    public void navigateToURL(String url){
-        LoggingManager.info("Navigating to URL: " + url);
+    public BrowserActions navigateToURL(String url){
         driverThreadLocal.get().navigate().to(url);
+        return this;
     }
 
-    public void navigateForward(){
-        LoggingManager.info("Navigating Forward");
+    public BrowserActions navigateForward(){
         driverThreadLocal.get().navigate().forward();
+        return this;
     }
 
-    public void navigateBack(){
-        LoggingManager.info("Navigating Back");
+    public BrowserActions navigateBack(){
         driverThreadLocal.get().navigate().back();
+        return this;
     }
 
     public String getPageTitle(){
-        String title = driverThreadLocal.get().getTitle();
-        LoggingManager.info("Getting Page Title: " + title);
-        return title;
+        return driverThreadLocal.get().getTitle();
     }
 
-    public void refreshPage(){
-        LoggingManager.info("Refreshing Page...");
+    public BrowserActions refreshPage(){
         driverThreadLocal.get().navigate().refresh();
+        return this;
     }
 
-    public void scrollToBottom()
+    public BrowserActions scrollToBottom()
     {
         LoggingManager.info("Scrolling to Page Bottom");
         actions.scrollByAmount(0,2500);
+        return this;
     }
 
-    public void scrolltoAmount(int width, int height)
+    public BrowserActions scrolltoAmount(int width, int height)
     {
         LoggingManager.info("Scrolling by X: " + width + " and Y: " + height);
         actions.scrollByAmount(width,height);
+        return this;
     }
 
     public String getPageSource() {
-        String source = driverThreadLocal.get().getPageSource();
-        LoggingManager.info("Getting Page source: " + source);
-        return source;
+        return driverThreadLocal.get().getPageSource();
     }
 
     /******************************** Cookies *************************************/
 
-    public void deleteCookies() {
-        LoggingManager.info("Deleting All Cookies.....");
+    public BrowserActions deleteAllCookies() {
         driverThreadLocal.get().manage().deleteAllCookies();
+        return this;
     }
 
-    public void deleteCookie(Cookie cookie){
-        LoggingManager.info("Deleting Cookie: " + cookie + " ......");
+    public BrowserActions deleteCookie(Cookie cookie){
         driverThreadLocal.get().manage().deleteCookie(cookie);
+        return this;
     }
 
     /******************************** Window Control *************************************/
