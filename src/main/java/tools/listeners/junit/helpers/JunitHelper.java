@@ -17,40 +17,6 @@ public class JunitHelper {
 
     }
 
-    public static void initializeLauncherSession() {
-        LauncherConfig launcherConfig = LauncherConfig.builder()
-                .enableTestEngineAutoRegistration(true)
-                .enableLauncherSessionListenerAutoRegistration(false)
-                .enableTestExecutionListenerAutoRegistration(false)
-                .addLauncherSessionListeners(new JunitListener())
-                .build();
-
-        LauncherDiscoveryRequest discoveryRequest = LauncherDiscoveryRequestBuilder.request().build();
-        Launcher launcher = LauncherFactory.create(launcherConfig);
-        launcher.execute(discoveryRequest);
-
-//        SummaryGeneratingListener listener = new SummaryGeneratingListener();
-//        launcher.execute(discoveryRequest);
-
-
-
-//        try(LauncherSession session = LauncherFactory.openSession(launcherConfig)) {
-////            // Register a listener of your choice
-//            Launcher launcher = session.getLauncher();
-//            launcher.execute(discoveryRequest);
-////            session.getLauncher().discover(discoveryRequest);
-////            launcher.registerTestExecutionListeners(new JunitExecutionListener());
-//            // Discover tests and build a test plan
-//            // Execute test plan
-//
-//            // Alternatively, execute the request directly
-////            launcher.execute(discoveryRequest);
-//        }
-
-        LoggingManager.info("Start Running via JUnit5");
-
-    }
-
     public static WebDriver getDriverInstance(TestIdentifier testIdentifier) {
         WebDriver driver = null;
         ThreadLocal<WebDriver> driverThreadlocal;

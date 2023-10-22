@@ -620,7 +620,6 @@
         </profile>
     </profiles>
     <reporting>
-        <!--        <excludeDefaults>true</excludeDefaults>-->
         <plugins>
             <plugin>
                 <groupId>io.qameta.allure</groupId>

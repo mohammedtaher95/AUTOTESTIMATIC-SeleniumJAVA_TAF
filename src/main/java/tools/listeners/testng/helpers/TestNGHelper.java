@@ -2,24 +2,12 @@ package tools.listeners.testng.helpers;
 
 import constants.CrossBrowserMode;
 import driverfactory.webdriver.WebDriver;
-import org.apache.commons.io.FileUtils;
 import org.testng.ITestResult;
-import org.testng.Reporter;
-import org.testng.xml.XmlClass;
 import org.testng.xml.XmlSuite;
 import org.testng.xml.XmlTest;
-import utilities.Classloader;
 import utilities.LoggingManager;
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Field;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
-import java.util.Set;
 
 import static tools.properties.PropertiesHandler.*;
 
