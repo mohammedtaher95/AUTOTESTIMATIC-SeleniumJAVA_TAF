@@ -117,12 +117,6 @@
         <!-- Junit dependencies -->
 
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>5.10.0</version>
@@ -131,6 +125,11 @@
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
             <version>1.10.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>5.10.0</version>
         </dependency>
         <dependency>
             <groupId>io.qameta.allure</groupId>
@@ -488,7 +487,8 @@
                                 -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                             </argLine>
                             <systemPropertyVariables>
-                                <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+                                <allure.results.directory>${project.build.directory}/allure-results
+                                </allure.results.directory>
                                 <allure.link.issue.pattern>https://example.org/browse/{}</allure.link.issue.pattern>
                                 <allure.link.tms.pattern>https://example.org/browse/{}</allure.link.tms.pattern>
                                 <log4j.configurationFile>src/main/resources/properties/log4j2.properties
@@ -513,11 +513,16 @@
         </profile>
         <profile>
             <id>junit</id>
-<!--            <activation>-->
-<!--                <file>-->
-<!--                    <exists>src/test/resources/META-INF/services/org.junit.platform.launcher.LauncherSessionListener</exists>-->
-<!--                </file>-->
-<!--            </activation>-->
+            <activation>
+                <file>
+                    <exists>
+                        src/test/resources/META-INF/services/org.junit.platform.launcher.LauncherSessionListener
+                    </exists>
+                    <missing>
+                        src/test/resources/META-INF/services/org.testng.ITestNGListener
+                    </missing>
+                </file>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
@@ -532,13 +537,34 @@
                             </dependency>
                             <dependency>
                                 <groupId>org.junit.jupiter</groupId>
+                                <artifactId>junit-jupiter-api</artifactId>
+                                <version>5.10.0</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.junit.jupiter</groupId>
                                 <artifactId>junit-jupiter-engine</artifactId>
                                 <version>5.10.0</version>
                             </dependency>
+                            <dependency>
+                                <groupId>org.apache.maven.surefire</groupId>
+                                <artifactId>surefire-junit-platform</artifactId>
+                                <version>3.1.2</version>
+                            </dependency>
                         </dependencies>
                         <configuration>
+                            <systemProperties>
+                                <property>
+                                    <name>listener</name>
+                                    <value>tools.listeners.junit.JunitListener</value>
+                                </property>
+                            </systemProperties>
                             <systemPropertyVariables>
-                                <testng.dtd.http>true</testng.dtd.http>
+                                <allure.results.directory>${project.build.directory}/allure-results
+                                </allure.results.directory>
+                                <allure.link.issue.pattern>https://example.org/browse/{}</allure.link.issue.pattern>
+                                <allure.link.tms.pattern>https://example.org/browse/{}</allure.link.tms.pattern>
+                                <log4j.configurationFile>src/main/resources/properties/log4j2.properties
+                                </log4j.configurationFile>
                             </systemPropertyVariables>
                             <failIfNoSpecifiedTests>false</failIfNoSpecifiedTests>
                             <failIfNoTests>false</failIfNoTests>
@@ -550,6 +576,12 @@
                                 -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                             </argLine>
                             <properties>
+                                <configurationParameters>
+                                    junit.jupiter.conditions.deactivate = *
+                                    junit.jupiter.extensions.autodetection.enabled = false
+                                    junit.jupiter.execution.parallel.enabled = false
+                                    junit.jupiter.testinstance.lifecycle.default = per_class
+                                </configurationParameters>
                                 <property>
                                     <name>usedefaultlisteners</name>
                                     <value>false</value>
@@ -566,7 +598,7 @@
         </profile>
     </profiles>
     <reporting>
-        <excludeDefaults>true</excludeDefaults>
+        <!--        <excludeDefaults>true</excludeDefaults>-->
         <plugins>
             <plugin>
                 <groupId>io.qameta.allure</groupId>

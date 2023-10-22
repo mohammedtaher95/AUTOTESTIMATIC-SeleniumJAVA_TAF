@@ -25,7 +25,6 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
 
     @Override
     public void onExecutionStart() {
-
         Allure.getLifecycle();
     }
 
@@ -131,11 +130,9 @@ public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuit
 
     @Override
     public void alter(List<XmlSuite> suites) {
-
         LoggingManager.startLog();
         initializeProperties();
         suites.set(0, TestNGHelper.suiteGenerator(suites.get(0)));
-
     }
 
 

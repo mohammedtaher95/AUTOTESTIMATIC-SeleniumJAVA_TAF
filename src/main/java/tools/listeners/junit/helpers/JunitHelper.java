@@ -1,69 +1,60 @@
 package tools.listeners.junit.helpers;
 
 import driverfactory.webdriver.WebDriver;
-import io.qameta.allure.Allure;
-import org.junit.AssumptionViolatedException;
-import org.junit.internal.runners.model.EachTestNotifier;
-import org.junit.platform.launcher.LauncherSession;
-import org.junit.platform.launcher.LauncherSessionListener;
-import org.junit.platform.launcher.TestExecutionListener;
-import org.junit.platform.launcher.TestPlan;
-import org.junit.runner.notification.Failure;
-import org.junit.runner.notification.RunNotifier;
-import org.junit.runner.notification.StoppedByUserException;
-import org.junit.runners.*;
-import org.junit.runners.model.InitializationError;
-import org.junit.runners.model.Statement;
+import org.junit.platform.launcher.*;
+import org.junit.platform.launcher.core.LauncherConfig;
+import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder;
+import org.junit.platform.launcher.core.LauncherFactory;
 import tools.listeners.junit.JunitListener;
 import utilities.LoggingManager;
-
 import java.lang.reflect.Field;
 
-public class JunitHelper implements LauncherSessionListener {
+import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass;
+
+public class JunitHelper {
 
     private JunitHelper() {
 
     }
 
-    @Override
-    public void launcherSessionOpened(LauncherSession session) {
-        RunNotifier notifier = new RunNotifier();
-        session.getLauncher().registerTestExecutionListeners(new TestExecutionListener() {
-            @Override
-            public void testPlanExecutionStarted(TestPlan testPlan) {
-                TestExecutionListener.super.testPlanExecutionStarted(testPlan);
-                notifier.addListener(new JunitListener());
-            }
-        });
-        Allure.getLifecycle();
-        LoggingManager.info("Starting Test Run via Junit");
-        //Add Listener. This will register our JUnit Listener.
-        //Get each test notifier
-//        EachTestNotifier testNotifier = new EachTestNotifier(notifier,
-//                getDescription());
-//        try {
-//            //In order capture testRunStarted method
-//            //at the very beginning of the test run, we will add below code.
-//            //Invoke here the run testRunStarted() method
-//            notifier.fireTestRunStarted(getDescription());
-//            Statement statement = classBlock(notifier);
-//            statement.evaluate();
+    public static void initializeLauncherSession() {
+        LauncherConfig launcherConfig = LauncherConfig.builder()
+                .enableTestEngineAutoRegistration(true)
+                .enableLauncherSessionListenerAutoRegistration(false)
+                .enableTestExecutionListenerAutoRegistration(false)
+                .addLauncherSessionListeners(new JunitListener())
+                .build();
+
+        LauncherDiscoveryRequest discoveryRequest = LauncherDiscoveryRequestBuilder.request().build();
+        Launcher launcher = LauncherFactory.create(launcherConfig);
+        launcher.execute(discoveryRequest);
+
+//        SummaryGeneratingListener listener = new SummaryGeneratingListener();
+//        launcher.execute(discoveryRequest);
+
+
+
+//        try(LauncherSession session = LauncherFactory.openSession(launcherConfig)) {
+////            // Register a listener of your choice
+//            Launcher launcher = session.getLauncher();
+//            launcher.execute(discoveryRequest);
+////            session.getLauncher().discover(discoveryRequest);
+////            launcher.registerTestExecutionListeners(new JunitExecutionListener());
+//            // Discover tests and build a test plan
+//            // Execute test plan
+//
+//            // Alternatively, execute the request directly
+////            launcher.execute(discoveryRequest);
 //        }
-//        catch (AssumptionViolatedException e) {
-//            testNotifier.fireTestIgnored();
-//        }
-//        catch (StoppedByUserException e) {
-//            throw e;
-//        }
-//        catch (Throwable e) {
-//            testNotifier.addFailure(e);
-//        }
+
+        LoggingManager.info("Start Running via JUnit5");
+
     }
 
-    public static WebDriver getDriverInstance(Failure failure) {
+    public static WebDriver getDriverInstance(TestIdentifier testIdentifier) {
         WebDriver driver = null;
         ThreadLocal<WebDriver> driverThreadlocal;
-        Object currentClass = failure.getDescription().getTestClass();
+        Object currentClass = testIdentifier.getClass();
         if (currentClass != null) {
             Field[] fields = currentClass.getClass().getDeclaredFields();
             for (Field field : fields) {

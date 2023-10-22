@@ -17,28 +17,38 @@ import org.openqa.selenium.support.ThreadGuard;
 import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.testng.Reporter;
+import tools.listeners.junit.helpers.JunitHelper;
 import tools.listeners.webdriver.WebDriverListeners;
 import utilities.JSONFileHandler;
 import utilities.LoggingManager;
+import utilities.TestRunningManager;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
-
 import static tools.properties.PropertiesHandler.*;
 
 public class WebDriver {
 
     private final ThreadLocal<org.openqa.selenium.WebDriver> driverThreadLocal = new ThreadLocal<>();
-    private final String browserName =
-            Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName");
+    private String browserName;
 
     private final FluentWait<org.openqa.selenium.WebDriver> driverWait;
 
     JSONFileHandler config = new JSONFileHandler("parallel.conf.json");
 
     public WebDriver() {
+        TestRunningManager.initializeRunConfigurations();
+        try{
+            browserName = Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName");
+        }
+        catch (NullPointerException e) {
+            LoggingManager.info("Start Running Tests via JUnit 5 Runner");
+            browserName = getCapabilities().targetBrowserName();
+        }
+
         LoggingManager.info("Initializing WebDriver.....");
         createWebDriver();
         if (driverThreadLocal.get() == null) {

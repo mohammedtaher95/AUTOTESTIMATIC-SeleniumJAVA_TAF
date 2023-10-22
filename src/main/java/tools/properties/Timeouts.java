@@ -23,5 +23,13 @@ public interface Timeouts extends Config, Accessible {
     @DefaultValue("60")
     int elementIdentificationTimeout();
 
+    @Key("waitForLazyLoading")
+    @DefaultValue("true")
+    boolean waitForLazyLoading();
+
+    @Key("lazyLoadingTimeout")
+    @DefaultValue("30")
+    int lazyLoadingTimeout();
+
 
 }

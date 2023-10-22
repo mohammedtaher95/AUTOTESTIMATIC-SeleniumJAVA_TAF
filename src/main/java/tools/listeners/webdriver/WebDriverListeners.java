@@ -5,6 +5,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utilities.LoggingManager;
+import utilities.javascript.JavaScriptWaitManager;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -24,7 +26,7 @@ public class WebDriverListeners implements org.openqa.selenium.support.events.We
 
     @Override
     public void afterAnyCall(Object target, Method method, Object[] args, Object result) {
-//        LoggingManager.info(method.getName() + " action performed.");
+        // this method is empty
     }
 
     @Override
@@ -96,7 +98,7 @@ public class WebDriverListeners implements org.openqa.selenium.support.events.We
 
     @Override
     public void beforeFindElement(WebDriver driver, By locator) {
-
+        new JavaScriptWaitManager(driver).waitForLazyLoading();
         try {
             new FluentWait<>(driver)
                     .withTimeout(Duration.ofSeconds(getTimeouts().elementIdentificationTimeout()))
