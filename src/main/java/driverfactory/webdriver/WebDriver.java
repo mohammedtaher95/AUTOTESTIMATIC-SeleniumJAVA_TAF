@@ -45,7 +45,6 @@ public class WebDriver {
             browserName = Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName");
         }
         catch (NullPointerException e) {
-            LoggingManager.info("Start Running Tests via JUnit 5 Runner");
             browserName = getCapabilities().targetBrowserName();
         }
 

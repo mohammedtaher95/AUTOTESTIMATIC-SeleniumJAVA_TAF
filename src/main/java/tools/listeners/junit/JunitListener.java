@@ -1,5 +1,6 @@
 package tools.listeners.junit;
 
+import com.google.auto.service.AutoService;
 import driverfactory.webdriver.WebDriver;
 import io.qameta.allure.Allure;
 import org.apache.commons.io.FileUtils;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import static tools.properties.PropertiesHandler.getReporting;
 import static tools.properties.PropertiesHandler.initializeProperties;
 
+@AutoService(LauncherSessionListener.class)
 public class JunitListener implements LauncherSessionListener {
 
     @Override

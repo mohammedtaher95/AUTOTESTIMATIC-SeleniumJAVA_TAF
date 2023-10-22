@@ -9,7 +9,7 @@ import pages.nopcommerce.homepage.HomePage;
 import utilities.UserFormData;
 
 
-public class AddProductReviewTest{
+public class JunitAddProductReviewTest {
 
     public static ThreadLocal<WebDriver> driver;
     String ProductName = "Apple MacBook Pro 13-inch";

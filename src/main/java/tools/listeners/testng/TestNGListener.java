@@ -1,5 +1,6 @@
 package tools.listeners.testng;
 
+import com.google.auto.service.AutoService;
 import driverfactory.webdriver.WebDriver;
 import io.qameta.allure.Allure;
 import org.apache.commons.io.FileUtils;
@@ -19,7 +20,9 @@ import java.util.List;
 
 import static tools.properties.PropertiesHandler.*;
 
-public class TestNGListener implements IAlterSuiteListener, ITestListener, ISuiteListener,
+
+@AutoService(ITestNGListener.class)
+public class TestNGListener implements ITestNGListener, IAlterSuiteListener, ITestListener, ISuiteListener,
         IExecutionListener, IInvokedMethodListener {
 
 

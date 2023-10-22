@@ -1,78 +1,40 @@
 package utilities;
 
+import org.junit.platform.launcher.LauncherSessionListener;
+import org.testng.ITestNGListener;
 import org.testng.TestNG;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class TestRunningManager {
 
-    static String servicesDirectoryPath = "src/test/resources/META-INF/services/";
-    static Path testNG = Paths.get("src/test/resources/META-INF/services/org.testng.ITestNGListener");
-    static Path junit = Paths.get("src/test/resources/META-INF/services/org.junit.platform.launcher.LauncherSessionListener");
     private static boolean isJunitRunBool = false;
     private static boolean isTestNGRunBool = false;
 
 
-    private TestRunningManager(){
+    private TestRunningManager() {
 
     }
 
-    public static void initializeRunConfigurations(){
+    public static void initializeRunConfigurations() {
 
         identifyRunType();
-        File servicesDirectory = new File(servicesDirectoryPath);
 
-        if(!servicesDirectory.exists()){
-            LoggingManager.info("Services aren't configured....Generating Configurations");
-            boolean created = servicesDirectory.mkdirs();
-            if(created){
-                LoggingManager.info("Services Directory Created");
-            }
+        if (isTestNGRunBool) {
+            ServiceLoader<ITestNGListener> serviceLoader = ServiceLoader.load(ITestNGListener.class);
+            serviceLoader.reload();
+            LoggingManager.info("Start Running Tests via TestNG Runner");
         }
 
-        if(servicesDirectory.exists()){
-            if(Files.exists(testNG) && (isJunitRunBool)){
-                    try {
-                        Files.delete(testNG);
-                    } catch (IOException e) {
-                        // Do nothing
-                    }
-            }
+        if (isJunitRunBool) {
 
-            if(Files.exists(junit) && (isTestNGRunBool)){
-                try {
-                    Files.delete(junit);
-                } catch (IOException e) {
-                    // Do nothing
-                }
-            }
+            ServiceLoader<LauncherSessionListener> serviceLoader =
+                    ServiceLoader.load(LauncherSessionListener.class);
+            serviceLoader.reload();
+            LoggingManager.info("Start Running Tests via JUnit 5 Runner");
         }
 
-        if(isTestNGRunBool && !Files.exists(testNG)) {
-            try {
-                Files.writeString(testNG,"tools.listeners.testng.TestNGListener",
-                        StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            } catch (IOException e) {
-                // Do nothing
-            }
-        }
-
-        if(isJunitRunBool && !Files.exists(junit)) {
-            try {
-                Files.writeString(junit,"tools.listeners.junit.JunitListener",
-                        StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            } catch (IOException e) {
-                // Do nothing
-            }
-        }
 
     }
 
@@ -87,6 +49,4 @@ public class TestRunningManager {
         }
     }
 
-
-    public enum ServiceType {TESTNG, JUNIT}
 }

@@ -282,6 +282,19 @@
         </dependency>
 
         <dependency>
+            <groupId>com.google.auto.service</groupId>
+            <artifactId>auto-service</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.auto.service</groupId>
+            <artifactId>auto-service-annotations</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
+
+        <dependency>
             <groupId>com.github.javafaker</groupId>
             <artifactId>javafaker</artifactId>
             <version>1.0.2</version>
@@ -455,7 +468,14 @@
         <profile>
             <id>testng</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <file>
+                    <exists>
+                        src/main/java/tools/listeners/testng/TestNGListener.java
+                    </exists>
+                    <missing>
+                        src/main/java/tools/listeners/junit/JunitListener.java
+                    </missing>
+                </file>
             </activation>
             <build>
                 <plugins>
@@ -516,14 +536,14 @@
         <profile>
             <id>junit</id>
             <activation>
-                <file>
-                    <exists>
-                        src/test/resources/META-INF/services/org.junit.platform.launcher.LauncherSessionListener
-                    </exists>
-                    <missing>
-                        src/test/resources/META-INF/services/org.testng.ITestNGListener
-                    </missing>
-                </file>
+               <file>
+                   <exists>
+                       src/main/java/tools/listeners/junit/JunitListener.java
+                   </exists>
+                   <missing>
+                       src/main/java/tools/listeners/testng/TestNGListener.java
+                   </missing>
+               </file>
             </activation>
             <build>
                 <plugins>
