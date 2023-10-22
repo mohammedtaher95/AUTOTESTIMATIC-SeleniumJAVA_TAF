@@ -1,14 +1,14 @@
-package tests.nopcommerce;
+package tests.junitTests;
 
 import driverfactory.webdriver.WebDriver;
-import org.testng.annotations.*;
+import org.junit.jupiter.api.*;
 import pages.nopcommerce.LoginPage;
 import pages.nopcommerce.ProductDetailsPage;
 import pages.nopcommerce.SearchPage;
 import pages.nopcommerce.homepage.HomePage;
 import utilities.UserFormData;
 
-
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class JunitAddProductReviewTest {
 
     public static ThreadLocal<WebDriver> driver;
@@ -18,13 +18,14 @@ public class JunitAddProductReviewTest {
     UserFormData newUser = new UserFormData();
 
 
-    @BeforeClass(description = "Setup Driver")
-    public synchronized void setUp(){
+    @BeforeAll
+    public static void setUp(){
         driver = new ThreadLocal<>();
         driver.set(new WebDriver());
     }
 
-    @Test(priority = 1)
+    @Test
+    @Order(1)
     public void UserCanRegisterSuccessfully()  {
         new HomePage(driver.get())
                 .openRegistrationPage()
@@ -34,7 +35,8 @@ public class JunitAddProductReviewTest {
                 .validateThatSuccessMessageShouldBeDisplayed();
     }
 
-    @Test(priority = 2, dependsOnMethods = {"UserCanRegisterSuccessfully"})
+    @Test
+    @Order(2)
     public void RegisteredUserCanLogin()
     {
         new HomePage(driver.get())
@@ -44,7 +46,8 @@ public class JunitAddProductReviewTest {
                 .checkThatLogoutButtonShouldBeDisplayed();
     }
 
-    @Test(priority = 3, dependsOnMethods = {"UserCanRegisterSuccessfully", "RegisteredUserCanLogin"})
+    @Test
+    @Order(3)
     public void UserCanSearchForProducts(){
         new SearchPage(driver.get())
                 .productSearch(ProductName)
@@ -52,7 +55,8 @@ public class JunitAddProductReviewTest {
                 .checkThatProductPageShouldBeDisplayed(ProductName);
     }
 
-    @Test(priority = 4, alwaysRun = true, dependsOnMethods = {"UserCanSearchForProducts"})
+    @Test
+    @Order(4)
     public void RegisteredUserCanAddReviewForProduct() {
         new ProductDetailsPage(driver.get())
                 .addReview()
@@ -61,14 +65,15 @@ public class JunitAddProductReviewTest {
                 .verifyThatReviewShouldBeSubmittedSuccessfully(SuccessMessage, newUser.getMessage());
     }
 
-    @Test(priority = 5, alwaysRun = true, dependsOnMethods = {"RegisteredUserCanAddReviewForProduct"})
+    @Test
+    @Order(5)
     public void RegisteredUserCanLogout()
     {
         new LoginPage(driver.get()).clickOnLogoutButton();
     }
 
-    @AfterClass(description = "Tear down")
-    public void tearDown(){
+    @AfterAll
+    public static void tearDown(){
         driver.get().browser().deleteAllCookies();
         driver.get().quit();
         driver.remove();
