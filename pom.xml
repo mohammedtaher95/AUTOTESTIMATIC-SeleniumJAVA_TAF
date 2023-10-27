@@ -11,8 +11,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <surefire.plugin.version>3.0.0-M5</surefire.plugin.version>
-        <selenium.version>4.12.0</selenium.version>
+        <surefire.plugin.version>3.1.2</surefire.plugin.version>
+        <selenium.version>4.13.0</selenium.version>
         <appium.version>8.5.1</appium.version>
         <cucumber.version>7.12.1</cucumber.version>
         <allure.version>2.21.0</allure.version>
@@ -356,6 +356,11 @@
             <artifactId>sonar-maven-plugin</artifactId>
             <version>3.9.1.2184</version>
         </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-api</artifactId>
+            <version>4.14.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -421,7 +426,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>${maven-javadoc-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -438,6 +443,11 @@
                 <configuration>
                     <source>16</source>
                     <target>16</target>
+                    <excludes>
+                        <exclude>
+                            utilities.TestRunningManager
+                        </exclude>
+                    </excludes>
                 </configuration>
             </plugin>
             <plugin>
@@ -469,11 +479,8 @@
             <id>testng</id>
             <activation>
                 <file>
-                    <exists>
-                        src/main/java/tools/listeners/testng/TestNGListener.java
-                    </exists>
                     <missing>
-                        src/main/java/tools/listeners/junit/JunitListener.java
+                        target/classes/META-INF/services/org.junit.platform.launcher.LauncherSessionListener
                     </missing>
                 </file>
             </activation>
@@ -482,7 +489,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>3.1.2</version>
+                        <version>${surefire.plugin.version}</version>
                         <configuration>
                             <testFailureIgnore>true</testFailureIgnore>
                             <failIfNoSpecifiedTests>false</failIfNoSpecifiedTests>
@@ -500,10 +507,6 @@
                                     <value>tools.listeners.testng.TestNGListener</value>
                                 </property>
                             </properties>
-                            <!--                    <parallel>instances</parallel>-->
-                            <!--                    <threadCount>3</threadCount>-->
-                            <!--                    <suiteXmlFiles>TestNG.xml</suiteXmlFiles>-->
-                            <!--suppress UnresolvedMavenProperty -->
                             <argLine>
                                 -Dfile.encoding=UTF-8
                                 -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
@@ -537,11 +540,8 @@
             <id>junit</id>
             <activation>
                <file>
-                   <exists>
-                       src/main/java/tools/listeners/junit/JunitListener.java
-                   </exists>
                    <missing>
-                       src/main/java/tools/listeners/testng/TestNGListener.java
+                       target/classes/META-INF/services/org.testng.ITestNGListener
                    </missing>
                </file>
             </activation>
@@ -598,12 +598,6 @@
                                 -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                             </argLine>
                             <properties>
-                                <configurationParameters>
-                                    junit.jupiter.conditions.deactivate = *
-                                    junit.jupiter.extensions.autodetection.enabled = false
-                                    junit.jupiter.execution.parallel.enabled = false
-                                    junit.jupiter.testinstance.lifecycle.default = per_class
-                                </configurationParameters>
                                 <property>
                                     <name>usedefaultlisteners</name>
                                     <value>false</value>
