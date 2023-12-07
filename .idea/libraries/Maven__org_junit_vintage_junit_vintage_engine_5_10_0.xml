@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Maven: org.junit.vintage:junit-vintage-engine:5.10.0" type="java-imported" external-system-id="Maven">
+    <properties groupId="org.junit.vintage" artifactId="junit-vintage-engine" version="5.10.0" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/junit/vintage/junit-vintage-engine/5.10.0/junit-vintage-engine-5.10.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/junit/vintage/junit-vintage-engine/5.10.0/junit-vintage-engine-5.10.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/junit/vintage/junit-vintage-engine/5.10.0/junit-vintage-engine-5.10.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

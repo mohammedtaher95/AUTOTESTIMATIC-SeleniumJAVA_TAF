@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Maven: commons-validator:commons-validator:1.7" type="java-imported" external-system-id="Maven">
+    <properties groupId="commons-validator" artifactId="commons-validator" version="1.7" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/commons-validator/commons-validator/1.7/commons-validator-1.7.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/commons-validator/commons-validator/1.7/commons-validator-1.7-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/commons-validator/commons-validator/1.7/commons-validator-1.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
