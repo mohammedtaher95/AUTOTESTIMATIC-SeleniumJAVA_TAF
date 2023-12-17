@@ -17,7 +17,6 @@ import org.openqa.selenium.support.ThreadGuard;
 import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.testng.Reporter;
-import tools.listeners.junit.helpers.JunitHelper;
 import tools.listeners.webdriver.WebDriverListeners;
 import utilities.JSONFileHandler;
 import utilities.LoggingManager;

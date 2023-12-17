@@ -1,20 +1,45 @@
 package tools.listeners.junit.helpers;
 
+import constants.CrossBrowserMode;
 import driverfactory.webdriver.WebDriver;
+import org.junit.jupiter.api.extension.BeforeAllCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.platform.launcher.*;
-import org.junit.platform.launcher.core.LauncherConfig;
-import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder;
-import org.junit.platform.launcher.core.LauncherFactory;
-import tools.listeners.junit.JunitListener;
 import utilities.LoggingManager;
 import java.lang.reflect.Field;
+import static tools.properties.PropertiesHandler.getPlatform;
 
-import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass;
-
-public class JunitHelper {
+public class JunitHelper implements BeforeAllCallback{
 
     private JunitHelper() {
 
+    }
+
+    @Override
+    public void beforeAll(ExtensionContext extensionContext) {
+        boolean parallelExecutionEnabled =
+                getPlatform().crossBrowserMode().equalsIgnoreCase(String.valueOf(CrossBrowserMode.PARALLEL));
+        if (parallelExecutionEnabled) {
+            // Enable parallel execution for the entire test suite
+            LoggingManager.info("Cross Browsing Mode Enabled, Tests will run in Parallel Mode");
+            extensionContext.getRoot().getStore(ExtensionContext.Namespace.GLOBAL)
+                    .put("junit.jupiter.execution.parallel.enabled", Boolean.TRUE);
+            extensionContext.getRoot().getStore(ExtensionContext.Namespace.GLOBAL)
+                    .put("junit.jupiter.execution.parallel.mode.default", ExecutionMode.CONCURRENT);
+            extensionContext.getRoot().getStore(ExtensionContext.Namespace.GLOBAL)
+                    .put("junit.jupiter.execution.parallel.config.dynamic.factor", 2);
+            extensionContext.getRoot().getStore(ExtensionContext.Namespace.GLOBAL)
+                    .put("junit.jupiter.execution.parallel.config.fixed.parallelism", 2);
+
+            // Update the parallel execution setting as needed
+            // This may involve updating the ExtensionContext, TestTemplateInvocationContext, etc.
+
+        } else {
+            // Handle non-parallel execution
+            extensionContext.getRoot().getStore(ExtensionContext.Namespace.GLOBAL)
+                    .put("junit.jupiter.execution.parallel.enabled", Boolean.FALSE);
+        }
     }
 
     public static WebDriver getDriverInstance(TestIdentifier testIdentifier) {

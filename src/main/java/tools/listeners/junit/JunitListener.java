@@ -1,9 +1,13 @@
 package tools.listeners.junit;
 
 import com.google.auto.service.AutoService;
+import constants.CrossBrowserMode;
 import driverfactory.webdriver.WebDriver;
 import io.qameta.allure.Allure;
 import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.extension.BeforeAllCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.launcher.*;
 import tools.listeners.junit.helpers.JunitHelper;
@@ -14,14 +18,15 @@ import utilities.allure.AllureReportHelper;
 import java.io.File;
 import java.io.IOException;
 
-import static tools.properties.PropertiesHandler.getReporting;
-import static tools.properties.PropertiesHandler.initializeProperties;
+import static tools.properties.PropertiesHandler.*;
 
 @AutoService(LauncherSessionListener.class)
 public class JunitListener implements LauncherSessionListener {
 
     @Override
     public void launcherSessionOpened(LauncherSession session) {
+
+
         session.getLauncher().registerTestExecutionListeners(new TestExecutionListener() {
             @Override
             public void testPlanExecutionStarted(TestPlan testPlan) {
@@ -65,6 +70,7 @@ public class JunitListener implements LauncherSessionListener {
     public void launcherSessionClosed(LauncherSession session) {
         testRunFinished();
     }
+
 
 
     public void testRunStarted() {

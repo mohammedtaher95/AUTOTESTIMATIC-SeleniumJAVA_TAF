@@ -59,9 +59,18 @@ public class JSONFileHandler {
         Object data = null;
         initializeFileReader();
         switch (type){
-            case STRING -> data = JsonPath.from(jsonFileReader.get()).getString(jsonPath);
-            case LIST -> data = JsonPath.from(jsonFileReader.get()).getList(jsonPath);
-            case MAP -> data = JsonPath.from(jsonFileReader.get()).getMap(jsonPath);
+            case STRING: {
+                data = JsonPath.from(jsonFileReader.get()).getString(jsonPath);
+                break;
+            }
+            case LIST: {
+                data = JsonPath.from(jsonFileReader.get()).getList(jsonPath);
+                break;
+            }
+            case MAP: {
+                data = JsonPath.from(jsonFileReader.get()).getMap(jsonPath);
+                break;
+            }
         }
         return data;
     }

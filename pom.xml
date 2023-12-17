@@ -11,7 +11,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <surefire.plugin.version>3.1.2</surefire.plugin.version>
+        <surefire.plugin.version>3.2.2</surefire.plugin.version>
         <selenium.version>4.13.0</selenium.version>
         <appium.version>8.5.1</appium.version>
         <cucumber.version>7.12.1</cucumber.version>
@@ -490,6 +490,13 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>${surefire.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>test</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                         <configuration>
                             <testFailureIgnore>true</testFailureIgnore>
                             <failIfNoSpecifiedTests>false</failIfNoSpecifiedTests>
@@ -529,7 +536,7 @@
                             <dependency>
                                 <groupId>org.apache.maven.surefire</groupId>
                                 <artifactId>surefire-testng</artifactId>
-                                <version>3.1.2</version>
+                                <version>3.2.2</version>
                             </dependency>
                         </dependencies>
                     </plugin>
@@ -550,7 +557,14 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>3.1.2</version>
+                        <version>${surefire.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>test</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                         <dependencies>
                             <dependency>
                                 <groupId>org.aspectj</groupId>
@@ -570,7 +584,7 @@
                             <dependency>
                                 <groupId>org.apache.maven.surefire</groupId>
                                 <artifactId>surefire-junit-platform</artifactId>
-                                <version>3.1.2</version>
+                                <version>3.2.2</version>
                             </dependency>
                         </dependencies>
                         <configuration>

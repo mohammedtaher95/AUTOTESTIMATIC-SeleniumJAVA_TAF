@@ -157,7 +157,7 @@ public class WebDriverListeners implements org.openqa.selenium.support.events.We
 
     @Override
     public void beforeSendKeys(WebElement element, CharSequence... keysToSend) {
-        var stringBuilder = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         Arrays.stream(keysToSend).toList().forEach(stringBuilder::append);
         try {
             LoggingManager.info("Type \"" + stringBuilder + "\" into " + getElementName(element) + ".");
@@ -199,7 +199,7 @@ public class WebDriverListeners implements org.openqa.selenium.support.events.We
 
 
     private String getElementName(WebElement element) {
-        var accessibleName = element.getAccessibleName();
+        String accessibleName = element.getAccessibleName();
         if ("".equals(accessibleName)) {
             return "element";
         } else {

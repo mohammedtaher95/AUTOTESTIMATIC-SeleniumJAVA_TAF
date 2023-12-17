@@ -7,11 +7,16 @@ import io.qameta.allure.TmsLink;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import pages.nopcommerce.homepage.HomePage;
-
+import tools.listeners.junit.helpers.JunitHelper;
 import utilities.UserFormData;
 
-public class JunitTestClass {
+@ExtendWith(JunitHelper.class)
+@Execution(ExecutionMode.CONCURRENT)
+public class JUnitTryTest {
 
     public static ThreadLocal<WebDriver> driver;
     UserFormData newUser;
@@ -20,7 +25,7 @@ public class JunitTestClass {
     @TmsLink("Nop Commerce_1-User Registration")
     @Description("User can access registration page and register successfully")
     @Test
-    public void testMethod(){
+    void testMethod(){
         newUser = new UserFormData();
 
         new HomePage(driver.get())
