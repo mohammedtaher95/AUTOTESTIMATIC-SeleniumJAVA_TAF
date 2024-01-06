@@ -34,7 +34,7 @@ public class GridFactory {
         } catch (IOException e) {
             LoggingManager.error("Unable to Start Selenium Grid");
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            LoggingManager.error(e);
         }
     }
 

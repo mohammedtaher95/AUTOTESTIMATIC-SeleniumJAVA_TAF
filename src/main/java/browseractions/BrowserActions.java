@@ -20,8 +20,7 @@ public class BrowserActions {
     /******************************** URL Controlling and Navigation *************************************/
 
     public String getCurrentURL(){
-        String url = driverThreadLocal.get().getCurrentUrl();
-        return url;
+        return driverThreadLocal.get().getCurrentUrl();
     }
 
     public BrowserActions getToURL(String url){

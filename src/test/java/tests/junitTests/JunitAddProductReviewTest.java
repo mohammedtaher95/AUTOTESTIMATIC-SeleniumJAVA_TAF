@@ -26,7 +26,7 @@ public class JunitAddProductReviewTest {
 
     @Test
     @Order(1)
-    public void UserCanRegisterSuccessfully()  {
+    void UserCanRegisterSuccessfully()  {
         new HomePage(driver.get())
                 .openRegistrationPage()
                 .validateThatUserNavigatedToRegistrationPage()
@@ -37,7 +37,7 @@ public class JunitAddProductReviewTest {
 
     @Test
     @Order(2)
-    public void RegisteredUserCanLogin()
+    void RegisteredUserCanLogin()
     {
         new HomePage(driver.get())
                 .openLoginPage()
@@ -48,7 +48,7 @@ public class JunitAddProductReviewTest {
 
     @Test
     @Order(3)
-    public void UserCanSearchForProducts(){
+    void UserCanSearchForProducts(){
         new SearchPage(driver.get())
                 .productSearch(ProductName)
                 .openProductPage()
@@ -57,7 +57,7 @@ public class JunitAddProductReviewTest {
 
     @Test
     @Order(4)
-    public void RegisteredUserCanAddReviewForProduct() {
+    void RegisteredUserCanAddReviewForProduct() {
         new ProductDetailsPage(driver.get())
                 .addReview()
                 .fillReviewForm(newUser.getMessage(), newUser.getMessage())
@@ -67,9 +67,10 @@ public class JunitAddProductReviewTest {
 
     @Test
     @Order(5)
-    public void RegisteredUserCanLogout()
+    void RegisteredUserCanLogout()
     {
-        new LoginPage(driver.get()).clickOnLogoutButton();
+        new LoginPage(driver.get()).clickOnLogoutButton()
+                .checkThatHomePageIsLoadedSuccessfully();
     }
 
     @AfterAll

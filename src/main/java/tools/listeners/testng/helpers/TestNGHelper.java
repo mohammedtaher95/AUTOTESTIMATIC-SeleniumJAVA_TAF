@@ -88,16 +88,6 @@ public class TestNGHelper {
         firefoxTest.addParameter(browserName, "firefox");
         firefoxTest.setXmlClasses(test.getXmlClasses());
 
-//        if (getPlatform().runAllTests()) {
-//            List<XmlClass> classes = new ArrayList<>();
-//            Set<Class<?>> newSet = Classloader.findAllClasses("tests");
-//            for (Class<?> aClass : newSet) {
-//                classes.add(new XmlClass(String.valueOf(aClass).replaceFirst("class ", "")));
-//            }
-//            chromeTest.setXmlClasses(classes);
-//            firefoxTest.setXmlClasses(classes);
-//        }
-
     }
 
     private static void initializeNormalExecution() {
@@ -108,15 +98,6 @@ public class TestNGHelper {
         singleTest.setThreadCount(1);
         singleTest.setParallel(XmlSuite.ParallelMode.NONE);
         singleTest.setXmlClasses(test.getXmlClasses());
-
-//        if (getPlatform().runAllTests()) {
-//            List<XmlClass> classes = new ArrayList<>();
-//            Set<Class<?>> newSet = Classloader.findAllClasses("tests");
-//            for (Class<?> aClass : newSet) {
-//                classes.add(new XmlClass(String.valueOf(aClass).replaceFirst("class ", "")));
-//            }
-//            singleTest.setXmlClasses(classes);
-//        }
 
     }
 
@@ -130,12 +111,10 @@ public class TestNGHelper {
             for (Field field : fields) {
                 try {
                     if (field.getType() == WebDriver.class) {
-                        field.setAccessible(true);
                         driver = (WebDriver) field.get(currentClass);
                     }
 
                     if (field.getType() == ThreadLocal.class) {
-                        field.setAccessible(true);
                         driverThreadlocal = (ThreadLocal<WebDriver>) field.get(currentClass);
                         driver = driverThreadlocal.get();
                     }

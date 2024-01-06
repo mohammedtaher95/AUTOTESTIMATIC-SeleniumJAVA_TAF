@@ -25,6 +25,12 @@ public class HomePage{
 		this.driver = driver;
 	}
 
+	@Step("HomePage should be loaded successfully")
+	public HomePage checkThatHomePageIsLoadedSuccessfully(){
+		driver.assertThat().element(loginLink).isDisplayed();
+		return this;
+	}
+
 	@Step("Given user clicks on Registration page link")
 	public UserRegistrationPage openRegistrationPage()
 	{
