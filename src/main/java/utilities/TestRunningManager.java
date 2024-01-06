@@ -12,7 +12,6 @@ public class TestRunningManager {
     private static boolean isJunitRunBool = false;
     private static boolean isTestNGRunBool = false;
 
-
     private TestRunningManager() {
 
     }
@@ -49,7 +48,6 @@ public class TestRunningManager {
 
         } else {
             isJunitRunBool = true;
-
         }
     }
 

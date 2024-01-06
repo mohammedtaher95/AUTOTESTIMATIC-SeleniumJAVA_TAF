@@ -1,5 +1,6 @@
 package utilities.allure;
 
+import org.apache.commons.lang.SystemUtils;
 import utilities.LoggingManager;
 
 import java.io.*;
@@ -11,7 +12,13 @@ public class AllureBatchGenerator {
 
     }
     public static void generateBatFile(){
-        Path file = Paths.get("generateAllureReport.bat");
+        Path file;
+        if(SystemUtils.IS_OS_WINDOWS) {
+            file = Paths.get("generateAllureReport.bat");
+        }
+        else {
+            file = Paths.get("generateAllureReport.sh");
+        }
         if(!Files.exists(file)){
             try {
                 Files.writeString(file,"@echo off\n", StandardOpenOption.CREATE, StandardOpenOption.APPEND);

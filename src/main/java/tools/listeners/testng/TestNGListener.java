@@ -4,6 +4,7 @@ import com.google.auto.service.AutoService;
 import driverfactory.webdriver.WebDriver;
 import io.qameta.allure.Allure;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.SystemUtils;
 import org.testng.*;
 import org.testng.xml.XmlSuite;
 import tools.listeners.testng.helpers.RetryAnalyzer;
@@ -13,6 +14,8 @@ import utilities.EmailableReportGenerator;
 import utilities.LoggingManager;
 import utilities.ScreenshotHelper;
 import utilities.allure.AllureReportHelper;
+import utilities.docker.DockerFilesGenerator;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -26,17 +29,27 @@ public class TestNGListener implements ITestNGListener, IAlterSuiteListener, ITe
         IExecutionListener, IInvokedMethodListener {
 
 
+    long startTime;
     @Override
     public void onExecutionStart() {
         Allure.getLifecycle();
+        startTime = System.currentTimeMillis();
     }
 
     @Override
     public void onExecutionFinish() {
+        long endTime = System.currentTimeMillis();
+        long elapsedTime = (endTime - startTime)/1000;
+        LoggingManager.info("Elapsed Time: " + elapsedTime + "s");
         if (getReporting().automaticOpenAllureReport()) {
             try {
                 LoggingManager.info("Generating Allure Report.....");
-                Runtime.getRuntime().exec("generateAllureReport.bat");
+                if(SystemUtils.IS_OS_WINDOWS){
+                    Runtime.getRuntime().exec("generateAllureReport.bat");
+                }
+                else {
+                    Runtime.getRuntime().exec("sh generateAllureReport.sh");
+                }
             } catch (IOException e) {
                 LoggingManager.error("Unable to open Allure Report " + e.getMessage());
             }
@@ -48,6 +61,7 @@ public class TestNGListener implements ITestNGListener, IAlterSuiteListener, ITe
         // To be implemented later
         LoggingManager.startTestCase(result.getName());
         result.getMethod().setThreadPoolSize(50);
+
     }
 
     @Override
@@ -126,6 +140,7 @@ public class TestNGListener implements ITestNGListener, IAlterSuiteListener, ITe
     @Override
     public void onStart(ISuite suite) {
         AllureBatchGenerator.generateBatFile();
+        DockerFilesGenerator.generateBatFiles();
         if (getReporting().cleanAllureReport()) {
             AllureReportHelper.cleanAllureReport();
         }

@@ -4,13 +4,11 @@ import assertions.Assertions;
 import browseractions.BrowserActions;
 import constants.DriverType;
 import constants.EnvType;
+import driverfactory.webdriver.gridservice.GridFactory;
 import driverfactory.webdriver.localdriver.DriverFactory;
 import elementactions.*;
 import org.openqa.selenium.MutableCapabilities;
-import org.openqa.selenium.Proxy;
 import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.support.ThreadGuard;
@@ -22,7 +20,6 @@ import utilities.JSONFileHandler;
 import utilities.LoggingManager;
 import utilities.TestRunningManager;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.HashMap;
@@ -33,7 +30,6 @@ public class WebDriver {
 
     private final ThreadLocal<org.openqa.selenium.WebDriver> driverThreadLocal = new ThreadLocal<>();
     private String browserName;
-
     private final FluentWait<org.openqa.selenium.WebDriver> driverWait;
 
     JSONFileHandler config = new JSONFileHandler("parallel.conf.json");
@@ -46,6 +42,8 @@ public class WebDriver {
         catch (NullPointerException e) {
             browserName = getCapabilities().targetBrowserName();
         }
+        String osName = System.getProperty("os.name");
+        LoggingManager.info("Running AUTOTESTIMATIC Framework on " + osName);
 
         LoggingManager.info("Initializing WebDriver.....");
         createWebDriver();
@@ -99,24 +97,17 @@ public class WebDriver {
     }
 
     private void gridInit() {
+
+        GridFactory.gridUp();
         String baseURL = getCapabilities().baseURL();
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setBrowserName(browserName);
-        if(!getPlatform().proxySettings().isEmpty()){
-            Proxy proxy = new Proxy();
-            proxy.setHttpProxy(getPlatform().proxySettings());
-            proxy.setSslProxy(getPlatform().proxySettings());
-            capabilities.setCapability(CapabilityType.PROXY, proxy);
-        }
-        LoggingManager.info("Starting Selenium Grid on: " + getPlatform().remoteURL());
-        try {
-            RemoteWebDriver driver = new RemoteWebDriver(new URL(getPlatform().remoteURL()), capabilities);
-            driver.manage().window().maximize();
-            setRemoteDriver(new EventFiringDecorator<>(org.openqa.selenium.remote.RemoteWebDriver.class, new WebDriverListeners(driver))
-                    .decorate(driver));
-        } catch (MalformedURLException e) {
-            LoggingManager.error("Unable to create Remote WebDriver: " + e.getMessage());
-        }
+
+        LoggingManager.info("Start Running via Selenium Grid on: " + getPlatform().remoteURL());
+
+        RemoteWebDriver driver = GridFactory.getRemoteDriver(browserName);
+        driver.manage().window().maximize();
+        setRemoteDriver(new EventFiringDecorator<>(org.openqa.selenium.remote.RemoteWebDriver.class,
+                new WebDriverListeners(driver)).decorate(driver));
+
         if (!baseURL.isEmpty()) {
             getDriver().navigate().to(baseURL);
         }
@@ -196,6 +187,10 @@ public class WebDriver {
         driverThreadLocal.get().manage().deleteAllCookies();
         driverThreadLocal.get().quit();
         driverThreadLocal.remove();
+
+        if(EnvType.valueOf(getPlatform().environmentType()) == EnvType.GRID){
+            GridFactory.gridTearDown();
+        }
 
     }
 

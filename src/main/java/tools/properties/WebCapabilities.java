@@ -25,5 +25,28 @@ public interface WebCapabilities extends Config, Accessible {
     @DefaultValue("normal")
     String executionMethod();
 
+    @Key("MOBILE_EMULATION")
+    @DefaultValue("false")
+    boolean isMobileEmulation();
+
+    @Key("DEVICE_NAME")
+    @DefaultValue("")
+    String deviceName();
+
+    @Key("CUSTOM_DEVICE")
+    @DefaultValue("false")
+    boolean isCustomDevice();
+
+    @Key("CUSTOM_DEVICE_WIDTH")
+    @DefaultValue("360")
+    int customDeviceWidth();
+
+    @Key("CUSTOM_DEVICE_HEIGHT")
+    @DefaultValue("640")
+    int customDeviceHeight();
+
+    @Key("CUSTOM_DEVICE_PIXEL_RATIO")
+    @DefaultValue("3.0")
+    float customDevicePixelRatio();
 
 }

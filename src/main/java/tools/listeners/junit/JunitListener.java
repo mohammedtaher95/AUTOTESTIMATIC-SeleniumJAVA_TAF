@@ -1,13 +1,10 @@
 package tools.listeners.junit;
 
 import com.google.auto.service.AutoService;
-import constants.CrossBrowserMode;
 import driverfactory.webdriver.WebDriver;
 import io.qameta.allure.Allure;
 import org.apache.commons.io.FileUtils;
-import org.junit.jupiter.api.extension.BeforeAllCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.apache.commons.lang.SystemUtils;
 import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.launcher.*;
 import tools.listeners.junit.helpers.JunitHelper;
@@ -88,7 +85,12 @@ public class JunitListener implements LauncherSessionListener {
         if (getReporting().automaticOpenAllureReport()) {
             try {
                 LoggingManager.info("Generating Allure Report.....");
-                Runtime.getRuntime().exec("generateAllureReport.bat");
+                if(SystemUtils.IS_OS_WINDOWS){
+                    Runtime.getRuntime().exec("generateAllureReport.bat");
+                }
+                else {
+                    Runtime.getRuntime().exec("sh generateAllureReport.sh");
+                }
             } catch (IOException e) {
                 LoggingManager.error("Unable to open Allure Report " + e.getMessage());
             }
