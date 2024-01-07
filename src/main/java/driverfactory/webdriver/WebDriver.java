@@ -45,7 +45,6 @@ public class WebDriver {
         String osName = System.getProperty("os.name");
         LoggingManager.info("Running AUTOTESTIMATIC Framework on " + osName);
 
-        LoggingManager.info("Initializing WebDriver.....");
         createWebDriver();
         if (driverThreadLocal.get() == null) {
             createWebDriver();

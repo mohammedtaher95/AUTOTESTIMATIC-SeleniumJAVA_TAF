@@ -9,6 +9,7 @@ import org.testng.*;
 import org.testng.xml.XmlSuite;
 import tools.listeners.testng.helpers.RetryAnalyzer;
 import tools.listeners.testng.helpers.TestNGHelper;
+import utilities.ExtentReportManager;
 import utilities.allure.AllureBatchGenerator;
 import utilities.EmailableReportGenerator;
 import utilities.LoggingManager;
@@ -30,6 +31,8 @@ public class TestNGListener implements ITestNGListener, IAlterSuiteListener, ITe
 
 
     long startTime;
+    int index = 0;
+
     @Override
     public void onExecutionStart() {
         Allure.getLifecycle();
@@ -39,21 +42,25 @@ public class TestNGListener implements ITestNGListener, IAlterSuiteListener, ITe
     @Override
     public void onExecutionFinish() {
         long endTime = System.currentTimeMillis();
-        long elapsedTime = (endTime - startTime)/1000;
+        long elapsedTime = (endTime - startTime) / 1000;
         LoggingManager.info("Elapsed Time: " + elapsedTime + "s");
         if (getReporting().automaticOpenAllureReport()) {
             try {
                 LoggingManager.info("Generating Allure Report.....");
-                if(SystemUtils.IS_OS_WINDOWS){
+                if (SystemUtils.IS_OS_WINDOWS) {
                     Runtime.getRuntime().exec("generateAllureReport.bat");
-                }
-                else {
+                } else {
                     Runtime.getRuntime().exec("sh generateAllureReport.sh");
                 }
             } catch (IOException e) {
                 LoggingManager.error("Unable to open Allure Report " + e.getMessage());
             }
         }
+        ExtentReportManager.finishReport();
+        if(getReporting().automaticOpenExtentReport()) {
+            ExtentReportManager.export();
+        }
+
     }
 
     @Override
@@ -61,7 +68,6 @@ public class TestNGListener implements ITestNGListener, IAlterSuiteListener, ITe
         // To be implemented later
         LoggingManager.startTestCase(result.getName());
         result.getMethod().setThreadPoolSize(50);
-
     }
 
     @Override
@@ -83,9 +89,12 @@ public class TestNGListener implements ITestNGListener, IAlterSuiteListener, ITe
         method.getTestMethod().getXmlTest().setThreadCount(50);
         method.getTestMethod().setThreadPoolSize(50);
         method.getTestMethod().setInvocationCount(50);
-        if(getTestNG().retryFailedTestAttempts() > 0){
+        if (getTestNG().retryFailedTestAttempts() > 0) {
             method.getTestMethod().setRetryAnalyzerClass(RetryAnalyzer.class);
         }
+
+        ExtentReportManager.logTest(result.getTestClass().getName());
+        ExtentReportManager.logMethod(method.getTestMethod().getMethodName());
     }
 
     @Override
@@ -93,26 +102,26 @@ public class TestNGListener implements ITestNGListener, IAlterSuiteListener, ITe
         WebDriver driver = TestNGHelper.getDriverInstance(result);
         if (result.getStatus() == ITestResult.FAILURE &&
                 (!(result.getMethod().isBeforeClassConfiguration() || result.getMethod().isBeforeSuiteConfiguration()
-            || result.getMethod().isBeforeMethodConfiguration() || result.getMethod().isBeforeTestConfiguration()))){
-                LoggingManager.error("Failure of test cases and its details are : " + result.getName());
-                LoggingManager.error("Failed!");
-                LoggingManager.error("Taking Screenshot....");
-                String fullPath = System.getProperty("user.dir")
-                        + ScreenshotHelper.captureScreenshot(driver,
-                        result.getMethod().getConstructorOrMethod().getName());
-                LoggingManager.info("Screenshot captured for Test case: " + result.getName());
+                        || result.getMethod().isBeforeMethodConfiguration() || result.getMethod().isBeforeTestConfiguration()))) {
+            LoggingManager.error("Failure of test cases and its details are : " + result.getName());
+            LoggingManager.error("Failed!");
+            LoggingManager.error("Taking Screenshot....");
+            String fullPath = System.getProperty("user.dir")
+                    + ScreenshotHelper.captureScreenshot(driver,
+                    result.getMethod().getConstructorOrMethod().getName());
+            LoggingManager.info("Screenshot captured for Test case: " + result.getName());
 
-                try {
-                    Allure.addAttachment(result.getMethod().getConstructorOrMethod().getName(),
-                            FileUtils.openInputStream(new File(fullPath)));
-                } catch (IOException e) {
-                    LoggingManager.error("Attachment isn't Found");
-                }
+            try {
+                Allure.addAttachment(result.getMethod().getConstructorOrMethod().getName(),
+                        FileUtils.openInputStream(new File(fullPath)));
+            } catch (IOException e) {
+                LoggingManager.error("Attachment isn't Found");
+            }
 
         }
+        ExtentReportManager.saveResults(result, driver);
 
     }
-
 
 
     @Override
@@ -128,19 +137,23 @@ public class TestNGListener implements ITestNGListener, IAlterSuiteListener, ITe
     @Override
     public void onStart(ITestContext context) {
         //TO-DO
-        context.getCurrentXmlTest().setThreadCount(2);
+        LoggingManager.info(context.getCurrentXmlTest().getXmlClasses().get(index).getName());
 
+        index++;
     }
 
     @Override
     public void onFinish(ITestContext context) {
         //TO-DO
+
     }
 
     @Override
     public void onStart(ISuite suite) {
         AllureBatchGenerator.generateBatFile();
         DockerFilesGenerator.generateBatFiles();
+        ExtentReportManager.setUpReport();
+
         if (getReporting().cleanAllureReport()) {
             AllureReportHelper.cleanAllureReport();
         }

@@ -8,6 +8,7 @@ import org.apache.commons.lang.SystemUtils;
 import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.launcher.*;
 import tools.listeners.junit.helpers.JunitHelper;
+import utilities.ExtentReportManager;
 import utilities.LoggingManager;
 import utilities.ScreenshotHelper;
 import utilities.allure.AllureBatchGenerator;
@@ -73,6 +74,7 @@ public class JunitListener implements LauncherSessionListener {
     public void testRunStarted() {
         LoggingManager.startLog();
         initializeProperties();
+        ExtentReportManager.setUpReport();
         Allure.getLifecycle();
         AllureBatchGenerator.generateBatFile();
         if (getReporting().cleanAllureReport()) {
@@ -95,19 +97,23 @@ public class JunitListener implements LauncherSessionListener {
                 LoggingManager.error("Unable to open Allure Report " + e.getMessage());
             }
         }
+        ExtentReportManager.finishReport();
+        ExtentReportManager.export();
     }
 
 
     public void testStarted(TestIdentifier testIdentifier) {
         if(testIdentifier.isTest()){
             LoggingManager.startTestCase(testIdentifier.getDisplayName());
-
+            ExtentReportManager.logTest(testIdentifier.getDisplayName());
         }
     }
 
 
     public void testPassed(TestIdentifier testIdentifier) {
         LoggingManager.info("Success of test cases and its details are : " + testIdentifier.getDisplayName());
+
+//        ExtentReportManager.logMethod(testIdentifier.getDisplayName());
     }
 
 

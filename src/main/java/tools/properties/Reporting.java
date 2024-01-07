@@ -22,4 +22,8 @@ public interface Reporting extends Config, Accessible {
     @DefaultValue("false")
     boolean generateEmailableReport();
 
+    @Key("OPEN_EXTENT_REPORT_AFTER_EXECUTION")
+    @DefaultValue("true")
+    boolean automaticOpenExtentReport();
+
 }
