@@ -12,7 +12,7 @@ which provides easy to use syntax, and easy to setup environment according to th
 - Support Running on BrowserStack
 - Initializing Driver in a Decorated way
 
-### Test Running
+### Test Execution
 - Can run Tests via Maven Commands
 - Handling running Tests via TestNG XML configuration files
 - Support TestNG Runner with Implementing custom Listener
