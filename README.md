@@ -1,22 +1,43 @@
-# Selenium JAVA Test Automation Framework
+# AUTOTESTIMATIC, A Selenium JAVA Test Automation Framework
 - This project is an open-source Test automation Framework that allows you to perform multiple actions to test a web application's functionality, behaviour, 
 which provides easy to use syntax, and easy to setup environment according to the needed requirements for testing
 - This project is based on Selenium WebDriver, TestNG Runner, and Maven
 
 
 ## Features
+### Driver Initialization:
 - Support Running Testing on Following Browsers locally: Chrome, Firefox, & Edge either Normal or Headless
 - Support Cross-Browsing Mode
-- Support Running on Selenium Grid via Docker 
+- Support Running on Selenium Grid via Docker, with starting Grid automatically along with test execution, i.e: no need to be started separately in the terminal, just Docker engine should be up and running
+- Support Running on BrowserStack
+- Initializing Driver in a Decorated way
+
+### Test Running
+- Can run Tests via Maven Commands
+- Handling running Tests via TestNG XML configuration files
+- Support TestNG Runner with Implementing custom Listener
+- Support JUnit5 Jupiter with Implementing custom Listener
+- Handling Test Runner Selection via Google AutoService API, so no need to then Add `tools.listeners.testng.TestNGListener` to TestNG Configuration
+- Handling Retry Failed Tests via TestNG Retry Analyzer
+
+### Reporting
 - Generate Allure Report automatically after Test Execution with screenshots
-- Changing Framework settings via Properties files
+- Generate Extent Report automatically after Test Execution with screenshots
+- Auto Cleaning Reports before Execution
+
+### Framework Configurations
+- Changing Framework Configurations via Properties files
+- Also, Changing Framework Configurations programmatically
+- Generating Properties Files with Default Settings if not exists
 
 ## Tech Stack
 - Java
 - Maven
 - TestNG
+- JUnit5 Jupiter
 - Selenium WebDriver
-- Allure
+- Allure Reports
+- Extent Reports
 - Docker for Setting up Selenium Grid
 - Jenkins
 
@@ -25,7 +46,6 @@ which provides easy to use syntax, and easy to setup environment according to th
 ### Step 1: Setup Project
 - Create a new Java/Maven project using Eclipse, IntelliJ or your favourite IDE
 - Copy the highlighted contents of this [pom.xml](https://github.com/mohammedtaher95/testJARProject/blob/9905f207dfa95ce1d44b92cc574ead9852064d10/pom.xml#L15-L126) into yours inside `<project>` tag
-- Click on Run dropdown menu and then select Edit Configuration, then Add `tools.listeners.testng.TestNGListener` to TestNG Configuration
 
 
 ### Step 2: Create a new Test Class
