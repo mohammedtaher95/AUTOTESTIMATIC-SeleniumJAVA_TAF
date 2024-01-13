@@ -4,15 +4,15 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import tools.properties.Properties;
 import utilities.LoggingManager;
 import java.time.Duration;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-import static tools.properties.PropertiesHandler.getTimeouts;
 
 public class JavaScriptWaitManager {
-    private static final int DURATION = getTimeouts().lazyLoadingTimeout();
+    private static final int DURATION = Properties.timeouts.lazyLoadingTimeout();
     private static final String SCRIPT = "return document.readyState";
     private static final String STATE = "complete";
     private final ThreadLocal<WebDriver> jsWaitDriver = new ThreadLocal<>();
@@ -29,7 +29,7 @@ public class JavaScriptWaitManager {
     public void waitForLazyLoading() {
         JavascriptExecutor jSE = (JavascriptExecutor) jsWaitDriver.get();
         
-        if (getTimeouts().waitForLazyLoading()) {
+        if (Properties.timeouts.waitForLazyLoading()) {
             try {
                 waitForJQueryLoadIfDefined(jSE);
                 waitForAngularIfDefined(jSE);

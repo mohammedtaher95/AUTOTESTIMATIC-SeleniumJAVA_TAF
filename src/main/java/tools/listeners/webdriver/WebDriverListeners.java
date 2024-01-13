@@ -4,6 +4,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import tools.properties.Properties;
 import utilities.LoggingManager;
 import utilities.javascript.JavaScriptWaitManager;
 
@@ -14,7 +15,6 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
-import static tools.properties.PropertiesHandler.getTimeouts;
 
 public class WebDriverListeners implements org.openqa.selenium.support.events.WebDriverListener {
 
@@ -101,7 +101,7 @@ public class WebDriverListeners implements org.openqa.selenium.support.events.We
         new JavaScriptWaitManager(driver).waitForLazyLoading();
         try {
             new FluentWait<>(driver)
-                    .withTimeout(Duration.ofSeconds(getTimeouts().elementIdentificationTimeout()))
+                    .withTimeout(Duration.ofSeconds(Properties.timeouts.elementIdentificationTimeout()))
                     .pollingEvery(Duration.ofMillis(500))
                     .ignoring(NoSuchElementException.class)
                     .ignoring(StaleElementReferenceException.class)
@@ -132,7 +132,7 @@ public class WebDriverListeners implements org.openqa.selenium.support.events.We
 
         try {
             (new WebDriverWait(this.driver,
-                    Duration.ofSeconds(getTimeouts().elementIdentificationTimeout())))
+                    Duration.ofSeconds(Properties.timeouts.elementIdentificationTimeout())))
                     .until(ExpectedConditions.elementToBeClickable(element));
         } catch (org.openqa.selenium.TimeoutException timeoutException) {
             LoggingManager.error(timeoutException);

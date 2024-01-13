@@ -7,12 +7,13 @@ import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 import driverfactory.webdriver.WebDriver;
 import org.testng.ITestResult;
+import tools.properties.Properties;
+
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
 
-import static tools.properties.PropertiesHandler.getCapabilities;
 
 public class ExtentReportManager {
 
@@ -37,7 +38,7 @@ public class ExtentReportManager {
         extentReport.setSystemInfo("Framework Type", "AUTOTESTIMATIC Web Framework");
         extentReport.setSystemInfo("Author", "Mohammed Taher");
         extentReport.setSystemInfo("os", System.getProperty("os.name"));
-        extentReport.setSystemInfo("Environment", getCapabilities().targetBrowserName());
+        extentReport.setSystemInfo("Environment", Properties.web.targetBrowserName());
         extentReport.setSystemInfo("App", "NopCommerce Web App");
     }
 

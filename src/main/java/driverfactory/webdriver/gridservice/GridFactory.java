@@ -8,12 +8,12 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import tools.properties.Properties;
 import utilities.LoggingManager;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static tools.properties.PropertiesHandler.*;
 
 public class GridFactory {
 
@@ -58,7 +58,7 @@ public class GridFactory {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setBrowserName(browserName);
 
-        if(getCapabilities().isMobileEmulation()){
+        if(Properties.web.isMobileEmulation()){
             if(browserName.equalsIgnoreCase("chrome")){
                 ChromeOptions options = new ChromeOptions();
                 options.setExperimentalOption("mobileEmulation", MobileEmulation.setEmulationSettings());
@@ -71,14 +71,14 @@ public class GridFactory {
             }
         }
 
-        if(!getPlatform().proxySettings().isEmpty()){
+        if(!Properties.executionOptions.proxySettings().isEmpty()){
             Proxy proxy = new Proxy();
-            proxy.setHttpProxy(getPlatform().proxySettings());
-            proxy.setSslProxy(getPlatform().proxySettings());
+            proxy.setHttpProxy(Properties.executionOptions.proxySettings());
+            proxy.setSslProxy(Properties.executionOptions.proxySettings());
             capabilities.setCapability(CapabilityType.PROXY, proxy);
         }
         try {
-            driver = new RemoteWebDriver(new URL(getPlatform().remoteURL()), capabilities);
+            driver = new RemoteWebDriver(new URL(Properties.executionOptions.remoteURL()), capabilities);
         } catch (MalformedURLException e) {
             LoggingManager.error("Unable to create Remote WebDriver: " + e.getMessage());
         }

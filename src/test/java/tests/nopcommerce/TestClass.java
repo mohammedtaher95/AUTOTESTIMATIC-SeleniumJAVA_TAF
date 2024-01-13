@@ -4,7 +4,10 @@ import driverfactory.webdriver.WebDriver;
 import io.qameta.allure.*;
 import org.testng.annotations.*;
 import pages.nopcommerce.homepage.HomePage;
+import tools.properties.Properties;
+import tools.properties.WebCapabilities;
 import utilities.UserFormData;
+
 
 public class TestClass{
 
@@ -29,8 +32,13 @@ public class TestClass{
 
     @BeforeClass(description = "Setup Driver")
     public void setUp(){
+//        new WebCapabilities.SetProperty().targetBrowserName("edge");
+//        Properties.timeouts.set().waitForLazyLoading(true);
+//        Properties.web.set().targetBrowserName("edge");
+//        Properties.executionOptions.set().crossBrowserMode("PARALLEL");
         driver = new ThreadLocal<>();
         driver.set(new WebDriver());
+
     }
 
     @AfterClass(description = "Tear down")

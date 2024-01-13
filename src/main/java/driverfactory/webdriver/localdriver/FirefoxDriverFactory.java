@@ -3,24 +3,24 @@ package driverfactory.webdriver.localdriver;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import tools.properties.Properties;
 
 import java.time.Duration;
-
-import static tools.properties.PropertiesHandler.*;
 
 public class FirefoxDriverFactory extends DriverAbstract {
 
     @Override
     protected void startDriver() {
         FirefoxOptions options = new FirefoxOptions();
-        options.addArguments("--" + getCapabilities().executionMethod(), "--window-size=1920,1080");
-        options.setScriptTimeout(Duration.ofSeconds(getTimeouts().scriptTimeout()));
-        options.setPageLoadTimeout(Duration.ofSeconds(getTimeouts().pageLoadTimeout()));
+        options.addArguments("--" + Properties.web.executionMethod(), "--window-size=1920,1080");
+        options.setScriptTimeout(Duration.ofSeconds(Properties.timeouts.scriptTimeout()));
+        options.setPageLoadTimeout(Duration.ofSeconds(Properties.timeouts.pageLoadTimeout()));
 
-        if(!getPlatform().proxySettings().isEmpty()){
+
+        if(!Properties.executionOptions.proxySettings().isEmpty()){
             Proxy proxy = new Proxy();
-            proxy.setHttpProxy(getPlatform().proxySettings());
-            proxy.setSslProxy(getPlatform().proxySettings());
+            proxy.setHttpProxy(Properties.executionOptions.proxySettings());
+            proxy.setSslProxy(Properties.executionOptions.proxySettings());
             options.setProxy(proxy);
         }
 

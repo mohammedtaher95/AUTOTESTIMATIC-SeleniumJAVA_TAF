@@ -2,13 +2,12 @@ package tools.properties;
 
 import org.aeonbits.owner.ConfigFactory;
 import utilities.LoggingManager;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.Properties;
 
+import static tools.properties.Properties.*;
 
 
 public class PropertiesHandler {
@@ -18,15 +17,8 @@ public class PropertiesHandler {
     }
 
     static String header = "#######################################################";
-    protected static Properties properties;
-    private static ExecutionPlatform platform;
-    private static WebCapabilities capabilities;
-    private static Reporting reporting;
-    private static TestNG testNG;
-    private static Log4j log4j;
-    private static Timeouts timeouts;
 
-    private static File propertiesDirectory;
+
     private static File platformProperties;
     private static File capProperties;
     private static File reportingFile;
@@ -35,7 +27,7 @@ public class PropertiesHandler {
     private static File timeoutsFile;
 
     static String propertiesDirectoryPath = "src/main/resources/properties/";
-    static String platformPath = "src/main/resources/properties/ExecutionPlatform.properties";
+    static String platformPath = "src/main/resources/properties/ExecutionOptions.properties";
     static String webCapPath = "src/main/resources/properties/WebCapabilities.properties";
     static String reportingPath = "src/main/resources/properties/Reporting.properties";
     static String testNGPath = "src/main/resources/properties/TestNG.properties";
@@ -43,22 +35,30 @@ public class PropertiesHandler {
     static String timeoutsPath = "src/main/resources/properties/Timeouts.properties";
 
 
-    public static void initializeProperties(){
+    public static void initialize(){
 
         LoggingManager.info("Initializing Properties........");
-        platform = ConfigFactory.create(ExecutionPlatform.class);
-        capabilities = ConfigFactory.create(WebCapabilities.class);
-        reporting = ConfigFactory.create(Reporting.class);
-        testNG = ConfigFactory.create(TestNG.class);
-        log4j = ConfigFactory.create(Log4j.class);
-        timeouts = ConfigFactory.create(Timeouts.class);
+        Properties.executionOptions = ConfigFactory.create(ExecutionOptions.class);
+        Properties.web = ConfigFactory.create(WebCapabilities.class);
+        Properties.reporting = ConfigFactory.create(Reporting.class);
+        Properties.testNG = ConfigFactory.create(TestNG.class);
+        Properties.log4j = ConfigFactory.create(Log4j.class);
+        Properties.timeouts = ConfigFactory.create(Timeouts.class);
 
         generateDefaultProperties();
     }
 
+    public static void reloadProperties() {
+        LoggingManager.info("Reloading Properties.....");
+        Properties.executionOptions.reload();
+        Properties.web.reload();
+        Properties.reporting.reload();
+        Properties.timeouts.reload();
+    }
+
     private static void generateDefaultProperties() {
         LoggingManager.info("Checking if Properties files exist.....");
-        propertiesDirectory = new File(propertiesDirectoryPath);
+        File propertiesDirectory = new File(propertiesDirectoryPath);
         platformProperties = new File(platformPath);
         capProperties = new File(webCapPath);
         reportingFile = new File(reportingPath);
@@ -77,7 +77,7 @@ public class PropertiesHandler {
             if(!platformProperties.exists()){
                 printHeader(platformProperties);
                 FileOutputStream outputStream = new FileOutputStream(platformPath, true);
-                platform.store(outputStream, null);
+                executionOptions.store(outputStream, null);
                 printFooter(platformProperties);
                 outputStream.close();
             }
@@ -85,7 +85,7 @@ public class PropertiesHandler {
             if(!capProperties.exists()){
                 printHeader(capProperties);
                 FileOutputStream outputStream = new FileOutputStream(webCapPath, true);
-                capabilities.store(outputStream, null);
+                web.store(outputStream, null);
                 printFooter(capProperties);
                 outputStream.close();
             }
@@ -134,7 +134,7 @@ public class PropertiesHandler {
         Files.writeString(Paths.get(file.toURI()), header, StandardOpenOption.CREATE,StandardOpenOption.APPEND);
 
         if(file.equals(platformProperties)){
-            Files.writeString(Paths.get(file.toURI()), "\n########## TAF Execution Platform Properties ##########\n"
+            Files.writeString(Paths.get(file.toURI()), "\n########## TAF Execution Options Properties ###########\n"
                     , StandardOpenOption.CREATE,StandardOpenOption.APPEND);
         }
 
@@ -167,45 +167,6 @@ public class PropertiesHandler {
         Files.writeString(Paths.get(file.toURI()), "\n##################### End of File #####################\n"
                 , StandardOpenOption.CREATE,StandardOpenOption.APPEND);
         Files.writeString(Paths.get(file.toURI()), header, StandardOpenOption.CREATE,StandardOpenOption.APPEND);
-    }
-
-    public static void setPlatform(ExecutionPlatform platform) {
-        PropertiesHandler.platform = platform;
-    }
-
-    public static void setCapabilities(WebCapabilities capabilities) {
-        PropertiesHandler.capabilities = capabilities;
-    }
-
-    public static void setReporting(Reporting reporting) {
-        PropertiesHandler.reporting = reporting;
-    }
-
-    public static void setTestNG(TestNG testNG) {
-        PropertiesHandler.testNG = testNG;
-    }
-
-    public static void setTimeouts(Timeouts timeouts) {
-        PropertiesHandler.timeouts = timeouts;
-    }
-
-    public static TestNG getTestNG() {
-        return testNG;
-    }
-
-    public static ExecutionPlatform getPlatform() {
-        return platform;
-    }
-
-    public static WebCapabilities getCapabilities() {
-        return capabilities;
-    }
-
-    public static Reporting getReporting() {
-        return reporting;
-    }
-    public static Timeouts getTimeouts() {
-        return timeouts;
     }
 
 }

@@ -9,6 +9,8 @@ import org.testng.*;
 import org.testng.xml.XmlSuite;
 import tools.listeners.testng.helpers.RetryAnalyzer;
 import tools.listeners.testng.helpers.TestNGHelper;
+import tools.properties.Properties;
+import tools.properties.PropertiesHandler;
 import utilities.ExtentReportManager;
 import utilities.allure.AllureBatchGenerator;
 import utilities.EmailableReportGenerator;
@@ -16,22 +18,18 @@ import utilities.LoggingManager;
 import utilities.ScreenshotHelper;
 import utilities.allure.AllureReportHelper;
 import utilities.docker.DockerFilesGenerator;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-
-import static tools.properties.PropertiesHandler.*;
 
 
 @AutoService(ITestNGListener.class)
 public class TestNGListener implements ITestNGListener, IAlterSuiteListener, ITestListener, ISuiteListener,
         IExecutionListener, IInvokedMethodListener {
 
-
     long startTime;
-    int index = 0;
+
 
     @Override
     public void onExecutionStart() {
@@ -44,7 +42,7 @@ public class TestNGListener implements ITestNGListener, IAlterSuiteListener, ITe
         long endTime = System.currentTimeMillis();
         long elapsedTime = (endTime - startTime) / 1000;
         LoggingManager.info("Elapsed Time: " + elapsedTime + "s");
-        if (getReporting().automaticOpenAllureReport()) {
+        if (Properties.reporting.automaticOpenAllureReport()) {
             try {
                 LoggingManager.info("Generating Allure Report.....");
                 if (SystemUtils.IS_OS_WINDOWS) {
@@ -57,7 +55,7 @@ public class TestNGListener implements ITestNGListener, IAlterSuiteListener, ITe
             }
         }
         ExtentReportManager.finishReport();
-        if(getReporting().automaticOpenExtentReport()) {
+        if(Properties.reporting.automaticOpenExtentReport()) {
             ExtentReportManager.export();
         }
 
@@ -89,7 +87,7 @@ public class TestNGListener implements ITestNGListener, IAlterSuiteListener, ITe
         method.getTestMethod().getXmlTest().setThreadCount(50);
         method.getTestMethod().setThreadPoolSize(50);
         method.getTestMethod().setInvocationCount(50);
-        if (getTestNG().retryFailedTestAttempts() > 0) {
+        if (Properties.testNG.retryFailedTestAttempts() > 0) {
             method.getTestMethod().setRetryAnalyzerClass(RetryAnalyzer.class);
         }
 
@@ -137,9 +135,6 @@ public class TestNGListener implements ITestNGListener, IAlterSuiteListener, ITe
     @Override
     public void onStart(ITestContext context) {
         //TO-DO
-        LoggingManager.info(context.getCurrentXmlTest().getXmlClasses().get(index).getName());
-
-        index++;
     }
 
     @Override
@@ -154,7 +149,7 @@ public class TestNGListener implements ITestNGListener, IAlterSuiteListener, ITe
         DockerFilesGenerator.generateBatFiles();
         ExtentReportManager.setUpReport();
 
-        if (getReporting().cleanAllureReport()) {
+        if (Properties.reporting.cleanAllureReport()) {
             AllureReportHelper.cleanAllureReport();
         }
     }
@@ -162,7 +157,8 @@ public class TestNGListener implements ITestNGListener, IAlterSuiteListener, ITe
     @Override
     public void alter(List<XmlSuite> suites) {
         LoggingManager.startLog();
-        initializeProperties();
+        PropertiesHandler.initialize();
+        PropertiesHandler.reloadProperties();
         suites.set(0, TestNGHelper.suiteGenerator(suites.get(0)));
     }
 

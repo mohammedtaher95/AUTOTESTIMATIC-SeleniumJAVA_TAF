@@ -5,11 +5,12 @@ import org.aeonbits.owner.Config;
 import org.aeonbits.owner.Config.LoadPolicy;
 import org.aeonbits.owner.Config.LoadType;
 import org.aeonbits.owner.Config.Sources;
+import org.aeonbits.owner.Reloadable;
 
 @LoadPolicy(LoadType.MERGE)
 @Sources({"file:src/main/resources/properties/TestNG.properties",
         "classpath:src/main/resources/properties/TestNG.properties"})
-public interface TestNG extends Config, Accessible {
+public interface TestNG extends Config, Accessible, Reloadable {
 
     @Key("setParallel")
     @DefaultValue("NONE")

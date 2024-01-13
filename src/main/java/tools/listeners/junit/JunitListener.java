@@ -8,6 +8,8 @@ import org.apache.commons.lang.SystemUtils;
 import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.launcher.*;
 import tools.listeners.junit.helpers.JunitHelper;
+import tools.properties.Properties;
+import tools.properties.PropertiesHandler;
 import utilities.ExtentReportManager;
 import utilities.LoggingManager;
 import utilities.ScreenshotHelper;
@@ -16,10 +18,10 @@ import utilities.allure.AllureReportHelper;
 import java.io.File;
 import java.io.IOException;
 
-import static tools.properties.PropertiesHandler.*;
 
 @AutoService(LauncherSessionListener.class)
 public class JunitListener implements LauncherSessionListener {
+
 
     @Override
     public void launcherSessionOpened(LauncherSession session) {
@@ -73,18 +75,18 @@ public class JunitListener implements LauncherSessionListener {
 
     public void testRunStarted() {
         LoggingManager.startLog();
-        initializeProperties();
+        PropertiesHandler.initialize();
         ExtentReportManager.setUpReport();
         Allure.getLifecycle();
         AllureBatchGenerator.generateBatFile();
-        if (getReporting().cleanAllureReport()) {
+        if (Properties.reporting.cleanAllureReport()) {
             AllureReportHelper.cleanAllureReport();
         }
     }
 
 
     public void testRunFinished() {
-        if (getReporting().automaticOpenAllureReport()) {
+        if (Properties.reporting.automaticOpenAllureReport()) {
             try {
                 LoggingManager.info("Generating Allure Report.....");
                 if(SystemUtils.IS_OS_WINDOWS){
