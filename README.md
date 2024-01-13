@@ -17,7 +17,7 @@ which provides easy to use syntax, and easy to setup environment according to th
 - Handling running Tests via TestNG XML configuration files
 - Support TestNG Runner with Implementing custom Listener
 - Support JUnit5 Jupiter with Implementing custom Listener
-- Handling Test Runner Selection via Google AutoService API, so no need to then Add `tools.listeners.testng.TestNGListener` to TestNG Configuration
+- Handling Test Runner Detection via Google AutoService API, So NO NEED to then Add `tools.listeners.testng.TestNGListener` to TestNG Configuration
 - Handling Retry Failed Tests via TestNG Retry Analyzer
 
 ### Reporting
