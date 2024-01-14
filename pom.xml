@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.mohammedtaher95</groupId>
     <artifactId>AUTOTESTIMATIC-JAVA</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.2</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -28,14 +28,14 @@
 
     <packaging>jar</packaging>
 
-    <name>AUTOTESTIMATIC, A Selenium JAVA Test Automation Framework</name>
+    <name>AUTOTESTIMATIC</name>
 
-    <description>An open-source Test automation Framework that allows you to perform multiple actions
+    <description>An open-source Selenium Java-based Test automation Framework that allows you to perform multiple actions
         to test a web application's functionality, behaviour, which provides easy to use syntax,
         and easy to set up environment according to the needed requirements for testing
     </description>
 
-    <url>http://github.com/mohammedtaher95/SeleniumJAVA_TAF</url>
+    <url>http://github.com/mohammedtaher95/AUTOTESTIMATIC-SeleniumJAVA_TAF</url>
 
     <licenses>
         <license>
@@ -512,6 +512,9 @@
                     <exists>
                         target/classes/META-INF/services/org.testng.ITestNGListener
                     </exists>
+                    <missing>
+                        target/classes/META-INF/services/org.junit.platform.launcher.LauncherSessionListener
+                    </missing>
                 </file>
             </activation>
             <build>
@@ -580,6 +583,9 @@
                    <exists>
                        target/classes/META-INF/services/org.junit.platform.launcher.LauncherSessionListener
                    </exists>
+                   <missing>
+                       target/classes/META-INF/services/org.testng.ITestNGListener
+                   </missing>
                </file>
             </activation>
             <build>
