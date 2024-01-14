@@ -3,6 +3,10 @@ package utilities;
 import org.junit.platform.launcher.LauncherSessionListener;
 import org.testng.ITestNGListener;
 import org.testng.TestNG;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -24,6 +28,11 @@ public class TestRunningManager {
             ServiceLoader<ITestNGListener> serviceLoader = ServiceLoader.load(ITestNGListener.class);
             serviceLoader.reload();
             LoggingManager.info("Start Running Tests via TestNG Runner");
+            try {
+                Files.delete(Path.of("target/classes/META-INF/services/org.junit.platform.launcher.LauncherSessionListener"));
+            } catch (IOException e) {
+                LoggingManager.info("JUnit5 Service File already deleted");
+            }
         }
 
         if (isJunitRunBool) {
@@ -31,6 +40,11 @@ public class TestRunningManager {
                     ServiceLoader.load(LauncherSessionListener.class);
             serviceLoader.reload();
             LoggingManager.info("Start Running Tests via JUnit 5 Runner");
+            try {
+                Files.delete(Path.of("target/classes/META-INF/services/org.testng.ITestNGListener"));
+            } catch (IOException e) {
+                LoggingManager.info("TestNG Service File already deleted");
+            }
         }
 
 
