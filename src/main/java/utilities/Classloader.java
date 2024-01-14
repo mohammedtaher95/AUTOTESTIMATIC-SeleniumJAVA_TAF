@@ -14,5 +14,4 @@ public class Classloader {
         Reflections reflections = new Reflections(packageName,Scanners.SubTypes.filterResultsBy(s -> true));
         return new HashSet<>(reflections.getSubTypesOf(Object.class));
     }
-
 }

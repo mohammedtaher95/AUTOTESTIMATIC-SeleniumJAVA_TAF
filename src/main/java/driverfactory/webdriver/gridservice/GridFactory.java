@@ -30,7 +30,7 @@ public class GridFactory {
             else {
                 Runtime.getRuntime().exec("sh dockerComposeUp.sh");
             }
-            Thread.sleep(6000);
+            Thread.sleep(30000);
         } catch (IOException e) {
             LoggingManager.error("Unable to Start Selenium Grid");
         } catch (InterruptedException e) {

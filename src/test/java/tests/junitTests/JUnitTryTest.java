@@ -12,8 +12,6 @@ import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import pages.nopcommerce.homepage.HomePage;
 import tools.listeners.junit.helpers.JunitHelper;
-import tools.properties.Properties;
-import tools.properties.WebCapabilities;
 import utilities.UserFormData;
 
 @ExtendWith(JunitHelper.class)
@@ -41,7 +39,6 @@ public class JUnitTryTest {
 
     @BeforeAll
     public static void setUp(){
-//        WebCapabilities.set().targetBrowserName("edge");
         driver = new ThreadLocal<>();
         driver.set(new WebDriver());
     }

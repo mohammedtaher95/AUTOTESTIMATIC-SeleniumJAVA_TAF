@@ -5,10 +5,14 @@ import driverfactory.webdriver.WebDriver;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.platform.engine.TestSource;
 import org.junit.platform.launcher.*;
 import tools.properties.Properties;
 import utilities.LoggingManager;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Optional;
 
 
 public class JunitHelper implements BeforeAllCallback{
@@ -46,18 +50,22 @@ public class JunitHelper implements BeforeAllCallback{
     public static WebDriver getDriverInstance(TestIdentifier testIdentifier) {
         WebDriver driver = null;
         ThreadLocal<WebDriver> driverThreadlocal;
-        Object currentClass = testIdentifier.getClass();
+        Class<?> currentClass = null;
+        try {
+            currentClass = Class.forName(testIdentifier.getUniqueIdObject().getSegments().get(1).getValue());
+        } catch (ClassNotFoundException e) {
+            LoggingManager.error("Class is Undefined");
+            LoggingManager.error(e);
+        }
         if (currentClass != null) {
-            Field[] fields = currentClass.getClass().getDeclaredFields();
+            Field[] fields = currentClass.getDeclaredFields();
             for (Field field : fields) {
                 try {
                     if (field.getType() == WebDriver.class) {
-                        field.setAccessible(true);
                         driver = (WebDriver) field.get(currentClass);
                     }
 
                     if (field.getType() == ThreadLocal.class) {
-                        field.setAccessible(true);
                         driverThreadlocal = (ThreadLocal<WebDriver>) field.get(currentClass);
                         driver = driverThreadlocal.get();
                     }

@@ -5,6 +5,7 @@ import driverfactory.webdriver.WebDriver;
 import io.qameta.allure.Allure;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.SystemUtils;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.launcher.*;
 import tools.listeners.junit.helpers.JunitHelper;
@@ -17,6 +18,7 @@ import utilities.allure.AllureBatchGenerator;
 import utilities.allure.AllureReportHelper;
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 
 @AutoService(LauncherSessionListener.class)
@@ -51,7 +53,7 @@ public class JunitListener implements LauncherSessionListener {
                     }
                     if (testExecutionResult.getStatus().equals(TestExecutionResult.Status.FAILED)
                             || testExecutionResult.getStatus().equals(TestExecutionResult.Status.ABORTED)) {
-                        testFailure(testIdentifier);
+                        testFailure(testIdentifier, testExecutionResult);
 
                     }
                     LoggingManager.endTestCase(testIdentifier.getDisplayName());
@@ -100,28 +102,31 @@ public class JunitListener implements LauncherSessionListener {
             }
         }
         ExtentReportManager.finishReport();
-        ExtentReportManager.export();
+        if (Properties.reporting.automaticOpenExtentReport()){
+            ExtentReportManager.export();
+        }
+
     }
 
 
     public void testStarted(TestIdentifier testIdentifier) {
         if(testIdentifier.isTest()){
             LoggingManager.startTestCase(testIdentifier.getDisplayName());
-            ExtentReportManager.logTest(testIdentifier.getDisplayName());
+            ExtentReportManager.logTest(testIdentifier.getUniqueIdObject().getSegments().get(1).getValue());
+            ExtentReportManager.logMethod(testIdentifier.getDisplayName());
         }
     }
 
 
     public void testPassed(TestIdentifier testIdentifier) {
         LoggingManager.info("Success of test cases and its details are : " + testIdentifier.getDisplayName());
-
-//        ExtentReportManager.logMethod(testIdentifier.getDisplayName());
+        ExtentReportManager.testPassed();
     }
 
 
-    public void testFailure(TestIdentifier testIdentifier) {
+    public void testFailure(TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
         WebDriver driver = JunitHelper.getDriverInstance(testIdentifier);
-        if (!testIdentifier.getType().isTest()) {
+        if (testIdentifier.getType().isTest()) {
             LoggingManager.error("Failure of test cases and its details are : " + testIdentifier.getDisplayName());
             LoggingManager.error("Failed!");
             LoggingManager.error("Taking Screenshot....");
@@ -137,6 +142,7 @@ public class JunitListener implements LauncherSessionListener {
             }
 
         }
+        ExtentReportManager.saveResults(testExecutionResult, driver);
     }
 
 

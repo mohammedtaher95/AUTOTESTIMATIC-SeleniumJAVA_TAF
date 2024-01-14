@@ -15,7 +15,7 @@ public class JunitAddProductReviewTest {
     String ProductName = "Apple MacBook Pro 13-inch";
     String SuccessMessage = "Product review is successfully added.";
 
-    UserFormData newUser = new UserFormData();
+    static final UserFormData newUser = new UserFormData();
 
 
     @BeforeAll
@@ -30,7 +30,7 @@ public class JunitAddProductReviewTest {
         new HomePage(driver.get())
                 .openRegistrationPage()
                 .validateThatUserNavigatedToRegistrationPage()
-                .fillUserRegistrationForm(newUser.getFirstName(), newUser.getLastName(), newUser.getEmail(), newUser.getOldPassword())
+                .fillUserRegistrationForm(newUser.getFirstName(), newUser.getLastName(), "test2572@test.com", "123456789")
                 .clickOnRegisterButton()
                 .validateThatSuccessMessageShouldBeDisplayed();
     }
@@ -41,7 +41,7 @@ public class JunitAddProductReviewTest {
     {
         new HomePage(driver.get())
                 .openLoginPage()
-                .userLogin(newUser.getEmail(), newUser.getOldPassword())
+                .userLogin("test2572@test.com", "123455678")
                 .clickOnLoginButton()
                 .checkThatLogoutButtonShouldBeDisplayed();
     }
