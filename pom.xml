@@ -3,9 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.example</groupId>
-    <artifactId>SeleniumJAVA_TAF</artifactId>
-    <version>1.3.0</version>
+    <groupId>io.github.autotestimatic</groupId>
+    <artifactId>AUTOTESTIMATIC-JAVA</artifactId>
+    <version>1.3.1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -28,7 +28,7 @@
 
     <packaging>jar</packaging>
 
-    <name>Selenium JAVA Test Automation Framework</name>
+    <name>AUTOTESTIMATIC, A Selenium JAVA Test Automation Framework</name>
 
     <description>An open-source Test automation Framework that allows you to perform multiple actions
         to test a web application's functionality, behaviour, which provides easy to use syntax,
