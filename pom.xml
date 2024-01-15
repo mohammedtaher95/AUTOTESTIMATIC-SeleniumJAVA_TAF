@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.mohammedtaher95</groupId>
     <artifactId>AUTOTESTIMATIC-JAVA</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.2.1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -510,10 +510,10 @@
             <activation>
                 <file>
                     <exists>
-                        target/classes/META-INF/services/org.testng.ITestNGListener
+                        src/test/resources/META-INF/services/org.testng.ITestNGListener
                     </exists>
                     <missing>
-                        target/classes/META-INF/services/org.junit.platform.launcher.LauncherSessionListener
+                        src/test/resources/META-INF/services/org.junit.platform.launcher.LauncherSessionListener
                     </missing>
                 </file>
             </activation>
@@ -581,10 +581,10 @@
             <activation>
                <file>
                    <exists>
-                       target/classes/META-INF/services/org.junit.platform.launcher.LauncherSessionListener
+                       src/test/resources/META-INF/services/org.junit.platform.launcher.LauncherSessionListener
                    </exists>
                    <missing>
-                       target/classes/META-INF/services/org.testng.ITestNGListener
+                       src/test/resources/META-INF/services/org.testng.ITestNGListener
                    </missing>
                </file>
             </activation>
