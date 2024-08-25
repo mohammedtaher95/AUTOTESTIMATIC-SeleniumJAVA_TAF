@@ -10,6 +10,7 @@ import driverfactory.webdriver.localdriver.DriverFactory;
 import elementactions.*;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.support.ThreadGuard;

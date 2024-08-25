@@ -42,10 +42,10 @@ public class WebDriverListeners implements org.openqa.selenium.support.events.We
         LoggingManager.info("Getting to \"" + url + "\".");
     }
 
-    @Override
-    public void afterGetCurrentUrl(String result, WebDriver driver) {
-        LoggingManager.info("Current url is: \"" + result + "\".");
-    }
+//    @Override
+//    public void afterGetCurrentUrl(String result, WebDriver driver) {
+//        LoggingManager.info("Current url is: \"" + result + "\".");
+//    }
 
     @Override
     public void afterGetTitle(WebDriver driver, String result) {

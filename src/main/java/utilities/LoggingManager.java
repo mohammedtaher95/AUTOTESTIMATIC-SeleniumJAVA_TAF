@@ -30,8 +30,8 @@ public class LoggingManager {
         // Add Log4jBridgeHandler to the root logger
         Log4jBridgeHandler.install(true,null,true);
         info("\n" + FRAME
-            +"\n                                                          AUTOTESTIMATIC v1.0.2                                                  "
-            +"\n                                                       Powered by Selenium v4.13.0                                           \n"
+            +"\n                                                          AUTOTESTIMATIC v1.1.0                                                  "
+            +"\n                                                       Powered by Selenium v4.23.1                                           \n"
             + FRAME);
     }
 
