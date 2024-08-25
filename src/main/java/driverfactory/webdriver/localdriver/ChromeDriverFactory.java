@@ -36,6 +36,6 @@ public class ChromeDriverFactory extends DriverAbstract {
             proxy.setSslProxy(Properties.executionOptions.proxySettings());
             options.setProxy(proxy);
         }
-        driver = new ChromeDriver();
+        driver = new ChromeDriver(options);
     }
 }
