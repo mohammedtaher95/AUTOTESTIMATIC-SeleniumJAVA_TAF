@@ -1,18 +1,24 @@
 package utilities;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import org.testng.ITestResult;
-
-import javax.mail.*;
-import javax.mail.internet.*;
-
-import java.util.*;
 
 public class EmailableReportGenerator {
 
     private static final List<ITestResult> passedTests = new ArrayList<>();
     private static final List<ITestResult> failedTests = new ArrayList<>();
 
-    private EmailableReportGenerator(){
+    private EmailableReportGenerator() {
 
     }
 
@@ -24,7 +30,8 @@ public class EmailableReportGenerator {
         failedTests.add(result);
     }
 
-    public static void generateReportAndSendEmail(String recipientEmail, String senderEmail, String senderPassword) {
+    public static void generateReportAndSendEmail(String recipientEmail, String senderEmail,
+                                                  String senderPassword) {
         String report = "<html><body>";
         report += "<h2>Passed Tests</h2>";
         report += "<ul>";

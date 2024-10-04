@@ -1,20 +1,23 @@
 package tools.listeners.webdriver;
 
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import tools.properties.Properties;
-import utilities.LoggingManager;
-import utilities.javascript.JavaScriptWaitManager;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
-
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import tools.properties.Properties;
+import utilities.LoggingManager;
+import utilities.javascript.JavaScriptWaitManager;
 
 public class WebDriverListeners implements org.openqa.selenium.support.events.WebDriverListener {
 
@@ -35,7 +38,7 @@ public class WebDriverListeners implements org.openqa.selenium.support.events.We
         LoggingManager.error(e);
     }
 
-    /************************************* Browser Actions Listeners ******************************************/
+    /******************************** Browser Actions Listeners ***********************************/
 
     @Override
     public void afterGet(WebDriver driver, String url) {
@@ -93,7 +96,7 @@ public class WebDriverListeners implements org.openqa.selenium.support.events.We
     }
 
 
-    /************************************* Element Actions Listeners ******************************************/
+    /******************************* Element Actions Listeners ************************************/
 
 
     @Override
@@ -101,14 +104,17 @@ public class WebDriverListeners implements org.openqa.selenium.support.events.We
         new JavaScriptWaitManager(driver).waitForLazyLoading();
         try {
             new FluentWait<>(driver)
-                    .withTimeout(Duration.ofSeconds(Properties.timeouts.elementIdentificationTimeout()))
-                    .pollingEvery(Duration.ofMillis(500))
-                    .ignoring(NoSuchElementException.class)
-                    .ignoring(StaleElementReferenceException.class)
-                    .until(ExpectedConditions.visibilityOfElementLocated(locator));
+                  .withTimeout(
+                        Duration.ofSeconds(Properties.timeouts.elementIdentificationTimeout()))
+                  .pollingEvery(Duration.ofMillis(500))
+                  .ignoring(NoSuchElementException.class)
+                  .ignoring(StaleElementReferenceException.class)
+                  .until(ExpectedConditions.visibilityOfElementLocated(locator));
         } catch (org.openqa.selenium.TimeoutException timeoutException) {
             // In case the element was not found / not visible and the timeout expired
-            LoggingManager.error(timeoutException.getMessage() + " || " + timeoutException.getCause().getMessage().substring(0, timeoutException.getCause().getMessage().indexOf("\n")));
+            LoggingManager.error(timeoutException.getMessage() + " || "
+                  + timeoutException.getCause().getMessage()
+                  .substring(0, timeoutException.getCause().getMessage().indexOf("\n")));
             throw timeoutException;
         }
 
@@ -132,8 +138,8 @@ public class WebDriverListeners implements org.openqa.selenium.support.events.We
 
         try {
             (new WebDriverWait(this.driver,
-                    Duration.ofSeconds(Properties.timeouts.elementIdentificationTimeout())))
-                    .until(ExpectedConditions.elementToBeClickable(element));
+                  Duration.ofSeconds(Properties.timeouts.elementIdentificationTimeout())))
+                  .until(ExpectedConditions.elementToBeClickable(element));
         } catch (org.openqa.selenium.TimeoutException timeoutException) {
             LoggingManager.error(timeoutException);
             throw timeoutException;
@@ -160,10 +166,16 @@ public class WebDriverListeners implements org.openqa.selenium.support.events.We
         StringBuilder stringBuilder = new StringBuilder();
         Arrays.stream(keysToSend).toList().forEach(stringBuilder::append);
         try {
-            LoggingManager.info("Type \"" + stringBuilder + "\" into " + getElementName(element) + ".");
+            LoggingManager.info(
+                  "Type \"" + stringBuilder + "\" into " + getElementName(element) + ".");
         } catch (Exception throwable) {
             LoggingManager.info("Type \"" + stringBuilder + "\".");
         }
+    }
+
+    @Override
+    public void beforeSendKeys(Alert alert, String text) {
+        LoggingManager.info("Type \"" + text + "\" into Alert.");
     }
 
     @Override
@@ -174,7 +186,8 @@ public class WebDriverListeners implements org.openqa.selenium.support.events.We
     @Override
     public void afterGetAttribute(WebElement element, String name, String result) {
         try {
-            LoggingManager.info("Get Attribute \"" + name + "\" from " + getElementName(element) + ", value is \"" + result + "\".");
+            LoggingManager.info("Get Attribute \"" + name + "\" from " + getElementName(element)
+                  + ", value is \"" + result + "\".");
         } catch (Exception throwable) {
             LoggingManager.info("Get Attribute \"" + name + "\", value is \"" + result + "\".");
         }
@@ -183,7 +196,8 @@ public class WebDriverListeners implements org.openqa.selenium.support.events.We
     @Override
     public void afterGetText(WebElement element, String result) {
         try {
-            LoggingManager.info("Get Text from " + getElementName(element) + ", text is \"" + result + "\".");
+            LoggingManager.info(
+                  "Get Text from " + getElementName(element) + ", text is \"" + result + "\".");
         } catch (Exception throwable) {
             LoggingManager.info("Get Text, text is :\"" + result + "\".");
         }
@@ -191,11 +205,6 @@ public class WebDriverListeners implements org.openqa.selenium.support.events.We
 
 
     // Alert
-
-    @Override
-    public void beforeSendKeys(Alert alert, String text) {
-        LoggingManager.info("Type \"" + text + "\" into Alert.");
-    }
 
 
     private String getElementName(WebElement element) {

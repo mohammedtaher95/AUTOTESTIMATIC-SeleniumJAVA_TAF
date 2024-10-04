@@ -1,8 +1,8 @@
 package exceptions;
 
-public class Exceptions extends Exception{
+public class Exceptions extends Exception {
 
-    public Exceptions(String message){
+    public Exceptions(String message) {
         super(message);
     }
 

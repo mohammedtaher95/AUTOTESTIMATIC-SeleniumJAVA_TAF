@@ -2,15 +2,15 @@ package tools.properties;
 
 import org.aeonbits.owner.Accessible;
 import org.aeonbits.owner.Config;
-import org.aeonbits.owner.Config.*;
+import org.aeonbits.owner.Config.LoadPolicy;
 import org.aeonbits.owner.Config.Sources;
 import org.aeonbits.owner.ConfigFactory;
 import org.aeonbits.owner.Reloadable;
 import utilities.LoggingManager;
 
-@LoadPolicy(LoadType.MERGE)
+@LoadPolicy(Config.LoadType.MERGE)
 @Sources({"file:src/main/resources/properties/Reporting.properties",
-        "classpath:src/main/resources/properties/Reporting.properties"})
+      "classpath:src/main/resources/properties/Reporting.properties"})
 public interface Reporting extends Config, Accessible, Reloadable {
 
     @Key("OPEN_ALLURE_REPORT_AFTER_EXECUTION")
@@ -34,9 +34,9 @@ public interface Reporting extends Config, Accessible, Reloadable {
     }
 
     class SetProperties {
-        
+
         private SetProperties() {
-            
+
         }
 
         private static void setProperty(String key, boolean value) {
@@ -47,6 +47,7 @@ public interface Reporting extends Config, Accessible, Reloadable {
             System.setProperty(key, String.valueOf(value));
             LoggingManager.info("Setting \"" + key + "\" property with \"" + value + "\".");
         }
+
         public SetProperties automaticOpenAllureReport(boolean value) {
             setProperty("OPEN_ALLURE_REPORT_AFTER_EXECUTION", value);
             return this;

@@ -3,7 +3,7 @@ package pages.nopcommerce;
 import driverfactory.webdriver.WebDriver;
 import org.openqa.selenium.By;
 
-public class ProductDetailsPage{
+public class ProductDetailsPage {
 
     private final WebDriver driver;
 
@@ -16,26 +16,23 @@ public class ProductDetailsPage{
         this.driver = driver;
     }
 
-    public ProductDetailsPage checkThatProductPageShouldBeDisplayed(String productName){
+    public ProductDetailsPage checkThatProductPageShouldBeDisplayed(String productName) {
         driver.assertThat().element(productNameBreadCrumb).text().isEqualTo(productName);
         return this;
     }
 
-    public EmailFriendPage emailFriend()
-    {
+    public EmailFriendPage emailFriend() {
         driver.element().click(emailButton);
         return new EmailFriendPage(driver);
     }
 
 
-    public ProductReviewPage addReview()
-    {
+    public ProductReviewPage addReview() {
         driver.element().click(reviewHyperlink);
         return new ProductReviewPage(driver);
     }
 
-    public ProductDetailsPage checkCurrency(String currency)
-    {
+    public ProductDetailsPage checkCurrency(String currency) {
         driver.assertThat().element(productPriceLabel).text().contains(currency);
         return this;
     }

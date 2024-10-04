@@ -7,10 +7,13 @@ import constants.DriverType;
 import constants.EnvType;
 import driverfactory.webdriver.gridservice.GridFactory;
 import driverfactory.webdriver.localdriver.DriverFactory;
-import elementactions.*;
+import elementactions.ElementActions;
+import java.net.URL;
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.NoSuchElementException;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.support.ThreadGuard;
@@ -19,36 +22,32 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.testng.Reporter;
 import tools.listeners.webdriver.WebDriverListeners;
 import tools.properties.Properties;
-import utilities.JSONFileHandler;
+import utilities.JsonFileHandler;
 import utilities.LoggingManager;
 import utilities.TestRunningManager;
-
-import java.net.URL;
-import java.time.Duration;
-import java.util.HashMap;
-import java.util.NoSuchElementException;
 
 
 public class WebDriver {
 
-    private final ThreadLocal<org.openqa.selenium.WebDriver> driverThreadLocal = new ThreadLocal<>();
+    private final ThreadLocal<org.openqa.selenium.WebDriver> driverThreadLocal =
+          new ThreadLocal<>();
     private String browserName;
     private final FluentWait<org.openqa.selenium.WebDriver> driverWait;
 
-    JSONFileHandler config = new JSONFileHandler("parallel.conf.json");
+    JsonFileHandler config = new JsonFileHandler("parallel.conf.json");
 
     public WebDriver() {
         TestRunningManager.initializeRunConfigurations();
 
-        try{
-            if(CrossBrowserMode.valueOf(Properties.executionOptions.crossBrowserMode()) == CrossBrowserMode.OFF) {
+        try {
+            if (CrossBrowserMode.valueOf(Properties.executionOptions.crossBrowserMode())
+                  == CrossBrowserMode.OFF) {
                 browserName = Properties.web.targetBrowserName();
+            } else {
+                browserName = Reporter.getCurrentTestResult().getTestClass().getXmlTest()
+                      .getParameter("browserName");
             }
-            else {
-                browserName = Reporter.getCurrentTestResult().getTestClass().getXmlTest().getParameter("browserName");
-            }
-        }
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             browserName = Properties.web.targetBrowserName();
         }
         String osName = System.getProperty("os.name");
@@ -59,10 +58,10 @@ public class WebDriver {
             createWebDriver();
         }
         driverWait = new FluentWait<>(driverThreadLocal.get())
-                .withTimeout(Duration.ofSeconds(Properties.timeouts.elementIdentificationTimeout()))
-                .pollingEvery(Duration.ofMillis(500))
-                .ignoring(NoSuchElementException.class)
-                .ignoring(StaleElementReferenceException.class);
+              .withTimeout(Duration.ofSeconds(Properties.timeouts.elementIdentificationTimeout()))
+              .pollingEvery(Duration.ofMillis(500))
+              .ignoring(NoSuchElementException.class)
+              .ignoring(StaleElementReferenceException.class);
     }
 
     private void createWebDriver() {
@@ -79,8 +78,7 @@ public class WebDriver {
             if (EnvType.valueOf(Properties.executionOptions.environmentType()) == EnvType.CLOUD) {
                 cloudInit();
             }
-        }
-        catch (IllegalArgumentException exception){
+        } catch (IllegalArgumentException exception) {
             LoggingManager.error("Environment Failure: Environment is not Specified");
             throw exception;
         }
@@ -89,50 +87,60 @@ public class WebDriver {
 
 
     private void localDriverInit() {
-        String baseURL = Properties.web.baseURL();
-        LoggingManager.info("Starting " + browserName + " Driver Locally in " + Properties.web.executionMethod() + " mode");
-        org.openqa.selenium.WebDriver driver = DriverFactory.getDriverFactory(DriverType.valueOf(browserName.toUpperCase())).getDriver();
+        String baseUrl = Properties.web.baseUrl();
+        LoggingManager.info(
+              "Starting " + browserName + " Driver Locally in " + Properties.web.executionMethod()
+                   + " mode");
+        org.openqa.selenium.WebDriver driver =
+              DriverFactory.getDriverFactory(DriverType.valueOf(browserName.toUpperCase()))
+                    .getDriver();
         assert driver != null;
         driver.manage().window().maximize();
         setDriver(ThreadGuard.protect(
-                new EventFiringDecorator<>(org.openqa.selenium.WebDriver.class, new WebDriverListeners(driver))
-                .decorate(driver)));
-        if (!baseURL.isEmpty()) {
-            getDriver().navigate().to(baseURL);
+              new EventFiringDecorator<>(org.openqa.selenium.WebDriver.class,
+                    new WebDriverListeners(driver))
+                    .decorate(driver)));
+        if (!baseUrl.isEmpty()) {
+            getDriver().navigate().to(baseUrl);
         }
-        LoggingManager.info("CURRENT THREAD: " + Thread.currentThread().getId() + ", " + "DRIVER = " + getDriver());
+        LoggingManager.info(
+              "CURRENT THREAD: " + Thread.currentThread().getId() + ", " + "DRIVER = "
+                   + getDriver());
 
     }
 
     private void gridInit() {
 
         GridFactory.gridUp();
-        String baseURL = Properties.web.baseURL();
+        String baseUrl = Properties.web.baseUrl();
 
-        LoggingManager.info("Start Running via Selenium Grid on: " + Properties.executionOptions.remoteURL());
+        LoggingManager.info(
+              "Start Running via Selenium Grid on: " + Properties.executionOptions.remoteUrl());
 
         RemoteWebDriver driver = GridFactory.getRemoteDriver(browserName);
         driver.manage().window().maximize();
         setRemoteDriver(new EventFiringDecorator<>(org.openqa.selenium.remote.RemoteWebDriver.class,
-                new WebDriverListeners(driver)).decorate(driver));
+              new WebDriverListeners(driver)).decorate(driver));
 
-        if (!baseURL.isEmpty()) {
-            getDriver().navigate().to(baseURL);
+        if (!baseUrl.isEmpty()) {
+            getDriver().navigate().to(baseUrl);
         }
 
-        LoggingManager.info("CURRENT THREAD: " + Thread.currentThread().getId() + ", " + "DRIVER = " + getDriver());
+        LoggingManager.info(
+              "CURRENT THREAD: " + Thread.currentThread().getId() + ", " + "DRIVER = "
+                   + getDriver());
 
     }
 
     private void cloudInit() {
         // You can also set an environment variable - "BROWSERSTACK_ACCESS_KEY".
-        String baseURL = Properties.web.baseURL();
+        String baseUrl = Properties.web.baseUrl();
         String server = config.getData("server");
         String user = config.getData("user");
         String key = config.getData("key");
-        String os =  config.getData("environments.env1.options.os");
+        String os = config.getData("environments.env1.options.os");
         String osVersion = config.getData("environments.env1.options.osVersion");
-        String browserVersion =  config.getData("capabilities.options.browserVersion");
+        String browserVersion = config.getData("capabilities.options.browserVersion");
 
 
         MutableCapabilities capabilities = new MutableCapabilities();
@@ -147,26 +155,29 @@ public class WebDriver {
         capabilities.setCapability("bstack:options", browserstackOptions);
 
         ClientConfig customConfig = ClientConfig.defaultConfig().readTimeout(Duration.ofMinutes(15))
-                .connectionTimeout(Duration.ofMinutes(15));
+              .connectionTimeout(Duration.ofMinutes(15));
 
         // Starts the Local instance with the required arguments.
         try {
             LoggingManager.info("Start Running on BrowserStack Grid......");
             RemoteWebDriver driver = (RemoteWebDriver) RemoteWebDriver.builder()
-                    .config(customConfig)
-                    .address(new URL("http://" + user + ":" + key + "@" + server))
-                    .oneOf(capabilities)
-                    .build();
+                  .config(customConfig)
+                  .address(new URL("http://" + user + ":" + key + "@" + server))
+                  .oneOf(capabilities)
+                  .build();
             driver.manage().window().maximize();
-            setRemoteDriver(new EventFiringDecorator<>(org.openqa.selenium.remote.RemoteWebDriver.class, new WebDriverListeners(driver))
-                    .decorate(driver));
-            LoggingManager.info("BrowserStack Started on " + browserName + ", " + os + " " + osVersion);
+            setRemoteDriver(
+                  new EventFiringDecorator<>(org.openqa.selenium.remote.RemoteWebDriver.class,
+                        new WebDriverListeners(driver))
+                        .decorate(driver));
+            LoggingManager.info(
+                  "BrowserStack Started on " + browserName + ", " + os + " " + osVersion);
         } catch (Exception e) {
             LoggingManager.error("Failed to Start BrowserStack Instance, " + e.getMessage());
         }
 
-        if (!baseURL.isEmpty()) {
-            getDriver().navigate().to(baseURL);
+        if (!baseUrl.isEmpty()) {
+            getDriver().navigate().to(baseUrl);
         }
 
     }
@@ -196,7 +207,7 @@ public class WebDriver {
         driverThreadLocal.get().quit();
         driverThreadLocal.remove();
 
-        if(EnvType.valueOf(Properties.executionOptions.environmentType()) == EnvType.GRID){
+        if (EnvType.valueOf(Properties.executionOptions.environmentType()) == EnvType.GRID) {
             GridFactory.gridTearDown();
         }
 

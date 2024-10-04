@@ -3,7 +3,7 @@ package pages.nopcommerce;
 import driverfactory.webdriver.WebDriver;
 import org.openqa.selenium.By;
 
-public class ProductReviewPage{
+public class ProductReviewPage {
 
     private final WebDriver driver;
 
@@ -18,22 +18,20 @@ public class ProductReviewPage{
         this.driver = driver;
     }
 
-    public ProductReviewPage fillReviewForm(String reviewTitle, String reviewText)
-    {
+    public ProductReviewPage fillReviewForm(String reviewTitle, String reviewText) {
         driver.element().fillField(reviewTitleField, reviewTitle);
         driver.element().fillField(reviewTextField, reviewText);
         driver.element().click(ratingRadioBtn);
         return this;
     }
 
-    public ProductReviewPage clickOnSubmitButton()
-    {
+    public ProductReviewPage clickOnSubmitButton() {
         driver.element().click(submitBtn);
         return this;
     }
 
-    public ProductReviewPage verifyThatReviewShouldBeSubmittedSuccessfully(String success, String userMsg)
-    {
+    public ProductReviewPage verifyThatReviewShouldBeSubmittedSuccessfully(String success,
+                                                                           String userMsg) {
         driver.assertThat().element(successMessage).text().isEqualTo(success);
         driver.assertThat().element(addedReviewTitle).text().isEqualTo(userMsg);
         return this;

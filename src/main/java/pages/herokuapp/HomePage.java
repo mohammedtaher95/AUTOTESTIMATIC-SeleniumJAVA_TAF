@@ -17,22 +17,19 @@ public class HomePage {
     }
 
     @Step("When user clicks on Alert page link")
-    public AlertHandling openJSAlertsPage()
-    {
+    public AlertHandling openJavaScriptAlertsPage() {
         driver.element().click(jsAlerts);
         return new AlertHandling(driver);
     }
 
     @Step("When user clicks on Alert page link")
-    public BasicAuthentication openBasicAuthPage()
-    {
+    public BasicAuthentication openBasicAuthPage() {
         driver.element().click(basicAuthLink);
         return new BasicAuthentication(driver);
     }
 
     @Step("When user clicks on Alert page link")
-    public FileUpload openFileUploadPage()
-    {
+    public FileUpload openFileUploadPage() {
         driver.element().click(fileUpload);
         return new FileUpload(driver);
     }

@@ -1,17 +1,20 @@
 package utilities;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.*;
-import org.apache.logging.log4j.jul.Log4jBridgeHandler;
-import org.apache.logging.log4j.core.config.Configurator;
 import java.net.URI;
+import org.apache.commons.lang.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.logging.log4j.jul.Log4jBridgeHandler;
 
 public class LoggingManager {
 
     private static final String FRAME = StringUtils.repeat("-", 140);
-    private LoggingManager(){
+
+    private LoggingManager() {
 
     }
+
     private static final Logger logger = LogManager.getLogger();
 
     public static Logger getCurrentLogger() {
@@ -23,35 +26,41 @@ public class LoggingManager {
         System.setProperty("java.util.logging.config.file", "");
         Configurator.reconfigure(URI.create("properties/log4j2.properties"));
 
-        java.util.logging.Logger rootLogger = java.util.logging.LogManager.getLogManager().getLogger("");
+        java.util.logging.Logger rootLogger =
+              java.util.logging.LogManager.getLogManager().getLogger("");
         for (java.util.logging.Handler handler : rootLogger.getHandlers()) {
             rootLogger.removeHandler(handler);
         }
         // Add Log4jBridgeHandler to the root logger
-        Log4jBridgeHandler.install(true,null,true);
+        Log4jBridgeHandler.install(true, null, true);
         info("\n" + FRAME
-            +"\n                                                          AUTOTESTIMATIC v1.1.0                                                  "
-            +"\n                                                       Powered by Selenium v4.23.1                                           \n"
-            + FRAME);
+              + "\n                                                         "
+              + " AUTOTESTIMATIC v1.1.1                                                  "
+              + "\n                                                     "
+              + "  Powered by Selenium v4.23.1                                           \n"
+              + FRAME);
     }
 
     public static synchronized void startTestCase(String txt) {
         info("\n" + FRAME
-                +"\n                                                Starting Execution of: " + txt + "\n"
-                + FRAME);
+              + "\n                                                Starting Execution of: "
+              + txt
+              + "\n"
+              + FRAME);
     }
 
     public static void endTestCase(String txt) {
         info("\n" + FRAME
-                +"\n                                                 Execution Ended for: " + txt + "\n"
-                + FRAME);
+              + "\n                                                 Execution Ended for: "
+              + txt + "\n"
+              + FRAME);
     }
 
-    public static void trace(Object message){
+    public static void trace(Object message) {
         getCurrentLogger().trace(message);
     }
 
-    public static void trace(Object message, Throwable throwable){
+    public static void trace(Object message, Throwable throwable) {
         getCurrentLogger().trace(message, throwable);
     }
 

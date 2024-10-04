@@ -1,35 +1,42 @@
 package elementactions;
 
-import org.openqa.selenium.*;
+import java.util.List;
+import java.util.NoSuchElementException;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
+import org.openqa.selenium.ElementNotInteractableException;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 import utilities.LoggingManager;
-import java.util.List;
-import java.util.NoSuchElementException;
 
 
 public class ElementActions {
-    private final ThreadLocal<WebDriver> eActionsDriver = new ThreadLocal<>();
+    private final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
     private final FluentWait<WebDriver> driverWait;
 
-    final JavascriptExecutor jSE;
+    final JavascriptExecutor javascriptExecutor;
     Actions action;
 
-    public ElementActions(WebDriver driver, FluentWait<WebDriver> wait){
-        eActionsDriver.set(driver);
+    public ElementActions(WebDriver driver, FluentWait<WebDriver> wait) {
+        driverThreadLocal.set(driver);
         this.driverWait = wait;
-        action = new Actions(eActionsDriver.get());
-        jSE = (JavascriptExecutor) eActionsDriver.get();
+        action = new Actions(driverThreadLocal.get());
+        javascriptExecutor = (JavascriptExecutor) driverThreadLocal.get();
     }
 
-    public ElementActions click(By btn){
-        try{
-            eActionsDriver.get().findElement(btn).click();
-        }
-        catch (ElementClickInterceptedException | NoSuchElementException |
-                StaleElementReferenceException | TimeoutException exception) {
+    public ElementActions click(By btn) {
+        try {
+            driverThreadLocal.get().findElement(btn).click();
+        } catch (ElementClickInterceptedException | NoSuchElementException
+                 | StaleElementReferenceException | TimeoutException exception) {
             scrollToElement(btn);
             clickUsingJavaScript(btn);
         }
@@ -37,122 +44,121 @@ public class ElementActions {
         return this;
     }
 
-    public ElementActions hoverOnItem(By item){
-        LoggingManager.info("hover on" + item.toString().split(":",2)[1] + " button");
-        action.moveToElement(eActionsDriver.get().findElement(item)).click().build().perform();
+    public ElementActions hoverOnItem(By item) {
+        LoggingManager.info("hover on" + item.toString().split(":", 2)[1] + " button");
+        action.moveToElement(driverThreadLocal.get().findElement(item)).click().build().perform();
         return this;
     }
 
-    public ElementActions clickUsingJavaScript(By btn){
-        LoggingManager.info("Click on" + btn.toString().split(":",2)[1] + " button using JavaScript");
-        jSE.executeScript("arguments[0].click();", eActionsDriver.get().findElement(btn));
+    public ElementActions clickUsingJavaScript(By btn) {
+        LoggingManager.info("Click on" + btn.toString().split(":", 2)[1]
+                + " button using JavaScript");
+        javascriptExecutor.executeScript("arguments[0].click();",
+                driverThreadLocal.get().findElement(btn));
         return this;
     }
 
     public ElementActions scrollToElement(By element) {
-        LoggingManager.info("Scrolling to " + element.toString().split(":",2)[1]);
-        jSE.executeScript("arguments[0].scrollIntoView(true);", eActionsDriver.get().findElement(element));
+        LoggingManager.info("Scrolling to " + element.toString().split(":", 2)[1]);
+        javascriptExecutor.executeScript("arguments[0].scrollIntoView(true);",
+                driverThreadLocal.get().findElement(element));
         return this;
     }
 
-    public ElementActions fillField(By field, String value){
+    public ElementActions fillField(By field, String value) {
         clearField(field);
-        eActionsDriver.get().findElement(field).sendKeys(value);
+        driverThreadLocal.get().findElement(field).sendKeys(value);
         return this;
     }
 
-    public ElementActions clearField(By field){
-        eActionsDriver.get().findElement(field).clear();
+    public ElementActions clearField(By field) {
+        driverThreadLocal.get().findElement(field).clear();
         return this;
     }
 
-    public boolean isDisplayed(By by){
-        LoggingManager.info("Checking" + by.toString().split(":",2)[1] + " if Displayed");
-        return eActionsDriver.get().findElement(by).isDisplayed();
+    public boolean isDisplayed(By by) {
+        LoggingManager.info("Checking" + by.toString().split(":", 2)[1] + " if Displayed");
+        return driverThreadLocal.get().findElement(by).isDisplayed();
     }
 
-    public boolean isClickable(By by){
-        LoggingManager.info("Checking" + by.toString().split(":",2)[1] + " if Clickable");
-        return eActionsDriver.get().findElement(by).isEnabled();
+    public boolean isClickable(By by) {
+        LoggingManager.info("Checking" + by.toString().split(":", 2)[1] + " if Clickable");
+        return driverThreadLocal.get().findElement(by).isEnabled();
     }
 
-    public boolean isSelected(By by){
-        LoggingManager.info("Checking" + by.toString().split(":",2)[1] + " if Selected");
-        return eActionsDriver.get().findElement(by).isSelected();
+    public boolean isSelected(By by) {
+        LoggingManager.info("Checking" + by.toString().split(":", 2)[1] + " if Selected");
+        return driverThreadLocal.get().findElement(by).isSelected();
     }
 
-    public ElementActions selectItemByIndex(By by, int index)
-    {
-        LoggingManager.info("Select item no." + index + " from dropdown: " + by.toString().split(":",2)[1]);
-        new Select(eActionsDriver.get().findElement(by)).selectByIndex(index);
+    public ElementActions selectItemByIndex(By by, int index) {
+        LoggingManager.info("Select item no." + index + " from dropdown: "
+                + by.toString().split(":", 2)[1]);
+        new Select(driverThreadLocal.get().findElement(by)).selectByIndex(index);
         return this;
     }
 
-    public ElementActions selectItemByText(By by, String text)
-    {
-        LoggingManager.info("Select" + text + " from dropdown: " + by.toString().split(":",2)[1]);
+    public ElementActions selectItemByText(By by, String text) {
+        LoggingManager.info("Select" + text + " from dropdown: " + by.toString().split(":", 2)[1]);
         waitForElementToBeClickable(by);
-        new Select(eActionsDriver.get().findElement(by)).selectByVisibleText(text);
+        new Select(driverThreadLocal.get().findElement(by)).selectByVisibleText(text);
         return this;
     }
 
-    public String getText(By by){
+    public String getText(By by) {
         waitForVisibility(by);
-        String text =  eActionsDriver.get().findElement(by).getText();
-        LoggingManager.info("Getting" + text + " from element: " + by.toString().split(":",2)[1]);
+        String text =  driverThreadLocal.get().findElement(by).getText();
+        LoggingManager.info("Getting" + text + " from element: " + by.toString().split(":", 2)[1]);
         return text;
     }
 
-    public ElementActions acceptAlert(){
-        Alert alert = eActionsDriver.get().switchTo().alert();
+    public ElementActions acceptAlert() {
+        Alert alert = driverThreadLocal.get().switchTo().alert();
         alert.accept();
         LoggingManager.info("Alert Accepted");
         return this;
     }
 
-    public ElementActions dismissAlert(){
-        Alert alert = eActionsDriver.get().switchTo().alert();
+    public ElementActions dismissAlert() {
+        Alert alert = driverThreadLocal.get().switchTo().alert();
         alert.dismiss();
         LoggingManager.info("Alert Dismissed");
         return this;
     }
 
-    public String getAlertText(){
-        Alert alert = eActionsDriver.get().switchTo().alert();
+    public String getAlertText() {
+        Alert alert = driverThreadLocal.get().switchTo().alert();
         LoggingManager.info("Getting Alert Text");
         return alert.getText();
     }
 
-    public ElementActions addTextForAlert(String text){
-        Alert alert = eActionsDriver.get().switchTo().alert();
+    public ElementActions addTextForAlert(String text) {
+        Alert alert = driverThreadLocal.get().switchTo().alert();
         alert.sendKeys(text);
         return this;
     }
 
-    public ElementActions waitForVisibility(By by){
-        LoggingManager.info("Wait for" + by.toString().split(":",2)[1] + " to be visible");
-        try{
+    public ElementActions waitForVisibility(By by) {
+        LoggingManager.info("Wait for" + by.toString().split(":", 2)[1] + " to be visible");
+        try {
             driverWait.until(ExpectedConditions.visibilityOfElementLocated(by));
-        }
-        catch (TimeoutException exception) {
+        } catch (TimeoutException exception) {
             throw new org.openqa.selenium.NoSuchElementException("Element doesn't exist");
         }
         return this;
     }
 
     public ElementActions waitForInvisibility(By by) {
-        LoggingManager.info("Wait for" + by.toString().split(":",2)[1] + " to be invisible");
+        LoggingManager.info("Wait for" + by.toString().split(":", 2)[1] + " to be invisible");
         driverWait.until(ExpectedConditions.invisibilityOfElementLocated(by));
         return this;
     }
 
-    public ElementActions waitForElementToBeClickable(By by)
-    {
-        LoggingManager.info("Wait for" + by.toString().split(":",2)[1] + " to be clickable");
+    public ElementActions waitForElementToBeClickable(By by) {
+        LoggingManager.info("Wait for" + by.toString().split(":", 2)[1] + " to be clickable");
         try {
             driverWait.until(ExpectedConditions.elementToBeClickable(by));
-        }
-        catch (ElementNotInteractableException exception){
+        } catch (ElementNotInteractableException exception) {
             LoggingManager.error("Element isn't interactable");
             throw exception;
         }
@@ -160,13 +166,13 @@ public class ElementActions {
     }
 
 
-    public List<WebElement> findElements(By by){
-        LoggingManager.info("Finding List of Elements by:" + by.toString().split(":",2)[1]);
-        return eActionsDriver.get().findElements(by);
+    public List<WebElement> findElements(By by) {
+        LoggingManager.info("Finding List of Elements by:" + by.toString().split(":", 2)[1]);
+        return driverThreadLocal.get().findElements(by);
     }
 
-    public void removeDriver(){
-        eActionsDriver.remove();
+    public void removeDriver() {
+        driverThreadLocal.remove();
     }
 
 }

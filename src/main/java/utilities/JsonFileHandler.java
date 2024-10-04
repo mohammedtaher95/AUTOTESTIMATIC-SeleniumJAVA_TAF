@@ -9,11 +9,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class JSONFileHandler {
+public class JsonFileHandler {
 
     private final String jsonFilePath;
     private static final ThreadLocal<FileReader> jsonFileReader = new ThreadLocal<>();
-    public JSONFileHandler(String jsonFilePath){
+
+    public JsonFileHandler(String jsonFilePath) {
         this.jsonFilePath = jsonFilePath;
     }
 
@@ -25,40 +26,20 @@ public class JSONFileHandler {
         }
 
     }
-    public String getData(String jsonPath){
+
+    public String getData(String jsonPath) {
         Object data = getData(cleanJsonPath(jsonPath), DataType.STRING);
-        if(data != null){
+        if (data != null) {
             return String.valueOf(data);
-        }
-        else {
+        } else {
             return null;
         }
     }
 
-    public List<?> getDataAsList(String jsonPath){
-        Object data = getData(cleanJsonPath(jsonPath), DataType.LIST);
-        if(data != null){
-            return (List<?>) data;
-        }
-        else {
-            return Collections.emptyList();
-        }
-    }
-
-    public Map<?,?> getDataAsMap(String jsonPath){
-        Object data = getData(cleanJsonPath(jsonPath), DataType.MAP);
-        if(data != null){
-            return (Map<?, ?>) data;
-        }
-        else {
-            return Collections.emptyMap();
-        }
-    }
-
-    private Object getData(String jsonPath, DataType type){
+    private Object getData(String jsonPath, DataType type) {
         Object data = null;
         initializeFileReader();
-        switch (type){
+        switch (type) {
             case STRING: {
                 data = JsonPath.from(jsonFileReader.get()).getString(jsonPath);
                 break;
@@ -71,14 +52,37 @@ public class JSONFileHandler {
                 data = JsonPath.from(jsonFileReader.get()).getMap(jsonPath);
                 break;
             }
+            default: {
+                LoggingManager.error("JSON file doesn't exist or corrupted");
+                throw new RuntimeException();
+            }
         }
         return data;
     }
 
-    private void initializeFileReader(){
+    public List<?> getDataAsList(String jsonPath) {
+        Object data = getData(cleanJsonPath(jsonPath), DataType.LIST);
+        if (data != null) {
+            return (List<?>) data;
+        } else {
+            return Collections.emptyList();
+        }
+    }
+
+    public Map<?, ?> getDataAsMap(String jsonPath) {
+        Object data = getData(cleanJsonPath(jsonPath), DataType.MAP);
+        if (data != null) {
+            return (Map<?, ?>) data;
+        } else {
+            return Collections.emptyMap();
+        }
+    }
+
+
+    private void initializeFileReader() {
         try {
             jsonFileReader.set(new FileReader(System.getProperty("user.dir")
-                    + "/src/test/resources/testDataFiles/" + jsonFilePath, StandardCharsets.UTF_8));
+                  + "/src/test/resources/testDataFiles/" + jsonFilePath, StandardCharsets.UTF_8));
         } catch (FileNotFoundException e) {
             LoggingManager.error("JSON File not Found", e);
         } catch (IOException e) {
@@ -86,12 +90,12 @@ public class JSONFileHandler {
         }
     }
 
-    public void removeReader(){
+    public void removeReader() {
         jsonFileReader.remove();
     }
 
 
-    public enum DataType{
+    public enum DataType {
         STRING,
         LIST,
         MAP

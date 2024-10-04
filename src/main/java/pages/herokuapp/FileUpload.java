@@ -11,21 +11,22 @@ public class FileUpload {
     By uploadFileButton = By.id("file-submit");
     By successMessage = By.cssSelector("h3");
 
-    public FileUpload(WebDriver driver){
+    public FileUpload(WebDriver driver) {
         this.driver = driver;
     }
 
-    public FileUpload uploadingFile(){
-        driver.element().fillField(chooseFileButton,"C:\\Users\\moham\\Downloads\\Cover_Letter.docx");
+    public FileUpload uploadingFile() {
+        driver.element()
+              .fillField(chooseFileButton, "C:\\Users\\moham\\Downloads\\Cover_Letter.docx");
         return this;
     }
 
-    public FileUpload clickOnSubmitButton(){
+    public FileUpload clickOnSubmitButton() {
         driver.element().click(uploadFileButton);
         return this;
     }
 
-    public FileUpload checkThatFileShouldBeUploaded(){
+    public FileUpload checkThatFileShouldBeUploaded() {
         driver.assertThat().element(successMessage).text().isEqualTo("File Uploaded!");
         return this;
     }

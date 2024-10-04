@@ -2,7 +2,8 @@ package tools.properties;
 
 import org.aeonbits.owner.Accessible;
 import org.aeonbits.owner.Config;
-import org.aeonbits.owner.Config.*;
+import org.aeonbits.owner.Config.LoadPolicy;
+import org.aeonbits.owner.Config.LoadType;
 import org.aeonbits.owner.Config.Sources;
 import org.aeonbits.owner.ConfigFactory;
 import org.aeonbits.owner.Reloadable;
@@ -11,8 +12,8 @@ import utilities.LoggingManager;
 
 @LoadPolicy(LoadType.MERGE)
 @Sources({
-        "file:src/main/resources/properties/WebCapabilities.properties",
-        "classpath:WebCapabilities.properties"})
+      "file:src/main/resources/properties/WebCapabilities.properties",
+      "classpath:WebCapabilities.properties"})
 public interface WebCapabilities extends Config, Accessible, Reloadable {
 
     @Key("TARGET_BROWSER_NAME")
@@ -21,7 +22,7 @@ public interface WebCapabilities extends Config, Accessible, Reloadable {
 
     @Key("BASE_URL")
     @DefaultValue("")
-    String baseURL();
+    String baseUrl();
 
     @Key("EXECUTION_METHOD")
     @DefaultValue("normal")
@@ -57,7 +58,7 @@ public interface WebCapabilities extends Config, Accessible, Reloadable {
 
     class SetProperties {
 
-        public SetProperties(){
+        public SetProperties() {
             // starting class
         }
 
@@ -77,7 +78,7 @@ public interface WebCapabilities extends Config, Accessible, Reloadable {
             return this;
         }
 
-        public SetProperties baseURL(String value) {
+        public SetProperties baseUrl(String value) {
             setProperty("BASE_URL", value);
             return this;
         }

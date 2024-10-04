@@ -9,23 +9,21 @@ public class BasicAuthentication {
 
     private final WebDriver driver;
 
-    By successMessage = By.cssSelector("p");
+    private final By successMessage = By.cssSelector("p");
 
     public BasicAuthentication(WebDriver driver) {
         this.driver = driver;
     }
 
     @Step("Then an alert should be displayed")
-    public BasicAuthentication checkThatBasicAuthAlertShouldBeDisplayed()
-    {
+    public BasicAuthentication checkThatBasicAuthAlertShouldBeDisplayed() {
         String text = driver.element().getAlertText();
         Assert.assertEquals(text, "Sign in to access this site");
         return this;
     }
 
     @Step("Then Authentication should be successful")
-    public BasicAuthentication checkThatBasicAuthIsSuccessful()
-    {
+    public BasicAuthentication checkThatBasicAuthIsSuccessful() {
         driver.assertThat().element(successMessage).text()
                 .isEqualTo("Congratulations! You must have the proper credentials.");
         return this;

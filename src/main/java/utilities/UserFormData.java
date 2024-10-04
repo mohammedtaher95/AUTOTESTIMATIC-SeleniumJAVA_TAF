@@ -44,9 +44,11 @@ public class UserFormData {
     public String getLastName() {
         return lastName;
     }
+
     public String getOldPassword() {
         return oldPassword;
     }
+
     public String getNewPassword() {
         return newPassword;
     }
@@ -54,29 +56,28 @@ public class UserFormData {
     public String getEmail() {
         return email;
     }
+
     public String getFriendEmail() {
         return friendEmail;
     }
+
     public String getMessage() {
         return message;
     }
 
-    public String getAddress()
-    {
+    public String getAddress() {
         return address;
     }
 
-    public String getCity()
-    {
+    public String getCity() {
         return city;
     }
-    public String getPostalCode()
-    {
+
+    public String getPostalCode() {
         return postalCode;
     }
 
-    public String getPhoneNumber()
-    {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 

@@ -12,7 +12,7 @@ import utilities.LoggingManager;
 
 @LoadPolicy(LoadType.MERGE)
 @Sources({"file:src/main/resources/properties/Timeouts.properties",
-        "classpath:src/main/resources/properties/Timeouts.properties"})
+      "classpath:src/main/resources/properties/Timeouts.properties"})
 public interface Timeouts extends Config, Accessible, Reloadable {
 
     @Key("scriptTimeout")
@@ -45,6 +45,7 @@ public interface Timeouts extends Config, Accessible, Reloadable {
         private SetProperties() {
 
         }
+
         private static void setProperty(String key, String value) {
             var updatedProps = new java.util.Properties();
             updatedProps.setProperty(key, value);

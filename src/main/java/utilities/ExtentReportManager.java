@@ -6,15 +6,12 @@ import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 import driverfactory.webdriver.WebDriver;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import org.junit.platform.engine.TestExecutionResult;
 import org.testng.ITestResult;
 import tools.properties.Properties;
-
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-
-
 
 public class ExtentReportManager {
 
@@ -69,8 +66,8 @@ public class ExtentReportManager {
     }
 
     public static void logTest(String testName) {
-        if(extentReport.equals(new ExtentReports()) && (!testName.equalsIgnoreCase(tempName))){
-                extentTest.set(extentReport.createTest(testName));
+        if (extentReport.equals(new ExtentReports()) && (!testName.equalsIgnoreCase(tempName))) {
+            extentTest.set(extentReport.createTest(testName));
         }
         tempName = testName;
     }
@@ -85,16 +82,13 @@ public class ExtentReportManager {
         } else if (result.getStatus() == ITestResult.FAILURE) {
             node.log(Status.FAIL, "Test Failed");
             node.log(Status.FAIL, result.getThrowable());
-            String fullPath = System.getProperty("user.dir") + ScreenshotHelper.captureScreenshot(driver, result.getName());
+            String fullPath = System.getProperty("user.dir")
+                  + ScreenshotHelper.captureScreenshot(driver, result.getName());
             node.addScreenCaptureFromPath(fullPath);
 
         } else {
             node.log(Status.SKIP, "Test Skipped");
         }
-    }
-
-    public static void testPassed(){
-        node.log(Status.PASS, "Test Passed");
     }
 
     public static void saveResults(TestExecutionResult result, WebDriver driver) {
@@ -103,7 +97,8 @@ public class ExtentReportManager {
         } else if (result.getStatus() == TestExecutionResult.Status.FAILED) {
             node.log(Status.FAIL, "Test Failed");
             node.log(Status.FAIL, String.valueOf(result.getThrowable()));
-            String fullPath = System.getProperty("user.dir") + ScreenshotHelper.captureScreenshot(driver, result.getClass().getName());
+            String fullPath = System.getProperty("user.dir")
+                  + ScreenshotHelper.captureScreenshot(driver, result.getClass().getName());
             node.addScreenCaptureFromPath(fullPath);
 
         } else {
@@ -111,7 +106,11 @@ public class ExtentReportManager {
         }
     }
 
-    public static void remove(){
+    public static void testPassed() {
+        node.log(Status.PASS, "Test Passed");
+    }
+
+    public static void remove() {
         extentTest.remove();
     }
 

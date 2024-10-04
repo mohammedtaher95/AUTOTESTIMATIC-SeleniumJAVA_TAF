@@ -1,6 +1,9 @@
 package driverfactory.webdriver.gridservice;
 
 import driverfactory.webdriver.helpers.MobileEmulation;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import org.apache.commons.lang.SystemUtils;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -10,9 +13,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import tools.properties.Properties;
 import utilities.LoggingManager;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 
 public class GridFactory {
@@ -21,13 +21,12 @@ public class GridFactory {
 
     }
 
-    public static void gridUp(){
+    public static void gridUp() {
         try {
             LoggingManager.info("Initializing Selenium Grid via Docker Compose");
-            if(SystemUtils.IS_OS_WINDOWS) {
+            if (SystemUtils.IS_OS_WINDOWS) {
                 Runtime.getRuntime().exec("dockerComposeUp.bat");
-            }
-            else {
+            } else {
                 Runtime.getRuntime().exec("sh dockerComposeUp.sh");
             }
             Thread.sleep(30000);
@@ -41,10 +40,9 @@ public class GridFactory {
     public static void gridTearDown() {
         LoggingManager.info("Tearing down Selenium Grid....");
         try {
-            if(SystemUtils.IS_OS_WINDOWS) {
+            if (SystemUtils.IS_OS_WINDOWS) {
                 Runtime.getRuntime().exec("dockerComposeDown.bat");
-            }
-            else {
+            } else {
                 Runtime.getRuntime().exec("sh dockerComposeDown.sh");
             }
         } catch (IOException e) {
@@ -58,27 +56,30 @@ public class GridFactory {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setBrowserName(browserName);
 
-        if(Properties.web.isMobileEmulation()){
-            if(browserName.equalsIgnoreCase("chrome")){
+        if (Properties.web.isMobileEmulation()) {
+            if (browserName.equalsIgnoreCase("chrome")) {
                 ChromeOptions options = new ChromeOptions();
-                options.setExperimentalOption("mobileEmulation", MobileEmulation.setEmulationSettings());
+                options.setExperimentalOption("mobileEmulation",
+                      MobileEmulation.setEmulationSettings());
                 capabilities.setCapability(ChromeOptions.CAPABILITY, options);
             }
-            if(browserName.equalsIgnoreCase("edge")){
+            if (browserName.equalsIgnoreCase("edge")) {
                 EdgeOptions options = new EdgeOptions();
-                options.setExperimentalOption("mobileEmulation", MobileEmulation.setEmulationSettings());
+                options.setExperimentalOption("mobileEmulation",
+                      MobileEmulation.setEmulationSettings());
                 capabilities.setCapability(EdgeOptions.CAPABILITY, options);
             }
         }
 
-        if(!Properties.executionOptions.proxySettings().isEmpty()){
+        if (!Properties.executionOptions.proxySettings().isEmpty()) {
             Proxy proxy = new Proxy();
             proxy.setHttpProxy(Properties.executionOptions.proxySettings());
             proxy.setSslProxy(Properties.executionOptions.proxySettings());
             capabilities.setCapability(CapabilityType.PROXY, proxy);
         }
         try {
-            driver = new RemoteWebDriver(new URL(Properties.executionOptions.remoteURL()), capabilities);
+            driver = new RemoteWebDriver(new URL(Properties.executionOptions.remoteUrl()),
+                  capabilities);
         } catch (MalformedURLException e) {
             LoggingManager.error("Unable to create Remote WebDriver: " + e.getMessage());
         }

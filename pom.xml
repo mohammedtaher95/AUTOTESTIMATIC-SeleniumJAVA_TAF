@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.mohammedtaher95</groupId>
     <artifactId>AUTOTESTIMATIC-JAVA</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -427,7 +427,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.5</version>
                 <configuration>
                     <executable>gpg</executable>
                 </configuration>
@@ -439,7 +439,6 @@
                             <goal>sign</goal>
                         </goals>
                         <configuration>
-                            <interactive>false</interactive>
                             <keyname>0x43262BCF</keyname>
                             <passphraseServerId>0x43262BCF</passphraseServerId>
                             <gpgArguments>

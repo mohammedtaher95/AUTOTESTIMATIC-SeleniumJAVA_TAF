@@ -14,23 +14,22 @@ public class Assertions {
     private final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
     private final FluentWait<WebDriver> driverWait;
 
-    public Assertions(WebDriver driver, FluentWait<WebDriver> wait){
+    public Assertions(WebDriver driver, FluentWait<WebDriver> wait) {
         driverThreadLocal.set(driver);
         assertion = new Assertion();
         this.driverWait = wait;
     }
 
-    public ElementAssertions element(By by){
-        try{
+    public ElementAssertions element(By by) {
+        try {
             this.driverWait.until(ExpectedConditions.visibilityOfElementLocated(by));
-        }
-        catch (TimeoutException exception){
+        } catch (TimeoutException exception) {
             throw new NoSuchElementException("Element doesn't exist");
         }
         return new ElementAssertions(this.assertion, by, driverThreadLocal.get());
     }
 
-    public BrowserAssertions browser(){
+    public BrowserAssertions browser() {
         return new BrowserAssertions(this.assertion, driverThreadLocal.get());
     }
 
@@ -38,7 +37,7 @@ public class Assertions {
         return new ObjectAssertions(this.assertion, object, driverThreadLocal.get());
     }
 
-    public void removeDriver(){
+    public void removeDriver() {
         driverThreadLocal.remove();
     }
 }

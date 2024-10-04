@@ -3,7 +3,7 @@ package pages.nopcommerce;
 import driverfactory.webdriver.WebDriver;
 import org.openqa.selenium.By;
 
-public class EmailFriendPage{
+public class EmailFriendPage {
 
     private final WebDriver driver;
 
@@ -19,19 +19,17 @@ public class EmailFriendPage{
 
     public EmailFriendPage fillEmailFriendForm(String friendEmail, String message) {
         driver.element().fillField(friendEmailField, friendEmail);
-        driver.element().fillField(messageField,message);
+        driver.element().fillField(messageField, message);
         return this;
 
     }
 
-    public EmailFriendPage clickOnSendButton()
-    {
+    public EmailFriendPage clickOnSendButton() {
         driver.element().click(sendBtn);
         return this;
     }
 
-    public EmailFriendPage checkThatSuccessMessageShouldBeDisplayed(String message)
-    {
+    public EmailFriendPage checkThatSuccessMessageShouldBeDisplayed(String message) {
         driver.element().waitForVisibility(successMessage);
         driver.assertThat().element(successMessage).text().isEqualTo(message);
         return this;

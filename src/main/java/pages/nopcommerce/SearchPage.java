@@ -3,7 +3,7 @@ package pages.nopcommerce;
 import driverfactory.webdriver.WebDriver;
 import org.openqa.selenium.By;
 
-public class SearchPage{
+public class SearchPage {
 
     private final WebDriver driver;
 
@@ -17,8 +17,7 @@ public class SearchPage{
     }
 
 
-    public SearchPage productSearch(String productName)
-    {
+    public SearchPage productSearch(String productName) {
         driver.element().fillField(searchField, productName);
         driver.element().click(searchButton);
         return this;
@@ -29,8 +28,7 @@ public class SearchPage{
         return new ProductDetailsPage(driver);
     }
 
-    public ProductDetailsPage productSearchUsingAutoSuggest(String searchText)
-    {
+    public ProductDetailsPage productSearchUsingAutoSuggest(String searchText) {
         driver.element().fillField(searchField, searchText);
         driver.element().findElements(productList).get(0).click();
         return new ProductDetailsPage(driver);

@@ -3,30 +3,40 @@ package tools.listeners.testng;
 import com.google.auto.service.AutoService;
 import driverfactory.webdriver.WebDriver;
 import io.qameta.allure.Allure;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.SystemUtils;
-import org.testng.*;
+import org.testng.IAlterSuiteListener;
+import org.testng.IExecutionListener;
+import org.testng.IInvokedMethod;
+import org.testng.IInvokedMethodListener;
+import org.testng.ISuite;
+import org.testng.ISuiteListener;
+import org.testng.ITestContext;
+import org.testng.ITestListener;
+import org.testng.ITestNGListener;
+import org.testng.ITestResult;
 import org.testng.xml.XmlSuite;
 import tools.listeners.testng.helpers.RetryAnalyzer;
 import tools.listeners.testng.helpers.TestNGHelper;
 import tools.properties.Properties;
 import tools.properties.PropertiesHandler;
-import utilities.ExtentReportManager;
-import utilities.allure.AllureBatchGenerator;
 import utilities.EmailableReportGenerator;
+import utilities.ExtentReportManager;
 import utilities.LoggingManager;
 import utilities.ScreenshotHelper;
+import utilities.allure.AllureBatchGenerator;
 import utilities.allure.AllureReportHelper;
 import utilities.docker.DockerFilesGenerator;
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
 
 
 
 @AutoService(ITestNGListener.class)
-public class TestNGListener implements ITestNGListener, IAlterSuiteListener, ITestListener, ISuiteListener,
-        IExecutionListener, IInvokedMethodListener {
+public class TestNGListener
+      implements ITestNGListener, IAlterSuiteListener, ITestListener, ISuiteListener,
+      IExecutionListener, IInvokedMethodListener {
 
     long startTime;
 
@@ -55,7 +65,7 @@ public class TestNGListener implements ITestNGListener, IAlterSuiteListener, ITe
             }
         }
         ExtentReportManager.finishReport();
-        if(Properties.reporting.automaticOpenExtentReport()) {
+        if (Properties.reporting.automaticOpenExtentReport()) {
             ExtentReportManager.export();
         }
 
@@ -98,20 +108,22 @@ public class TestNGListener implements ITestNGListener, IAlterSuiteListener, ITe
     @Override
     public void afterInvocation(IInvokedMethod method, ITestResult result) {
         WebDriver driver = TestNGHelper.getDriverInstance(result);
-        if (result.getStatus() == ITestResult.FAILURE &&
-                (!(result.getMethod().isBeforeClassConfiguration() || result.getMethod().isBeforeSuiteConfiguration()
-                        || result.getMethod().isBeforeMethodConfiguration() || result.getMethod().isBeforeTestConfiguration()))) {
+        if (result.getStatus() == ITestResult.FAILURE
+              && (!(result.getMethod().isBeforeClassConfiguration()
+                    || result.getMethod().isBeforeSuiteConfiguration()
+                    || result.getMethod().isBeforeMethodConfiguration()
+                    || result.getMethod().isBeforeTestConfiguration()))) {
             LoggingManager.error("Failure of test cases and its details are : " + result.getName());
             LoggingManager.error("Failed!");
             LoggingManager.error("Taking Screenshot....");
             String fullPath = System.getProperty("user.dir")
-                    + ScreenshotHelper.captureScreenshot(driver,
-                    result.getMethod().getConstructorOrMethod().getName());
+                  + ScreenshotHelper.captureScreenshot(driver,
+                  result.getMethod().getConstructorOrMethod().getName());
             LoggingManager.info("Screenshot captured for Test case: " + result.getName());
 
             try {
                 Allure.addAttachment(result.getMethod().getConstructorOrMethod().getName(),
-                        FileUtils.openInputStream(new File(fullPath)));
+                      FileUtils.openInputStream(new File(fullPath)));
             } catch (IOException e) {
                 LoggingManager.error("Attachment isn't Found");
             }
@@ -130,17 +142,6 @@ public class TestNGListener implements ITestNGListener, IAlterSuiteListener, ITe
     @Override
     public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
         LoggingManager.error("Failure of test cases and its details are : " + result.getName());
-    }
-
-    @Override
-    public void onStart(ITestContext context) {
-        //TO-DO
-    }
-
-    @Override
-    public void onFinish(ITestContext context) {
-        //TO-DO
-
     }
 
     @Override

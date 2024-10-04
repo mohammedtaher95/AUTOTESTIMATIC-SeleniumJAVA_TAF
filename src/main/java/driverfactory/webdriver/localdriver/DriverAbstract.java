@@ -8,15 +8,15 @@ public abstract class DriverAbstract {
 
     protected abstract void startDriver();
 
-    public void quitDriver(){
-        if(driver != null){
+    public void quitDriver() {
+        if (driver != null) {
             driver.quit();
             driver = null;
         }
     }
 
-    public WebDriver getDriver(){
-        if(driver == null){
+    public WebDriver getDriver() {
+        if (driver == null) {
             startDriver();
         }
         return driver;

@@ -1,18 +1,20 @@
 package utilities.allure;
 
-import utilities.LoggingManager;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
+import utilities.LoggingManager;
 
-public class AllureReportHelper {
+public final class AllureReportHelper {
 
-    private static final File allureReportDir = new File("target/allure-results");
+    private static final File allureReportDir
+            = new File("target/allure-results");
 
     private AllureReportHelper() {
 
     }
 
-    public static void cleanAllureReport(){
+    public static void cleanAllureReport() {
         if (allureReportDir.exists()) {
             File[] reportFiles = allureReportDir.listFiles();
             assert reportFiles != null;
@@ -28,13 +30,12 @@ public class AllureReportHelper {
                 }
             }
             LoggingManager.info("Allure Report Cleaned successfully");
-        }
-        else {
+        } else {
             LoggingManager.info("Allure Report Already Cleaned");
         }
     }
 
-    private static void deleteDirectory(File directory) {
+    private static void deleteDirectory(final File directory) {
         File[] files = directory.listFiles();
         if (files != null) {
             for (File file : files) {

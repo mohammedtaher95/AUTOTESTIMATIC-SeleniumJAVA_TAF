@@ -1,14 +1,11 @@
 package driverfactory.webdriver.localdriver;
 
 import driverfactory.webdriver.helpers.MobileEmulation;
+import java.time.Duration;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import tools.properties.Properties;
-
-import java.time.Duration;
-
-
 
 public class EdgeDriverFactory extends DriverAbstract {
 
@@ -19,11 +16,12 @@ public class EdgeDriverFactory extends DriverAbstract {
         options.setScriptTimeout(Duration.ofSeconds(Properties.timeouts.scriptTimeout()));
         options.setPageLoadTimeout(Duration.ofSeconds(Properties.timeouts.pageLoadTimeout()));
 
-        if(Properties.web.isMobileEmulation()){
-            options.setExperimentalOption("mobileEmulation", MobileEmulation.setEmulationSettings());
+        if (Properties.web.isMobileEmulation()) {
+            options.setExperimentalOption("mobileEmulation",
+                    MobileEmulation.setEmulationSettings());
         }
 
-        if(!Properties.executionOptions.proxySettings().isEmpty()){
+        if (!Properties.executionOptions.proxySettings().isEmpty()) {
             Proxy proxy = new Proxy();
             proxy.setHttpProxy(Properties.executionOptions.proxySettings());
             proxy.setSslProxy(Properties.executionOptions.proxySettings());

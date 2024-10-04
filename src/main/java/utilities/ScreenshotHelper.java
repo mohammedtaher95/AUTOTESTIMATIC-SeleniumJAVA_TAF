@@ -1,28 +1,30 @@
 package utilities;
 
 import driverfactory.webdriver.WebDriver;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 
 
 public class ScreenshotHelper {
 
     static String screenshotsDirectoryPath = "./screenshots";
     private static final File screenshotsDirectory = new File(screenshotsDirectoryPath);
-    private ScreenshotHelper(){
+
+    private ScreenshotHelper() {
 
     }
-    public static Path captureScreenshot(WebDriver driver, String screenshotName){
 
-        if(!screenshotsDirectory.exists()){
+    public static Path captureScreenshot(WebDriver driver, String screenshotName) {
+
+        if (!screenshotsDirectory.exists()) {
             boolean created = screenshotsDirectory.mkdirs();
-            if(created){
+            if (created) {
                 LoggingManager.info("Screenshots Directory Created");
             }
         }

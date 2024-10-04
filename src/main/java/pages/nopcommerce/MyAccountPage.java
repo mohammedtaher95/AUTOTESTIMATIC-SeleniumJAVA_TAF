@@ -5,7 +5,7 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import pages.nopcommerce.homepage.HomePage;
 
-public class MyAccountPage{
+public class MyAccountPage {
 
     private final WebDriver driver;
 
@@ -19,20 +19,18 @@ public class MyAccountPage{
     By messageCloseBtn = By.cssSelector("span.close");
     By logoutLink = By.cssSelector("a.ico-logout");
 
-	public MyAccountPage(WebDriver driver) {
-		this.driver = driver;
-	}
+    public MyAccountPage(WebDriver driver) {
+        this.driver = driver;
+    }
 
     @Step("And clicks on Change Password link")
-    public MyAccountPage openChangePasswordpage()
-    {
+    public MyAccountPage openChangePasswordpage() {
         driver.element().click(changePasswordLink);
         return this;
     }
 
     @Step("And Fills old and new passwords")
-    public MyAccountPage changePassword(String oldPass, String newPass)
-    {
+    public MyAccountPage changePassword(String oldPass, String newPass) {
         driver.element().fillField(oldPasswordTxt, oldPass);
         driver.element().fillField(newPasswordTxt, newPass);
         driver.element().fillField(confirmPasswordTxt, newPass);
@@ -40,35 +38,31 @@ public class MyAccountPage{
     }
 
     @Step("And Clicks on Confirm button")
-    public MyAccountPage clickOnConfirm()
-    {
+    public MyAccountPage clickOnConfirm() {
         driver.element().click(changePasswordBtn);
         return this;
     }
 
     @Step("Then Confirmation message should be displayed that password was changed")
-    public MyAccountPage checkThatChangeMessageShouldBeDisplayed()
-    {
+    public MyAccountPage checkThatChangeMessageShouldBeDisplayed() {
         driver.element().waitForVisibility(changeResult);
         driver.assertThat().element(changeResult).text().contains("Password was changed");
         return this;
     }
 
     @Step("And User can dismiss message")
-    public MyAccountPage closeMessage()
-    {
+    public MyAccountPage closeMessage() {
         driver.element().click(messageCloseBtn);
         return this;
     }
 
     @Step("And User can logout")
-    public HomePage clickOnLogoutButton()
-    {
+    public HomePage clickOnLogoutButton() {
         driver.element().waitForVisibility(logoutLink);
         driver.assertThat().element(logoutLink).isEnabled();
         driver.element().click(logoutLink);
         return new HomePage(driver);
     }
-    
+
 
 }

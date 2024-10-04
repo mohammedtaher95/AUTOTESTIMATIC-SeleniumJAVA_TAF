@@ -4,7 +4,7 @@ import driverfactory.webdriver.WebDriver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
-public class ContactUsPage{
+public class ContactUsPage {
 
     private final WebDriver driver;
 
@@ -19,8 +19,7 @@ public class ContactUsPage{
     }
 
     @Step("When he fills contact info Form")
-    public ContactUsPage fillContactInfoForm(String name, String email, String enquiry)
-    {
+    public ContactUsPage fillContactInfoForm(String name, String email, String enquiry) {
         driver.element().fillField(nameField, name);
         driver.element().fillField(emailField, email);
         driver.element().fillField(enquiryField, enquiry);
@@ -28,13 +27,13 @@ public class ContactUsPage{
     }
 
     @Step("And Clicks on Submit button")
-    public ContactUsPage clickOnSubmitButton(){
+    public ContactUsPage clickOnSubmitButton() {
         driver.element().click(submitBtn);
         return this;
     }
 
     @Step("Then success Message Should Be Displayed")
-    public ContactUsPage successMessageShouldBeDisplayed(String message){
+    public ContactUsPage successMessageShouldBeDisplayed(String message) {
         driver.element().waitForVisibility(successMessage);
         driver.assertThat().element(successMessage).isDisplayed();
         driver.assertThat().element(successMessage).text().isEqualTo(message);

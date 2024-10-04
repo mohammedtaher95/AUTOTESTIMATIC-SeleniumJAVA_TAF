@@ -10,58 +10,58 @@ public class ObjectAssertions {
     private final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
     private final Object actualObject;
 
-    public ObjectAssertions(Assertion assertion, Object object, WebDriver driver){
+    public ObjectAssertions(Assertion assertion, Object object, WebDriver driver) {
         this.assertion = assertion;
         this.actualObject = object;
         driverThreadLocal.set(driver);
     }
 
-    public void contains(Object expected){
+    public void contains(Object expected) {
         try {
             assertion.assertTrue(actualObject.toString().contains(expected.toString()));
             LoggingManager.info("Expected: " + expected + ", Actual: " + actualObject.toString());
 
-        }
-        catch (AssertionError e){
-            LoggingManager.error("Expected: " + expected + ", but Actual: " + actualObject.toString());
+        } catch (AssertionError e) {
+            LoggingManager.error(
+                  "Expected: " + expected + ", but Actual: " + actualObject.toString());
             throw e;
         }
     }
 
-    public void doesNotContain(Object expected){
+    public void doesNotContain(Object expected) {
         try {
             assertion.assertTrue(actualObject.toString().contains(expected.toString()));
             LoggingManager.info("Expected: " + expected + ", Actual: " + actualObject.toString());
-        }
-        catch (AssertionError e){
-            LoggingManager.error("Expected: " + expected + ", but Actual: " + actualObject.toString());
+        } catch (AssertionError e) {
+            LoggingManager.error(
+                  "Expected: " + expected + ", but Actual: " + actualObject.toString());
             throw e;
         }
     }
 
-    public void isNotEqualTo(Object expected){
+    public void isNotEqualTo(Object expected) {
         try {
             assertion.assertTrue(!actualObject.toString().equalsIgnoreCase(expected.toString()));
             LoggingManager.info("Expected: " + expected + ", Actual: " + actualObject.toString());
-        }
-        catch (AssertionError e){
-            LoggingManager.error("Expected: " + expected + ", but Actual: " + actualObject.toString());
+        } catch (AssertionError e) {
+            LoggingManager.error(
+                  "Expected: " + expected + ", but Actual: " + actualObject.toString());
             throw e;
         }
     }
 
-    public void isEqualTo(Object expected){
+    public void isEqualTo(Object expected) {
         try {
             assertion.assertTrue(actualObject.toString().equalsIgnoreCase(expected.toString()));
             LoggingManager.info("Expected: " + expected + ", Actual: " + actualObject.toString());
-        }
-        catch (AssertionError e){
-            LoggingManager.error("Expected: " + expected + ", but Actual: " + actualObject.toString());
+        } catch (AssertionError e) {
+            LoggingManager.error(
+                  "Expected: " + expected + ", but Actual: " + actualObject.toString());
             throw e;
         }
     }
 
-    public void removeDriver(){
+    public void removeDriver() {
         driverThreadLocal.remove();
     }
 

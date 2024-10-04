@@ -3,13 +3,13 @@ package tests.nopcommerce;
 import driverfactory.webdriver.WebDriver;
 import org.testng.annotations.*;
 import pages.nopcommerce.SearchPage;
-import utilities.JSONFileHandler;
+import utilities.JsonFileHandler;
 
 public class SearchProductTest{
 
     public static ThreadLocal<WebDriver> driver;
 
-    JSONFileHandler testData;
+    JsonFileHandler testData;
     String ProductName;
 
     @Test
@@ -25,7 +25,7 @@ public class SearchProductTest{
     public void setUp(){
         driver = new ThreadLocal<>();
         driver.set(new WebDriver());
-        testData = new JSONFileHandler("simpleFile.json");
+        testData = new JsonFileHandler("simpleFile.json");
 
     }
 

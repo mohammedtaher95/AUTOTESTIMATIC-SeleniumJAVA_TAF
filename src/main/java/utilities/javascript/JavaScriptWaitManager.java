@@ -1,15 +1,18 @@
 package utilities.javascript;
 
-import org.openqa.selenium.*;
+import java.time.Duration;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchSessionException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import tools.properties.Properties;
 import utilities.LoggingManager;
-import java.time.Duration;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-
 
 public class JavaScriptWaitManager {
     private static final int DURATION = Properties.timeouts.lazyLoadingTimeout();
@@ -21,19 +24,19 @@ public class JavaScriptWaitManager {
     public JavaScriptWaitManager(WebDriver driver) {
         jsWaitDriver.set(driver);
     }
-    
+
 
     /**
      * Waits for jQuery, Angular, and/or Javascript if present on the current page.
      */
     public void waitForLazyLoading() {
-        JavascriptExecutor jSE = (JavascriptExecutor) jsWaitDriver.get();
-        
+        JavascriptExecutor jse = (JavascriptExecutor) jsWaitDriver.get();
+
         if (Properties.timeouts.waitForLazyLoading()) {
             try {
-                waitForJQueryLoadIfDefined(jSE);
-                waitForAngularIfDefined(jSE);
-                waitForJSLoadIfDefined(jSE);
+                waitForJqueryLoadIfDefined(jse);
+                waitForAngularIfDefined(jse);
+                waitForJsLoadIfDefined(jse);
             } catch (NoSuchSessionException | NullPointerException e) {
                 // do nothing
             } catch (WebDriverException e) {
@@ -47,19 +50,19 @@ public class JavaScriptWaitManager {
         }
     }
 
-    private void waitForJQueryLoadIfDefined(JavascriptExecutor jSE) {
-        Boolean jQueryDefined = (Boolean) jSE.executeScript("return typeof jQuery != 'undefined'");
-        if (Boolean.TRUE.equals(jQueryDefined)) {
-            ExpectedCondition<Boolean> jQueryLoad = null;
+    private void waitForJqueryLoadIfDefined(JavascriptExecutor jse) {
+        Boolean jqueryDefined = (Boolean) jse.executeScript("return typeof jQuery != 'undefined'");
+        if (Boolean.TRUE.equals(jqueryDefined)) {
+            ExpectedCondition<Boolean> jqueryLoad = null;
             try {
                 // Wait for jQuery to load
-                jQueryLoad = driver -> ((Long) ((JavascriptExecutor) jsWaitDriver.get())
-                        .executeScript("return jQuery.active") == 0);
+                jqueryLoad = driver -> ((Long) ((JavascriptExecutor) jsWaitDriver.get())
+                      .executeScript("return jQuery.active") == 0);
             } catch (NullPointerException e) {
                 // do nothing
             }
             // Get JQuery is Ready
-            boolean jqueryReady = (Boolean) jSE.executeScript("return jQuery.active==0");
+            boolean jqueryReady = (Boolean) jse.executeScript("return jQuery.active==0");
 
             if (!jqueryReady) {
                 // Wait JQuery until it is Ready!
@@ -68,58 +71,65 @@ public class JavaScriptWaitManager {
                     try {
                         // Wait for jQuery to load
                         new FluentWait<>(jsWaitDriver.get())
-                                .withTimeout(Duration.ofSeconds(DURATION))
-                                .pollingEvery(Duration.ofMillis(500))
-                                .ignoring(NoSuchElementException.class)
-                                .ignoring(StaleElementReferenceException.class)
-                                .until(jQueryLoad);
-//                        (new WebDriverWait(jsWaitDriver.get(), Duration.ofSeconds(DURATION))).until(jQueryLoad);
+                              .withTimeout(Duration.ofSeconds(DURATION))
+                              .pollingEvery(Duration.ofMillis(500))
+                              .ignoring(NoSuchElementException.class)
+                              .ignoring(StaleElementReferenceException.class)
+                              .until(jqueryLoad);
+                        //  (new WebDriverWait(jsWaitDriver.get(), Duration.ofSeconds(DURATION)))
+                        //  .until(jQueryLoad);
                     } catch (NullPointerException e) {
                         // do nothing
                     }
 
                     tryCounter++;
-                    jqueryReady = (Boolean) jSE.executeScript("return jQuery.active == 0");
+                    jqueryReady = (Boolean) jse.executeScript("return jQuery.active == 0");
                 }
             }
         }
     }
 
-    private void waitForAngularLoad(JavascriptExecutor jSE) {
+    private void waitForAngularLoad(JavascriptExecutor jse) {
 
-        String angularReadyScript = "return angular.element(document).injector().get('$http').pendingRequests.length === 0";
+        String angularReadyScript =
+              "return angular.element(document).injector()"
+                   + ".get('$http').pendingRequests.length === 0";
 
         // Wait for ANGULAR to load
         ExpectedCondition<Boolean> angularLoad = driver -> Boolean
-                .valueOf(((JavascriptExecutor) Objects.requireNonNull(driver)).executeScript(angularReadyScript).toString());
+              .valueOf(((JavascriptExecutor) Objects.requireNonNull(driver)).executeScript(
+                    angularReadyScript).toString());
 
         // Get Angular is Ready
-        boolean angularReady = Boolean.parseBoolean(jSE.executeScript(angularReadyScript).toString());
+        boolean angularReady =
+              Boolean.parseBoolean(jse.executeScript(angularReadyScript).toString());
 
         if (!angularReady) {
             // Wait ANGULAR until it is Ready!
             int tryCounter = 0;
             while ((!angularReady) && (tryCounter < 5)) {
                 // Wait for Angular to load
-                (new WebDriverWait(jsWaitDriver.get(), Duration.ofSeconds(DURATION))).until(angularLoad);
+                (new WebDriverWait(jsWaitDriver.get(), Duration.ofSeconds(DURATION))).until(
+                      angularLoad);
 
                 // More Wait for stability (Optional)
                 tryCounter++;
-                angularReady = Boolean.parseBoolean(jSE.executeScript(angularReadyScript).toString());
+                angularReady =
+                      Boolean.parseBoolean(jse.executeScript(angularReadyScript).toString());
             }
         }
     }
 
-    private void waitForJSLoadIfDefined(JavascriptExecutor jSE) {
+    private void waitForJsLoadIfDefined(JavascriptExecutor jse) {
 
         // Wait for Javascript to load
-        ExpectedCondition<Boolean> jsLoad = driver -> jSE
-                .executeScript(SCRIPT).toString().trim()
-                .equalsIgnoreCase(STATE);
+        ExpectedCondition<Boolean> jsLoad = driver -> jse
+              .executeScript(SCRIPT).toString().trim()
+              .equalsIgnoreCase(STATE);
 
         // Get JS is Ready
-        boolean jsReady = jSE.executeScript(SCRIPT).toString().trim()
-                .equalsIgnoreCase(STATE);
+        boolean jsReady = jse.executeScript(SCRIPT).toString().trim()
+              .equalsIgnoreCase(STATE);
 
         // Wait Javascript until it is Ready!
         if (!jsReady) {
@@ -128,26 +138,28 @@ public class JavaScriptWaitManager {
             while ((!jsReady) && (tryCounter < 5)) {
                 // Wait for Javascript to load
                 try {
-                    (new WebDriverWait(jsWaitDriver.get(), Duration.ofSeconds(DURATION))).until(jsLoad);
+                    (new WebDriverWait(jsWaitDriver.get(), Duration.ofSeconds(DURATION))).until(
+                          jsLoad);
                 } catch (org.openqa.selenium.TimeoutException e) {
                     //do nothing
                 }
                 // More Wait for stability (Optional)
                 tryCounter++;
-                jsReady = jSE.executeScript(SCRIPT).toString().trim().equalsIgnoreCase(STATE);
+                jsReady = jse.executeScript(SCRIPT).toString().trim().equalsIgnoreCase(STATE);
             }
         }
     }
 
-    private void waitForAngularIfDefined(JavascriptExecutor jSE) {
+    private void waitForAngularIfDefined(JavascriptExecutor jse) {
         try {
-            Boolean angularDefined = !((Boolean) jSE.executeScript("return window.angular === undefined"));
+            Boolean angularDefined =
+                  !((Boolean) jse.executeScript("return window.angular === undefined"));
             if (Boolean.TRUE.equals(angularDefined)) {
-                Boolean angularInjectorDefined = !((Boolean) jSE
-                        .executeScript("return angular.element(document).injector() === undefined"));
+                Boolean angularInjectorDefined = !((Boolean) jse
+                      .executeScript("return angular.element(document).injector() === undefined"));
 
                 if (Boolean.TRUE.equals(angularInjectorDefined)) {
-                    waitForAngularLoad(jSE);
+                    waitForAngularLoad(jse);
                 }
             }
         } catch (WebDriverException e) {
@@ -156,7 +168,7 @@ public class JavaScriptWaitManager {
     }
 
 
-    public void removeDriver(){
+    public void removeDriver() {
         jsWaitDriver.remove();
     }
 

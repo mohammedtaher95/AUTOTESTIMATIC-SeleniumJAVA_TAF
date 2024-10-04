@@ -8,7 +8,7 @@ import org.aeonbits.owner.Config.Sources;
 
 @LoadPolicy(LoadType.MERGE)
 @Sources({"file:src/main/resources/properties/log4j2.properties",
-        "classpath:src/main/resources/properties/log4j2.properties"})
+    "classpath:src/main/resources/properties/log4j2.properties"})
 public interface Log4j extends Config, Accessible {
 
     @Key("name")
@@ -36,7 +36,9 @@ public interface Log4j extends Config, Accessible {
     boolean appenderConsoleLayoutDisableAnsi();
 
     @Key("appender.console.layout.pattern")
-    @DefaultValue("%highlight{[%p]}{FATAL=red blink, ERROR=red bold, WARN=yellow bold, INFO=fg_#0060a8 bold, DEBUG=fg_#43b02a bold, TRACE=black} %style{%m} %style{| @%d{hh:mm:ss a}}{bright_black} %n")
+    @DefaultValue("%highlight{[%p]}{FATAL=red blink, ERROR=red bold, "
+          + "WARN=yellow bold, INFO=fg_#0060a8 bold, DEBUG=fg_#43b02a bold, "
+          + "TRACE=black} %style{%m} %style{| @%d{hh:mm:ss a}}{bright_black} %n")
     String appenderConsoleLayoutPattern();
 
     @Key("appender.console.filter.threshold.type")

@@ -9,65 +9,59 @@ import pages.nopcommerce.MyAccountPage;
 import pages.nopcommerce.registrationpage.UserRegistrationPage;
 
 
-public class HomePage{
+public class HomePage {
 
-	private final WebDriver driver;
+    private final WebDriver driver;
 
-	By registerLink = By.linkText("Register");
-	By loginLink = By.linkText("Log in");
-	By contactUsLink = By.linkText("Contact us");
-	By currencyDropDownList = By.id("customerCurrency");
-	By computersMenu = By.linkText("Computers");
-	By notebooksMenu = By.linkText("Notebooks");
-	By myAccountLink = By.linkText("My account");
+    By registerLink = By.linkText("Register");
+    By loginLink = By.linkText("Log in");
+    By contactUsLink = By.linkText("Contact us");
+    By currencyDropDownList = By.id("customerCurrency");
+    By computersMenu = By.linkText("Computers");
+    By notebooksMenu = By.linkText("Notebooks");
+    By myAccountLink = By.linkText("My account");
 
-	public HomePage(WebDriver driver) {
-		this.driver = driver;
-	}
+    public HomePage(WebDriver driver) {
+        this.driver = driver;
+    }
 
-	@Step("HomePage should be loaded successfully")
-	public HomePage checkThatHomePageIsLoadedSuccessfully(){
-		driver.assertThat().element(loginLink).isDisplayed();
-		return this;
-	}
+    @Step("HomePage should be loaded successfully")
+    public HomePage checkThatHomePageIsLoadedSuccessfully() {
+        driver.assertThat().element(loginLink).isDisplayed();
+        return this;
+    }
 
-	@Step("Given user clicks on Registration page link")
-	public UserRegistrationPage openRegistrationPage()
-	{
-		driver.element().click(registerLink);
-		return new UserRegistrationPage(driver);
-	}
+    @Step("Given user clicks on Registration page link")
+    public UserRegistrationPage openRegistrationPage() {
+        driver.element().click(registerLink);
+        return new UserRegistrationPage(driver);
+    }
 
-	@Step("When user clicks on Login Link")
-	public LoginPage openLoginPage()
-	{
-		driver.element().click(loginLink);
-		return new LoginPage(driver);
-	}
+    @Step("When user clicks on Login Link")
+    public LoginPage openLoginPage() {
+        driver.element().click(loginLink);
+        return new LoginPage(driver);
+    }
 
-	@Step("Given user opened Contact us link")
-	public ContactUsPage openContactUsPage()
-	{
-		driver.browser().scrollToBottom();
-		driver.element().click(contactUsLink);
-		return new ContactUsPage(driver);
-	}
+    @Step("Given user opened Contact us link")
+    public ContactUsPage openContactUsPage() {
+        driver.browser().scrollToBottom();
+        driver.element().click(contactUsLink);
+        return new ContactUsPage(driver);
+    }
 
-	@Step("When user clicks on My Account link")
-	public MyAccountPage openMyAccountPage()
-	{
-		driver.element().click(myAccountLink);
-		return new MyAccountPage(driver);
-	}
+    @Step("When user clicks on My Account link")
+    public MyAccountPage openMyAccountPage() {
+        driver.element().click(myAccountLink);
+        return new MyAccountPage(driver);
+    }
 
-	public void changeCurrency(int index)
-	{
-		driver.element().selectItemByIndex(currencyDropDownList, index);
-	}
+    public void changeCurrency(int index) {
+        driver.element().selectItemByIndex(currencyDropDownList, index);
+    }
 
-	public void selectNotebookMenu()
-	{
-		driver.element().hoverOnItem(computersMenu).hoverOnItem(notebooksMenu);
-	}
+    public void selectNotebookMenu() {
+        driver.element().hoverOnItem(computersMenu).hoverOnItem(notebooksMenu);
+    }
 
 }

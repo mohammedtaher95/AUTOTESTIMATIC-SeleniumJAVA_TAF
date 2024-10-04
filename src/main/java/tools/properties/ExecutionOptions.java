@@ -2,16 +2,16 @@ package tools.properties;
 
 import org.aeonbits.owner.Accessible;
 import org.aeonbits.owner.Config;
-import org.aeonbits.owner.Config.*;
+import org.aeonbits.owner.Config.LoadPolicy;
+import org.aeonbits.owner.Config.Sources;
 import org.aeonbits.owner.ConfigFactory;
 import org.aeonbits.owner.Reloadable;
 import utilities.LoggingManager;
 
 
 @LoadPolicy(Config.LoadType.MERGE)
-@Sources({
-        "file:src/main/resources/properties/ExecutionOptions.properties",
-        "classpath:src/main/resources/properties/ExecutionOptions.properties"})
+@Sources({"file:src/main/resources/properties/ExecutionOptions.properties",
+    "classpath:src/main/resources/properties/ExecutionOptions.properties"})
 public interface ExecutionOptions extends Config, Accessible, Reloadable {
 
     @Key("ENV_TYPE")
@@ -24,7 +24,7 @@ public interface ExecutionOptions extends Config, Accessible, Reloadable {
 
     @Key("REMOTE_ENV_URL")
     @DefaultValue("")
-    String remoteURL();
+    String remoteUrl();
 
     @Key("PROXY_SETTINGS")
     @DefaultValue("")
@@ -43,10 +43,12 @@ public interface ExecutionOptions extends Config, Accessible, Reloadable {
         private static void setProperty(String key, String value) {
             var updatedProps = new java.util.Properties();
             updatedProps.setProperty(key, value);
-            Properties.executionOptions = ConfigFactory.create(ExecutionOptions.class, updatedProps);
+            Properties.executionOptions = ConfigFactory.create(ExecutionOptions.class,
+                  updatedProps);
             System.setProperty(key, value);
             LoggingManager.info("Setting \"" + key + "\" property with \"" + value + "\".");
         }
+
         public SetProperties crossBrowserMode(String value) {
             setProperty("CROSS_BROWSER_MODE", value);
             return this;

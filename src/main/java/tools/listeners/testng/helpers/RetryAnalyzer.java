@@ -8,6 +8,7 @@ public class RetryAnalyzer implements IRetryAnalyzer {
 
     private int retryCount = 0;
     private final int maxRetryCount = Properties.testNG.retryFailedTestAttempts();
+
     @Override
     public boolean retry(ITestResult result) {
         if (retryCount < maxRetryCount) {
