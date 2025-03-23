@@ -73,6 +73,17 @@ public class BrowserActions {
     }
 
     /******************************** Cookies *************************************/
+    public BrowserActions addCookie(Cookie cookie) {
+        driverThreadLocal.get().manage().addCookie(cookie);
+        return this;
+    }
+
+
+    public BrowserActions deleteCookieWithName(String name) {
+        driverThreadLocal.get().manage().deleteCookieNamed(name);
+        return this;
+    }
+
 
     public BrowserActions deleteAllCookies() {
         driverThreadLocal.get().manage().deleteAllCookies();
