@@ -16,6 +16,7 @@ public class ObjectAssertions {
         driverThreadLocal.set(driver);
     }
 
+    @SuppressWarnings("all")
     public void contains(Object expected) {
         try {
             assertion.assertTrue(actualObject.toString().contains(expected.toString()));
@@ -28,6 +29,7 @@ public class ObjectAssertions {
         }
     }
 
+    @SuppressWarnings("all")
     public void doesNotContain(Object expected) {
         try {
             assertion.assertTrue(actualObject.toString().contains(expected.toString()));
@@ -39,6 +41,7 @@ public class ObjectAssertions {
         }
     }
 
+    @SuppressWarnings("all")
     public void isNotEqualTo(Object expected) {
         try {
             assertion.assertTrue(!actualObject.toString().equalsIgnoreCase(expected.toString()));
@@ -50,6 +53,7 @@ public class ObjectAssertions {
         }
     }
 
+    @SuppressWarnings("all")
     public void isEqualTo(Object expected) {
         try {
             assertion.assertTrue(actualObject.toString().equalsIgnoreCase(expected.toString()));

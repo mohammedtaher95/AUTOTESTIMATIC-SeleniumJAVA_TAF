@@ -12,6 +12,7 @@ import org.openqa.selenium.Cookie;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.events.WebDriverListener;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -19,11 +20,11 @@ import tools.properties.Properties;
 import utilities.LoggingManager;
 import utilities.javascript.JavaScriptWaitManager;
 
-public class WebDriverListeners implements org.openqa.selenium.support.events.WebDriverListener {
+public class DriverListener implements WebDriverListener {
 
     private final WebDriver driver;
 
-    public WebDriverListeners(WebDriver driver) {
+    public DriverListener(WebDriver driver) {
         this.driver = driver;
     }
 
@@ -45,10 +46,10 @@ public class WebDriverListeners implements org.openqa.selenium.support.events.We
         LoggingManager.info("Getting to \"" + url + "\".");
     }
 
-//    @Override
-//    public void afterGetCurrentUrl(String result, WebDriver driver) {
-//        LoggingManager.info("Current url is: \"" + result + "\".");
-//    }
+    @Override
+    public void afterGetCurrentUrl(WebDriver driver, String result) {
+        LoggingManager.info("Current url is: \"" + result + "\".");
+    }
 
     @Override
     public void afterGetTitle(WebDriver driver, String result) {
@@ -162,6 +163,7 @@ public class WebDriverListeners implements org.openqa.selenium.support.events.We
     }
 
     @Override
+    @SuppressWarnings("all")
     public void beforeSendKeys(WebElement element, CharSequence... keysToSend) {
         StringBuilder stringBuilder = new StringBuilder();
         Arrays.stream(keysToSend).toList().forEach(stringBuilder::append);
@@ -174,6 +176,7 @@ public class WebDriverListeners implements org.openqa.selenium.support.events.We
     }
 
     @Override
+    @SuppressWarnings("all")
     public void beforeSendKeys(Alert alert, String text) {
         LoggingManager.info("Type \"" + text + "\" into Alert.");
     }

@@ -20,7 +20,7 @@ import org.openqa.selenium.support.ThreadGuard;
 import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.testng.Reporter;
-import tools.listeners.webdriver.WebDriverListeners;
+import tools.listeners.webdriver.DriverListener;
 import tools.properties.Properties;
 import utilities.JsonFileHandler;
 import utilities.LoggingManager;
@@ -98,7 +98,7 @@ public class WebDriver {
         driver.manage().window().maximize();
         setDriver(ThreadGuard.protect(
               new EventFiringDecorator<>(org.openqa.selenium.WebDriver.class,
-                    new WebDriverListeners(driver))
+                    new DriverListener(driver))
                     .decorate(driver)));
         if (!baseUrl.isEmpty()) {
             getDriver().navigate().to(baseUrl);
@@ -120,7 +120,7 @@ public class WebDriver {
         RemoteWebDriver driver = GridFactory.getRemoteDriver(browserName);
         driver.manage().window().maximize();
         setRemoteDriver(new EventFiringDecorator<>(org.openqa.selenium.remote.RemoteWebDriver.class,
-              new WebDriverListeners(driver)).decorate(driver));
+              new DriverListener(driver)).decorate(driver));
 
         if (!baseUrl.isEmpty()) {
             getDriver().navigate().to(baseUrl);
@@ -168,7 +168,7 @@ public class WebDriver {
             driver.manage().window().maximize();
             setRemoteDriver(
                   new EventFiringDecorator<>(org.openqa.selenium.remote.RemoteWebDriver.class,
-                        new WebDriverListeners(driver))
+                        new DriverListener(driver))
                         .decorate(driver));
             LoggingManager.info(
                   "BrowserStack Started on " + browserName + ", " + os + " " + osVersion);
