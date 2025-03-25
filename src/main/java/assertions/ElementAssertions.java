@@ -28,6 +28,7 @@ public class ElementAssertions {
         return new Validations();
     }
 
+    @SuppressWarnings("all")
     public void isDisplayed() {
         try {
             this.assertion.assertTrue(driverThreadLocal.get().findElement(by).isDisplayed());
@@ -40,7 +41,8 @@ public class ElementAssertions {
         }
     }
 
-    public void isNotDisplayed() {
+    @SuppressWarnings("all")
+    public void isHidden() {
         try {
             this.assertion.assertTrue(!driverThreadLocal.get().findElement(by).isDisplayed());
             LoggingManager.info("Element: " + by.toString().split(":", 2)[1] + " is NOT Displayed");
@@ -50,6 +52,7 @@ public class ElementAssertions {
         }
     }
 
+    @SuppressWarnings("all")
     public void isEnabled() {
         try {
             this.assertion.assertTrue(driverThreadLocal.get().findElement(by).isEnabled());
@@ -60,6 +63,7 @@ public class ElementAssertions {
         }
     }
 
+    @SuppressWarnings("all")
     public void isDisabled() {
         try {
             this.assertion.assertTrue(!driverThreadLocal.get().findElement(by).isEnabled());
@@ -70,6 +74,7 @@ public class ElementAssertions {
         }
     }
 
+    @SuppressWarnings("all")
     public void isSelected() {
         try {
             this.assertion.assertTrue(driverThreadLocal.get().findElement(by).isSelected());
@@ -80,6 +85,7 @@ public class ElementAssertions {
         }
     }
 
+    @SuppressWarnings("all")
     public void isNotSelected() {
         try {
             this.assertion.assertTrue(!driverThreadLocal.get().findElement(by).isSelected());
@@ -101,6 +107,7 @@ public class ElementAssertions {
 
         }
 
+        @SuppressWarnings("all")
         public void contains(String expected) {
             try {
                 assertion.assertTrue(actual.contains(expected));
@@ -111,6 +118,7 @@ public class ElementAssertions {
             }
         }
 
+        @SuppressWarnings("all")
         public void doesNotContain(String expected) {
             try {
                 assertion.assertTrue(actual.contains(expected));
@@ -121,6 +129,7 @@ public class ElementAssertions {
             }
         }
 
+        @SuppressWarnings("all")
         public void isNotEqualTo(String expected) {
             try {
                 assertion.assertTrue(!actual.equalsIgnoreCase(expected));
@@ -131,6 +140,7 @@ public class ElementAssertions {
             }
         }
 
+        @SuppressWarnings("all")
         public void isEqualTo(String expected) {
             try {
                 assertion.assertTrue(actual.equalsIgnoreCase(expected));
