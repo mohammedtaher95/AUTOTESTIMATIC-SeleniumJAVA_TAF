@@ -38,13 +38,13 @@ public class JUnitTryTest {
     }
 
     @BeforeAll
-    public static void setUp(){
+    static void setUp(){
         driver = new ThreadLocal<>();
         driver.set(new WebDriver());
     }
 
     @AfterAll
-    public static void tearDown(){
+    static void tearDown(){
         driver.get().browser().deleteAllCookies();
         driver.get().quit();
         driver.remove();

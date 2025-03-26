@@ -10,8 +10,8 @@ import utilities.UserFormData;
 
 public class EmailFriendTest{
 
-    String ProductName = "Apple MacBook Pro 13-inch";
-    String SuccessMessage = "Your message has been sent.";
+    String productName = "Apple MacBook Pro 13-inch";
+    String successMessage = "Your message has been sent.";
     public static ThreadLocal<WebDriver> driver;
     UserFormData user = new UserFormData();
 
@@ -47,9 +47,9 @@ public class EmailFriendTest{
     @Test(priority = 3, alwaysRun = true, dependsOnMethods = {"RegisteredUserCanLogin"})
     public void UserCanSearchForProducts(){
         new SearchPage(driver.get())
-                .productSearch(ProductName)
+                .productSearch(productName)
                 .openProductPage()
-                .checkThatProductPageShouldBeDisplayed(ProductName);
+                .checkThatProductPageShouldBeDisplayed(productName);
     }
 
     @Test(priority = 4, alwaysRun = true, dependsOnMethods = {"UserCanSearchForProducts"})
@@ -58,7 +58,7 @@ public class EmailFriendTest{
                 .emailFriend()
                 .fillEmailFriendForm(user.getFriendEmail(), user.getMessage())
                 .clickOnSendButton()
-                .checkThatSuccessMessageShouldBeDisplayed(SuccessMessage);
+                .checkThatSuccessMessageShouldBeDisplayed(successMessage);
     }
 
     @Test(priority = 5, alwaysRun = true, dependsOnMethods = {"RegisteredUserCanEmailHisFriend"})

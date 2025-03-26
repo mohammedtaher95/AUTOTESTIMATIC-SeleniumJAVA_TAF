@@ -10,15 +10,15 @@ public class SearchProductTest{
     public static ThreadLocal<WebDriver> driver;
 
     JsonFileHandler testData;
-    String ProductName;
+    String productName;
 
     @Test
     public void UserCanSearchForProducts() {
-        ProductName = testData.getData("searchQueryList.FirstItem");
+        productName = testData.getData("searchQueryList.FirstItem");
         new SearchPage(driver.get())
-                .productSearch(ProductName)
+                .productSearch(productName)
                 .openProductPage()
-                .checkThatProductPageShouldBeDisplayed(ProductName);
+                .checkThatProductPageShouldBeDisplayed(productName);
     }
 
     @BeforeClass(description = "Setup Driver")

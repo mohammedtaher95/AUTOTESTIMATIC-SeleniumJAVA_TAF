@@ -12,8 +12,8 @@ import utilities.UserFormData;
 public class AddProductReviewTest{
 
     public static ThreadLocal<WebDriver> driver;
-    String ProductName = "Apple MacBook Pro 13-inch";
-    String SuccessMessage = "Product review is successfully added.";
+    String productName = "Apple MacBook Pro 13-inch";
+    String successMessage = "Product review is successfully added.";
 
     UserFormData newUser = new UserFormData();
 
@@ -47,9 +47,9 @@ public class AddProductReviewTest{
     @Test(priority = 3, dependsOnMethods = {"UserCanRegisterSuccessfully", "RegisteredUserCanLogin"})
     public void UserCanSearchForProducts(){
         new SearchPage(driver.get())
-                .productSearch(ProductName)
+                .productSearch(productName)
                 .openProductPage()
-                .checkThatProductPageShouldBeDisplayed(ProductName);
+                .checkThatProductPageShouldBeDisplayed(productName);
     }
 
     @Test(priority = 4, alwaysRun = true, dependsOnMethods = {"UserCanSearchForProducts"})
@@ -58,7 +58,7 @@ public class AddProductReviewTest{
                 .addReview()
                 .fillReviewForm(newUser.getMessage(), newUser.getMessage())
                 .clickOnSubmitButton()
-                .verifyThatReviewShouldBeSubmittedSuccessfully(SuccessMessage, newUser.getMessage());
+                .verifyThatReviewShouldBeSubmittedSuccessfully(successMessage, newUser.getMessage());
     }
 
     @Test(priority = 5, alwaysRun = true, dependsOnMethods = {"RegisteredUserCanAddReviewForProduct"})

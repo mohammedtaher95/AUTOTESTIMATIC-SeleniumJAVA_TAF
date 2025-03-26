@@ -12,14 +12,14 @@ import utilities.UserFormData;
 public class JunitAddProductReviewTest {
 
     public static ThreadLocal<WebDriver> driver;
-    String ProductName = "Apple MacBook Pro 13-inch";
-    String SuccessMessage = "Product review is successfully added.";
+    String productName = "Apple MacBook Pro 13-inch";
+    String successMessage = "Product review is successfully added.";
 
     static final UserFormData newUser = new UserFormData();
 
 
     @BeforeAll
-    public static void setUp(){
+    static void setUp(){
         driver = new ThreadLocal<>();
         driver.set(new WebDriver());
     }
@@ -50,9 +50,9 @@ public class JunitAddProductReviewTest {
     @Order(3)
     void UserCanSearchForProducts(){
         new SearchPage(driver.get())
-                .productSearch(ProductName)
+                .productSearch(productName)
                 .openProductPage()
-                .checkThatProductPageShouldBeDisplayed(ProductName);
+                .checkThatProductPageShouldBeDisplayed(productName);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class JunitAddProductReviewTest {
                 .addReview()
                 .fillReviewForm(newUser.getMessage(), newUser.getMessage())
                 .clickOnSubmitButton()
-                .verifyThatReviewShouldBeSubmittedSuccessfully(SuccessMessage, newUser.getMessage());
+                .verifyThatReviewShouldBeSubmittedSuccessfully(successMessage, newUser.getMessage());
     }
 
     @Test
@@ -74,7 +74,7 @@ public class JunitAddProductReviewTest {
     }
 
     @AfterAll
-    public static void tearDown(){
+    static void tearDown(){
         driver.get().browser().deleteAllCookies();
         driver.get().quit();
         driver.remove();

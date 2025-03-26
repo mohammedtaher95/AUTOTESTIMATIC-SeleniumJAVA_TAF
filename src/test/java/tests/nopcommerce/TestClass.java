@@ -22,19 +22,19 @@ public class TestClass{
     @Description("User can access registration page and register successfully")
     @Test(description = "User Register on website successfully")
     public void testMethod() {
-//        newUser = new UserFormData();
-//
-//        new HomePage(driver.get())
-//                .openRegistrationPage()
-//                .validateThatUserNavigatedToRegistrationPage()
-//                .fillUserRegistrationForm(newUser.getFirstName(), newUser.getLastName(), newUser.getEmail(), newUser.getOldPassword())
-//                .clickOnRegisterButton()
-//                .validateThatSuccessMessageShouldBeDisplayed();
+        newUser = new UserFormData();
+
+        new HomePage(driver.get())
+                .openRegistrationPage()
+                .validateThatUserNavigatedToRegistrationPage()
+                .fillUserRegistrationForm(newUser.getFirstName(), newUser.getLastName(), newUser.getEmail(), newUser.getOldPassword())
+                .clickOnRegisterButton()
+                .validateThatSuccessMessageShouldBeDisplayed();
 
     }
 
     @BeforeClass(description = "Setup Driver")
-    public void setUp() throws InterruptedException {
+    public void setUp()  {
 //        new WebCapabilities.SetProperty().targetBrowserName("edge");
 //        Properties.timeouts.set().waitForLazyLoading(true);
 //        Properties.web.set().targetBrowserName("edge");
@@ -50,7 +50,6 @@ public class TestClass{
 //        driver.get().browser().refreshPage();
 
 
-        Thread.sleep(3000);
 
     }
 

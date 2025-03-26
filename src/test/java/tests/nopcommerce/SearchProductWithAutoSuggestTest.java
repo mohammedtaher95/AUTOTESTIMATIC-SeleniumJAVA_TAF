@@ -7,7 +7,7 @@ import pages.nopcommerce.SearchPage;
 public class SearchProductWithAutoSuggestTest{
 
     public static ThreadLocal<WebDriver> driver;
-    String ProductName = "Apple MacBook Pro 13-inch";
+    String productName = "Apple MacBook Pro 13-inch";
 
     @BeforeClass(description = "Setup Driver")
     public void setUp(){
@@ -22,7 +22,7 @@ public class SearchProductWithAutoSuggestTest{
         try {
             new SearchPage(driver.get())
                     .productSearchUsingAutoSuggest("Mac")
-                    .checkThatProductPageShouldBeDisplayed(ProductName);
+                    .checkThatProductPageShouldBeDisplayed(productName);
         }
         catch (Exception e)
         {
