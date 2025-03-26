@@ -35,9 +35,9 @@ public class LoggingManager {
         Log4jBridgeHandler.install(true, null, true);
         info("\n" + FRAME
               + "\n                                                         "
-              + " AUTOTESTIMATIC v1.1.2                                                  "
+              + " AUTOTESTIMATIC v1.1.3                                                  "
               + "\n                                                     "
-              + "  Powered by Selenium v4.23.1                                           \n"
+              + "  Powered by Selenium v4.29.0                                           \n"
               + FRAME);
     }
 

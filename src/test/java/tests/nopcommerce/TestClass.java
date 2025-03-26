@@ -2,12 +2,8 @@ package tests.nopcommerce;
 
 import driverfactory.webdriver.WebDriver;
 import io.qameta.allure.*;
-import org.openqa.selenium.Cookie;
-import org.openqa.selenium.JavascriptExecutor;
 import org.testng.annotations.*;
 import pages.nopcommerce.homepage.HomePage;
-import tools.properties.Properties;
-import tools.properties.WebCapabilities;
 import utilities.UserFormData;
 
 
