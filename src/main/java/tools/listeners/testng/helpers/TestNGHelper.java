@@ -4,6 +4,7 @@ import constants.CrossBrowserMode;
 import driverfactory.webdriver.WebDriver;
 import java.lang.reflect.Field;
 import java.util.Collections;
+import org.jetbrains.annotations.NotNull;
 import org.testng.ITestResult;
 import org.testng.xml.XmlSuite;
 import org.testng.xml.XmlTest;
@@ -104,7 +105,7 @@ public class TestNGHelper {
 
     }
 
-    public static WebDriver getDriverInstance(ITestResult result) {
+    public static WebDriver getDriverInstance(@NotNull ITestResult result) {
         WebDriver driver = null;
         ThreadLocal<WebDriver> driverThreadlocal;
         Object currentClass = result.getInstance();

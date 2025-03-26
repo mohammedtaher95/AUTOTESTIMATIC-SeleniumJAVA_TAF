@@ -1,5 +1,6 @@
 package assertions;
 
+import org.jetbrains.annotations.NotNull;
 import org.openqa.selenium.WebDriver;
 import org.testng.asserts.Assertion;
 import utilities.LoggingManager;
@@ -17,7 +18,7 @@ public class ObjectAssertions {
     }
 
     @SuppressWarnings("all")
-    public void contains(Object expected) {
+    public void contains(@NotNull Object expected) {
         try {
             assertion.assertTrue(actualObject.toString().contains(expected.toString()));
             LoggingManager.info("Expected: " + expected + ", Actual: " + actualObject.toString());
@@ -30,7 +31,7 @@ public class ObjectAssertions {
     }
 
     @SuppressWarnings("all")
-    public void doesNotContain(Object expected) {
+    public void doesNotContain(@NotNull Object expected) {
         try {
             assertion.assertTrue(actualObject.toString().contains(expected.toString()));
             LoggingManager.info("Expected: " + expected + ", Actual: " + actualObject.toString());
@@ -42,7 +43,7 @@ public class ObjectAssertions {
     }
 
     @SuppressWarnings("all")
-    public void isNotEqualTo(Object expected) {
+    public void isNotEqualTo(@NotNull Object expected) {
         try {
             assertion.assertTrue(!actualObject.toString().equalsIgnoreCase(expected.toString()));
             LoggingManager.info("Expected: " + expected + ", Actual: " + actualObject.toString());
@@ -54,7 +55,7 @@ public class ObjectAssertions {
     }
 
     @SuppressWarnings("all")
-    public void isEqualTo(Object expected) {
+    public void isEqualTo(@NotNull Object expected) {
         try {
             assertion.assertTrue(actualObject.toString().equalsIgnoreCase(expected.toString()));
             LoggingManager.info("Expected: " + expected + ", Actual: " + actualObject.toString());
@@ -65,6 +66,7 @@ public class ObjectAssertions {
         }
     }
 
+    @SuppressWarnings("all")
     public void removeDriver() {
         driverThreadLocal.remove();
     }

@@ -153,6 +153,7 @@ public class BrowserActions {
         driverThreadLocal.get().quit();
     }
 
+    @SuppressWarnings("all")
     public void removeDriver() {
         driverThreadLocal.remove();
     }

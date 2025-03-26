@@ -2,6 +2,7 @@ package elementactions;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import org.jetbrains.annotations.NotNull;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
@@ -44,13 +45,13 @@ public class ElementActions {
         return this;
     }
 
-    public ElementActions hoverOnItem(By item) {
+    public ElementActions hoverOnItem(@NotNull By item) {
         LoggingManager.info("hover on" + item.toString().split(":", 2)[1] + " button");
         action.moveToElement(driverThreadLocal.get().findElement(item)).click().build().perform();
         return this;
     }
 
-    public ElementActions clickUsingJavaScript(By btn) {
+    public ElementActions clickUsingJavaScript(@NotNull By btn) {
         LoggingManager.info("Click on" + btn.toString().split(":", 2)[1]
                 + " button using JavaScript");
         javascriptExecutor.executeScript("arguments[0].click();",
@@ -58,7 +59,7 @@ public class ElementActions {
         return this;
     }
 
-    public ElementActions scrollToElement(By element) {
+    public ElementActions scrollToElement(@NotNull By element) {
         LoggingManager.info("Scrolling to " + element.toString().split(":", 2)[1]);
         javascriptExecutor.executeScript("arguments[0].scrollIntoView(true);",
                 driverThreadLocal.get().findElement(element));
@@ -76,29 +77,29 @@ public class ElementActions {
         return this;
     }
 
-    public boolean isDisplayed(By by) {
+    public boolean isDisplayed(@NotNull By by) {
         LoggingManager.info("Checking" + by.toString().split(":", 2)[1] + " if Displayed");
         return driverThreadLocal.get().findElement(by).isDisplayed();
     }
 
-    public boolean isClickable(By by) {
+    public boolean isClickable(@NotNull By by) {
         LoggingManager.info("Checking" + by.toString().split(":", 2)[1] + " if Clickable");
         return driverThreadLocal.get().findElement(by).isEnabled();
     }
 
-    public boolean isSelected(By by) {
+    public boolean isSelected(@NotNull By by) {
         LoggingManager.info("Checking" + by.toString().split(":", 2)[1] + " if Selected");
         return driverThreadLocal.get().findElement(by).isSelected();
     }
 
-    public ElementActions selectItemByIndex(By by, int index) {
+    public ElementActions selectItemByIndex(@NotNull By by, int index) {
         LoggingManager.info("Select item no." + index + " from dropdown: "
                 + by.toString().split(":", 2)[1]);
         new Select(driverThreadLocal.get().findElement(by)).selectByIndex(index);
         return this;
     }
 
-    public ElementActions selectItemByText(By by, String text) {
+    public ElementActions selectItemByText(@NotNull By by, String text) {
         LoggingManager.info("Select" + text + " from dropdown: " + by.toString().split(":", 2)[1]);
         waitForElementToBeClickable(by);
         new Select(driverThreadLocal.get().findElement(by)).selectByVisibleText(text);
@@ -138,7 +139,7 @@ public class ElementActions {
         return this;
     }
 
-    public ElementActions waitForVisibility(By by) {
+    public ElementActions waitForVisibility(@NotNull By by) {
         LoggingManager.info("Wait for" + by.toString().split(":", 2)[1] + " to be visible");
         try {
             driverWait.until(ExpectedConditions.visibilityOfElementLocated(by));
@@ -148,13 +149,13 @@ public class ElementActions {
         return this;
     }
 
-    public ElementActions waitForInvisibility(By by) {
+    public ElementActions waitForInvisibility(@NotNull By by) {
         LoggingManager.info("Wait for" + by.toString().split(":", 2)[1] + " to be invisible");
         driverWait.until(ExpectedConditions.invisibilityOfElementLocated(by));
         return this;
     }
 
-    public ElementActions waitForElementToBeClickable(By by) {
+    public ElementActions waitForElementToBeClickable(@NotNull By by) {
         LoggingManager.info("Wait for" + by.toString().split(":", 2)[1] + " to be clickable");
         try {
             driverWait.until(ExpectedConditions.elementToBeClickable(by));

@@ -26,6 +26,7 @@ public class BrowserAssertions {
     }
 
 
+    @SuppressWarnings("all")
     public void removeDriver() {
         driverThreadLocal.remove();
     }

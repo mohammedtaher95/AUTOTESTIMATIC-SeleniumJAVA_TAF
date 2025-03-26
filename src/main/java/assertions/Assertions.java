@@ -37,6 +37,7 @@ public class Assertions {
         return new ObjectAssertions(this.assertion, object, driverThreadLocal.get());
     }
 
+    @SuppressWarnings("all")
     public void removeDriver() {
         driverThreadLocal.remove();
     }

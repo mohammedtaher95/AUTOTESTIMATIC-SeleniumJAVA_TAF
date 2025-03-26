@@ -24,7 +24,7 @@ public class ElementAssertions {
     }
 
     public Validations attribute(String addedAttribute) {
-        this.actual = driverThreadLocal.get().findElement(by).getAttribute(addedAttribute);
+        this.actual = driverThreadLocal.get().findElement(by).getDomAttribute(addedAttribute);
         return new Validations();
     }
 
@@ -97,6 +97,7 @@ public class ElementAssertions {
         }
     }
 
+    @SuppressWarnings("all")
     public void removeDriver() {
         driverThreadLocal.remove();
     }
