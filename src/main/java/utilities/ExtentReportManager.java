@@ -19,7 +19,7 @@ public class ExtentReportManager {
     private static final ThreadLocal<ExtentTest> extentTest = new ThreadLocal<>();
     private static ExtentTest node;
     static String tempName = "Welcome";
-    public static final String reportPath = "target/ExecutionSummaryReport.html";
+    public static final String REPORT_PATH = "target/ExecutionSummaryReport.html";
 
     private ExtentReportManager() {
     }
@@ -27,7 +27,7 @@ public class ExtentReportManager {
     public static void setUpReport() {
 
 
-        ExtentSparkReporter spark = new ExtentSparkReporter(reportPath);
+        ExtentSparkReporter spark = new ExtentSparkReporter(REPORT_PATH);
         spark.config().setTheme(Theme.STANDARD);
         spark.config().setDocumentTitle("Execution Summary Report");
         spark.config().setReportName("Extent Report - Powered by AUTOTESTIMATIC");
@@ -47,7 +47,7 @@ public class ExtentReportManager {
     public static void export() {
         if (Desktop.isDesktopSupported()) {
             Desktop desktop = Desktop.getDesktop();
-            File file = new File(reportPath);
+            File file = new File(REPORT_PATH);
 
             // Check if the file exists
             if (file.exists()) {
@@ -58,7 +58,7 @@ public class ExtentReportManager {
                     LoggingManager.error(e);
                 }
             } else {
-                LoggingManager.error("File not found: " + reportPath);
+                LoggingManager.error("File not found: " + REPORT_PATH);
             }
         } else {
             LoggingManager.error("Desktop not supported. Cannot open file.");
