@@ -76,6 +76,7 @@ public class ExtentReportManager {
         node = extentTest.get().createNode(methodName);
     }
 
+    @SuppressWarnings("all")
     public static void saveResults(ITestResult result, WebDriver driver) {
         if (result.getStatus() == ITestResult.SUCCESS) {
             node.log(Status.PASS, "Test Passed");
@@ -91,6 +92,7 @@ public class ExtentReportManager {
         }
     }
 
+    @SuppressWarnings("all")
     public static void saveResults(TestExecutionResult result, WebDriver driver) {
         if (result.getStatus() == TestExecutionResult.Status.SUCCESSFUL) {
             node.log(Status.PASS, "Test Passed");
@@ -106,6 +108,7 @@ public class ExtentReportManager {
         }
     }
 
+    @SuppressWarnings("all")
     public static void testPassed() {
         node.log(Status.PASS, "Test Passed");
     }
