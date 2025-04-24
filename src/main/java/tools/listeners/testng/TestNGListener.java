@@ -22,7 +22,7 @@ import tools.listeners.testng.helpers.RetryAnalyzer;
 import tools.listeners.testng.helpers.TestNGHelper;
 import tools.properties.Properties;
 import tools.properties.PropertiesHandler;
-import utilities.summaryreport.EmailableReportGenerator;
+import utilities.summaryreport.ReportHelper;
 import utilities.ExtentReportManager;
 import utilities.LoggingManager;
 import utilities.ScreenshotHelper;
@@ -67,8 +67,8 @@ public class TestNGListener
         if (Properties.reporting.automaticOpenExtentReport()) {
             ExtentReportManager.export();
         }
-        EmailableReportGenerator.generateReportAndSendEmail();
-        EmailableReportGenerator.openHtmlReport();
+        ReportHelper.generateReport(elapsedTime);
+        ReportHelper.openHtmlReport();
 
     }
 
@@ -84,13 +84,13 @@ public class TestNGListener
 
         LoggingManager.info("Success of test cases and its details are : " + result.getName());
         LoggingManager.endTestCase(result.getName());
-        EmailableReportGenerator.addPassedTest(result);
+        ReportHelper.addPassedTest(result);
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
         LoggingManager.endTestCase(result.getName());
-        EmailableReportGenerator.addFailedTest(result);
+        ReportHelper.addFailedTest(result);
     }
 
     @Override
@@ -138,7 +138,7 @@ public class TestNGListener
     @Override
     public void onTestSkipped(ITestResult result) {
         LoggingManager.error("Skip of test cases and its details are : " + result.getName());
-        EmailableReportGenerator.addskippedTest(result);
+        ReportHelper.addskippedTest(result);
     }
 
     @Override
