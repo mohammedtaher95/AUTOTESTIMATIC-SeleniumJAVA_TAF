@@ -1,3 +1,4 @@
+![image info](./src/main/java/utilities/summaryreport/frameworkLogo.png)
 # AUTOTESTIMATIC, A Selenium JAVA Test Automation Framework
 - This project is an open-source Test automation Framework that allows you to perform multiple actions to test a web application's functionality, behaviour, 
 which provides easy to use syntax, and easy to setup environment according to the needed requirements for testing
