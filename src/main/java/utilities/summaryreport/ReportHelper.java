@@ -35,20 +35,20 @@ public class ReportHelper {
 
 
     public static void generateReport(long elapsedTime) {
-        String logo;
+        String logo = null;
         try {
             logo = String.valueOf(Files.readLines(new File("src/main/java/utilities/summaryreport/logo.txt"),
                   Charset.defaultCharset()));
             logo = logo.replace("[","").replace("]","");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LoggingManager.error("HTML Report Error: Framework Logo is missing or broken");
         }
         int passed = passedTests.size();
         int failed = failedTests.size();
         int skipped = skippedTests.size();
         int total = passed + failed + skipped;
 
-        String html = "<!DOCTYPE html>\n" +
+        StringBuilder html = new StringBuilder("<!DOCTYPE html>\n" +
               "<html>\n" +
               "<head>\n" +
               "    <title>Test Summary Report</title>\n" +
@@ -208,7 +208,7 @@ public class ReportHelper {
               "    padding-top: 0px;\n" +
               "    margin-top: 0px;\">\n" +
               "        <div class=\"logo\"><img\n" +
-              "                src=\"data:image/png;base64,"+logo+"\"\n" +
+              "                src=\"data:image/png;base64," + logo + "\"\n" +
               "                alt=\"Company Logo\" style=\"width: 300px; height: auto;\" class=\"logo\">\n" +
               "        </div>\n" +
               "        <div class=\"title\" style=\"display: inline-block; text-align: right; width: 100%\"><h1>Test Execution Summary\n" +
@@ -225,7 +225,7 @@ public class ReportHelper {
               "                <i class=\"fas fa-clock info-icon\"></i>\n" +
               "                <div class=\"info-content\">\n" +
               "                    <div class=\"info-label\">Total Duration</div>\n" +
-              "                    <div class=\"info-value\">"+elapsedTime+" sec </div>\n" +
+              "                    <div class=\"info-value\">" + elapsedTime + " sec </div>\n" +
               "                </div>\n" +
               "            </div>\n" +
               "            <div class=\"info-box\">\n" +
@@ -238,19 +238,19 @@ public class ReportHelper {
               "            <div class=\"status-grid\">\n" +
               "                <div class=\"status-item total\">\n" +
               "                    <h3>Executed</h3>\n" +
-              "                    <p>"+total+"</p>\n" +
+              "                    <p>" + total + "</p>\n" +
               "                </div>\n" +
               "                <div class=\"status-item passed\">\n" +
               "                    <h3>Passed</h3>\n" +
-              "                    <p>"+passed+"</p>\n" +
+              "                    <p>" + passed + "</p>\n" +
               "                </div>\n" +
               "                <div class=\"status-item failed\">\n" +
               "                    <h3>Failed</h3>\n" +
-              "                    <p>"+failed+"</p>\n" +
+              "                    <p>" + failed + "</p>\n" +
               "                </div>\n" +
               "                <div class=\"status-item skipped\">\n" +
               "                    <h3>Skipped</h3>\n" +
-              "                    <p>"+skipped+"</p>\n" +
+              "                    <p>" + skipped + "</p>\n" +
               "                </div>\n" +
               "            </div>\n" +
               "        </div>\n" +
@@ -266,71 +266,72 @@ public class ReportHelper {
               "                <th>Duration</th>\n" +
               "            </tr>\n" +
               "            </thead>\n" +
-              "            <tbody>\n";
+              "            <tbody>\n");
         for (ITestResult result : failedTests) {
             double duration = (result.getEndMillis() - result.getStartMillis())/1000.0;
-            html += "<tr>\n"+
-                  "<td>"+result.getName()+"</td>\n"+
-                  "<td class=\"error-message\">"+result.getThrowable()+"</td>\n" +
-                  "                        <td>"+duration+" sec</td>\n" +
-                  "                    </tr>\n";
+            html.append("<tr>\n" + "<td>").append(result.getName()).append("</td>\n")
+                  .append("<td class=\"error-message\">").append(result.getThrowable())
+                  .append("</td>\n").append("                        <td>").append(duration)
+                  .append(" sec</td>\n").append("                    </tr>\n");
         }
-              html +="            </tbody>\n" +
-              "        </table>\n" +
-              "    </div>\n" +
-              "</div>\n" +
-              "\n" +
-              "<script>\n" +
-              "    // Set current datetime\n" +
-              "    document.getElementById('datetime').textContent = new Date().toLocaleString();\n" +
-              "    document.getElementById('startDateTime').textContent = new Date().toLocaleString();\n" +
-              "\n" +
-              "    // Result Pie Chart\n" +
-              "    const resultCtx = document.getElementById('resultChart').getContext('2d');\n" +
-              "    new Chart(resultCtx, {\n" +
-              "        type: 'doughnut',\n" +
-              "        data: {\n" +
-              "            labels: ['Passed', 'Failed', 'Skipped'],\n" +
-              "            datasets: [{\n" +
-              "                data: [1, 0, 0],\n" +
-              "                backgroundColor: ['#2ecc71', '#e74c3c', '#f1c40f'],\n" +
-              "                borderWidth: 2\n" +
-              "            }]\n" +
-              "        },\n" +
-              "        options: {\n" +
-              "            responsive: true,\n" +
-              "            plugins: {\n" +
-              "                title: {\n" +
-              "                    display: true,\n" +
-              "                    text: 'Test Results Distribution',\n" +
-              "                    font: {\n" +
-              "                        size: 16,\n" +
-              "                        weight: 'bold'\n" +
-              "                    }\n" +
-              "                },\n" +
-              "                legend: {\n" +
-              "                    position: 'bottom'\n" +
-              "                }\n" +
-              "            },\n" +
-              "            cutout: '60%'\n" +
-              "        }\n" +
-              "    });\n" +
-              "</script>\n" +
-              "</body>\n" +
-              "</html>";
+              html.append(
+                    """
+                                      </tbody>
+                                  </table>
+                              </div>
+                          </div>
+                          
+                          <script>
+                              // Set current datetime
+                              document.getElementById('datetime').textContent = new Date().toLocaleString();
+                              document.getElementById('startDateTime').textContent = new Date().toLocaleString();
+                          
+                              // Result Pie Chart
+                              const resultCtx = document.getElementById('resultChart').getContext('2d');
+                              new Chart(resultCtx, {
+                                  type: 'doughnut',
+                                  data: {
+                                      labels: ['Passed', 'Failed', 'Skipped'],
+                                      datasets: [{
+                                          data: [1, 0, 0],
+                                          backgroundColor: ['#2ecc71', '#e74c3c', '#f1c40f'],
+                                          borderWidth: 2
+                                      }]
+                                  },
+                                  options: {
+                                      responsive: true,
+                                      plugins: {
+                                          title: {
+                                              display: true,
+                                              text: 'Test Results Distribution',
+                                              font: {
+                                                  size: 16,
+                                                  weight: 'bold'
+                                              }
+                                          },
+                                          legend: {
+                                              position: 'bottom'
+                                          }
+                                      },
+                                      cutout: '60%'
+                                  }
+                              });
+                          </script>
+                          </body>
+                          </html>""");
 
         try(Writer fileWriter = new FileWriter(
-              System.getProperty("user.dir") + "/target/emailReport.html")) {
-            fileWriter.write(html);
+              System.getProperty("user.dir") + "/target/summaryReport.html")) {
+            fileWriter.write(html.toString());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LoggingManager.error("HTML Report Error: Unable to generate Report");
         }
     }
 
     public static void openHtmlReport() {
         try {
             // Specify the path to your HTML file
-            File htmlFile = new File("target/emailReport.html");
+            File htmlFile = new File("target/summaryReport.html");
 
             // Check if Desktop is supported
             if (Desktop.isDesktopSupported()) {
@@ -341,13 +342,13 @@ public class ReportHelper {
                     // Open the HTML file in the default browser
                     desktop.browse(htmlFile.toURI());
                 } else {
-                    LoggingManager.error("Browse action not supported!");
+                    LoggingManager.error("HTML Report Error: Browse action not supported!");
                 }
             } else {
-                LoggingManager.error("Desktop is not supported on this system.");
+                LoggingManager.error("HTML Report Error: Desktop is not supported on this system.");
             }
         } catch (IOException e) {
-            LoggingManager.error(e.getMessage());
+            LoggingManager.error("HTML Report Error: " + e.getMessage());
         }
     }
 }
