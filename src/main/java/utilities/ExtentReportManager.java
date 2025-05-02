@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import org.junit.platform.engine.TestExecutionResult;
 import org.testng.ITestResult;
-import tools.properties.Properties;
+import tools.engineconfigurations.Configurations;
 
 public class ExtentReportManager {
 
@@ -36,7 +36,7 @@ public class ExtentReportManager {
         extentReport.setSystemInfo("Framework Type", "AUTOTESTIMATIC Web Framework");
         extentReport.setSystemInfo("Author", "Mohammed Taher");
         extentReport.setSystemInfo("os", System.getProperty("os.name"));
-        extentReport.setSystemInfo("Environment", Properties.web.targetBrowserName());
+        extentReport.setSystemInfo("Environment", Configurations.web.targetBrowserName());
         extentReport.setSystemInfo("App", "NopCommerce Web App");
     }
 

@@ -1,4 +1,4 @@
-package tools.properties;
+package tools.engineconfigurations;
 
 import org.aeonbits.owner.Accessible;
 import org.aeonbits.owner.Config;
@@ -9,8 +9,8 @@ import org.aeonbits.owner.Reloadable;
 import utilities.LoggingManager;
 
 @LoadPolicy(Config.LoadType.MERGE)
-@Sources({"file:src/main/resources/properties/Reporting.properties",
-      "classpath:src/main/resources/properties/Reporting.properties"})
+@Sources({"file:src/main/resources/properties/Configurations.properties",
+      "classpath:src/main/resources/properties/Configurations.properties"})
 public interface Reporting extends Config, Accessible, Reloadable {
 
     @Key("OPEN_ALLURE_REPORT_AFTER_EXECUTION")
@@ -42,7 +42,7 @@ public interface Reporting extends Config, Accessible, Reloadable {
         private static void setProperty(String key, boolean value) {
             var updatedProps = new java.util.Properties();
             updatedProps.setProperty(key, String.valueOf(value));
-            Properties.reporting = ConfigFactory.create(Reporting.class, updatedProps);
+            Configurations.reporting = ConfigFactory.create(Reporting.class, updatedProps);
             // temporarily set the system property to support hybrid read/write mode
             System.setProperty(key, String.valueOf(value));
             LoggingManager.info("Setting \"" + key + "\" property with \"" + value + "\".");

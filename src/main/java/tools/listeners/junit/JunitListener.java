@@ -14,8 +14,8 @@ import org.junit.platform.launcher.TestExecutionListener;
 import org.junit.platform.launcher.TestIdentifier;
 import org.junit.platform.launcher.TestPlan;
 import tools.listeners.junit.helpers.JunitHelper;
-import tools.properties.Properties;
-import tools.properties.PropertiesHandler;
+import tools.engineconfigurations.Configurations;
+import tools.engineconfigurations.ConfigurationsManager;
 import utilities.ExtentReportManager;
 import utilities.LoggingManager;
 import utilities.ScreenshotHelper;
@@ -82,18 +82,18 @@ public class JunitListener implements LauncherSessionListener {
 
     public void testRunStarted() {
         LoggingManager.startLog();
-        PropertiesHandler.initialize();
+        ConfigurationsManager.initialize();
         ExtentReportManager.setUpReport();
         Allure.getLifecycle();
         AllureBatchGenerator.generateBatFile();
-        if (Properties.reporting.cleanAllureReport()) {
+        if (Configurations.reporting.cleanAllureReport()) {
             AllureReportHelper.cleanAllureReport();
         }
     }
 
 
     public void testRunFinished() {
-        if (Properties.reporting.automaticOpenAllureReport()) {
+        if (Configurations.reporting.automaticOpenAllureReport()) {
             try {
                 LoggingManager.info("Generating Allure Report.....");
                 if (SystemUtils.IS_OS_WINDOWS) {
@@ -106,7 +106,7 @@ public class JunitListener implements LauncherSessionListener {
             }
         }
         ExtentReportManager.finishReport();
-        if (Properties.reporting.automaticOpenExtentReport()) {
+        if (Configurations.reporting.automaticOpenExtentReport()) {
             ExtentReportManager.export();
         }
 

@@ -21,7 +21,7 @@ import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.testng.Reporter;
 import tools.listeners.webdriver.DriverListener;
-import tools.properties.Properties;
+import tools.engineconfigurations.Configurations;
 import utilities.JsonFileHandler;
 import utilities.LoggingManager;
 import utilities.TestRunningManager;
@@ -40,15 +40,15 @@ public class WebDriver {
         TestRunningManager.initializeRunConfigurations();
 
         try {
-            if (CrossBrowserMode.valueOf(Properties.executionOptions.crossBrowserMode())
+            if (CrossBrowserMode.valueOf(Configurations.executionOptions.crossBrowserMode())
                   == CrossBrowserMode.OFF) {
-                browserName = Properties.web.targetBrowserName();
+                browserName = Configurations.web.targetBrowserName();
             } else {
                 browserName = Reporter.getCurrentTestResult().getTestClass().getXmlTest()
                       .getParameter("browserName");
             }
         } catch (NullPointerException e) {
-            browserName = Properties.web.targetBrowserName();
+            browserName = Configurations.web.targetBrowserName();
         }
         String osName = System.getProperty("os.name");
         LoggingManager.info("Running AUTOTESTIMATIC Framework on " + osName);
@@ -58,7 +58,7 @@ public class WebDriver {
             createWebDriver();
         }
         driverWait = new FluentWait<>(driverThreadLocal.get())
-              .withTimeout(Duration.ofSeconds(Properties.timeouts.elementIdentificationTimeout()))
+              .withTimeout(Duration.ofSeconds(Configurations.timeouts.elementIdentificationTimeout()))
               .pollingEvery(Duration.ofMillis(500))
               .ignoring(NoSuchElementException.class)
               .ignoring(StaleElementReferenceException.class);
@@ -67,15 +67,15 @@ public class WebDriver {
     private void createWebDriver() {
 
         try {
-            if (EnvType.valueOf(Properties.executionOptions.environmentType()) == EnvType.LOCAL) {
+            if (EnvType.valueOf(Configurations.executionOptions.environmentType()) == EnvType.LOCAL) {
                 localDriverInit();
             }
 
-            if (EnvType.valueOf(Properties.executionOptions.environmentType()) == EnvType.GRID) {
+            if (EnvType.valueOf(Configurations.executionOptions.environmentType()) == EnvType.GRID) {
                 gridInit();
             }
 
-            if (EnvType.valueOf(Properties.executionOptions.environmentType()) == EnvType.CLOUD) {
+            if (EnvType.valueOf(Configurations.executionOptions.environmentType()) == EnvType.CLOUD) {
                 cloudInit();
             }
         } catch (IllegalArgumentException exception) {
@@ -87,9 +87,9 @@ public class WebDriver {
 
 
     private void localDriverInit() {
-        String baseUrl = Properties.web.baseUrl();
+        String baseUrl = Configurations.web.baseUrl();
         LoggingManager.info(
-              "Starting " + browserName + " Driver Locally in " + Properties.web.executionMethod()
+              "Starting " + browserName + " Driver Locally in " + Configurations.web.executionMethod()
                    + " mode");
         org.openqa.selenium.WebDriver driver =
               DriverFactory.getDriverFactory(DriverType.valueOf(browserName.toUpperCase()))
@@ -112,10 +112,10 @@ public class WebDriver {
     private void gridInit() {
 
         GridFactory.gridUp();
-        String baseUrl = Properties.web.baseUrl();
+        String baseUrl = Configurations.web.baseUrl();
 
         LoggingManager.info(
-              "Start Running via Selenium Grid on: " + Properties.executionOptions.remoteUrl());
+              "Start Running via Selenium Grid on: " + Configurations.executionOptions.remoteUrl());
 
         RemoteWebDriver driver = GridFactory.getRemoteDriver(browserName);
         driver.manage().window().maximize();
@@ -134,7 +134,7 @@ public class WebDriver {
 
     private void cloudInit() {
         // You can also set an environment variable - "BROWSERSTACK_ACCESS_KEY".
-        String baseUrl = Properties.web.baseUrl();
+        String baseUrl = Configurations.web.baseUrl();
         String server = config.getData("server");
         String user = config.getData("user");
         String key = config.getData("key");
@@ -207,7 +207,7 @@ public class WebDriver {
         driverThreadLocal.get().quit();
         driverThreadLocal.remove();
 
-        if (EnvType.valueOf(Properties.executionOptions.environmentType()) == EnvType.GRID) {
+        if (EnvType.valueOf(Configurations.executionOptions.environmentType()) == EnvType.GRID) {
             GridFactory.gridTearDown();
         }
 

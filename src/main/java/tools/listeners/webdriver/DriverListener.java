@@ -16,7 +16,7 @@ import org.openqa.selenium.support.events.WebDriverListener;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import tools.properties.Properties;
+import tools.engineconfigurations.Configurations;
 import utilities.LoggingManager;
 import utilities.javascript.JavaScriptWaitManager;
 
@@ -106,7 +106,7 @@ public class DriverListener implements WebDriverListener {
         try {
             new FluentWait<>(driver)
                   .withTimeout(
-                        Duration.ofSeconds(Properties.timeouts.elementIdentificationTimeout()))
+                        Duration.ofSeconds(Configurations.timeouts.elementIdentificationTimeout()))
                   .pollingEvery(Duration.ofMillis(500))
                   .ignoring(NoSuchElementException.class)
                   .ignoring(StaleElementReferenceException.class)
@@ -139,7 +139,7 @@ public class DriverListener implements WebDriverListener {
 
         try {
             (new WebDriverWait(this.driver,
-                  Duration.ofSeconds(Properties.timeouts.elementIdentificationTimeout())))
+                  Duration.ofSeconds(Configurations.timeouts.elementIdentificationTimeout())))
                   .until(ExpectedConditions.elementToBeClickable(element));
         } catch (org.openqa.selenium.TimeoutException timeoutException) {
             LoggingManager.error(timeoutException);

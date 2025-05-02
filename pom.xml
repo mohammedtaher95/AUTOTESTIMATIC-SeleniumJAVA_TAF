@@ -5,15 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.mohammedtaher95</groupId>
     <artifactId>AUTOTESTIMATIC-JAVA</artifactId>
-    <version>1.1.4</version>
+    <version>1.2.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <surefire.plugin.version>3.5.2</surefire.plugin.version>
-        <selenium.version>4.29.0</selenium.version>
-        <selenium-http-jdk-client.version>4.13.0</selenium-http-jdk-client.version>
+        <selenium.version>4.31.0</selenium.version>
         <appium.version>9.4.0</appium.version>
         <cucumber.version>7.21.1</cucumber.version>
         <allure.version>2.29.0</allure.version>

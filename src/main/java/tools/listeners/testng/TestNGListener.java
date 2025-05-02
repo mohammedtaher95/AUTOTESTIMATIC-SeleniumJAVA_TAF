@@ -18,10 +18,10 @@ import org.testng.ITestListener;
 import org.testng.ITestNGListener;
 import org.testng.ITestResult;
 import org.testng.xml.XmlSuite;
+import tools.engineconfigurations.Configurations;
 import tools.listeners.testng.helpers.RetryAnalyzer;
 import tools.listeners.testng.helpers.TestNGHelper;
-import tools.properties.Properties;
-import tools.properties.PropertiesHandler;
+import tools.engineconfigurations.ConfigurationsManager;
 import utilities.summaryreport.ReportHelper;
 import utilities.ExtentReportManager;
 import utilities.LoggingManager;
@@ -51,7 +51,7 @@ public class TestNGListener
         long endTime = System.currentTimeMillis();
         long elapsedTime = (endTime - startTime) / 1000;
         LoggingManager.info("Elapsed Time: " + elapsedTime + "s");
-        if (Properties.reporting.automaticOpenAllureReport()) {
+        if (Configurations.reporting.automaticOpenAllureReport()) {
             try {
                 LoggingManager.info("Generating Allure Report.....");
                 if (SystemUtils.IS_OS_WINDOWS) {
@@ -64,7 +64,7 @@ public class TestNGListener
             }
         }
         ExtentReportManager.finishReport();
-        if (Properties.reporting.automaticOpenExtentReport()) {
+        if (Configurations.reporting.automaticOpenExtentReport()) {
             ExtentReportManager.export();
         }
         ReportHelper.generateReport(elapsedTime);
@@ -98,7 +98,7 @@ public class TestNGListener
         method.getTestMethod().getXmlTest().setThreadCount(50);
         method.getTestMethod().setThreadPoolSize(50);
         method.getTestMethod().setInvocationCount(50);
-        if (Properties.testNG.retryFailedTestAttempts() > 0) {
+        if (Configurations.testNG.retryFailedTestAttempts() > 0) {
             method.getTestMethod().setRetryAnalyzerClass(RetryAnalyzer.class);
         }
 
@@ -152,7 +152,7 @@ public class TestNGListener
         DockerFilesGenerator.generateBatFiles();
         ExtentReportManager.setUpReport();
 
-        if (Properties.reporting.cleanAllureReport()) {
+        if (Configurations.reporting.cleanAllureReport()) {
             AllureReportHelper.cleanAllureReport();
         }
     }
@@ -160,8 +160,8 @@ public class TestNGListener
     @Override
     public void alter(List<XmlSuite> suites) {
         LoggingManager.startLog();
-        PropertiesHandler.initialize();
-        PropertiesHandler.reloadProperties();
+        ConfigurationsManager.initialize();
+        ConfigurationsManager.reloadConfigurations();
         suites.set(0, TestNGHelper.suiteGenerator(suites.get(0)));
     }
 

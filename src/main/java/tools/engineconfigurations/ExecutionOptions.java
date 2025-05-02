@@ -1,4 +1,4 @@
-package tools.properties;
+package tools.engineconfigurations;
 
 import org.aeonbits.owner.Accessible;
 import org.aeonbits.owner.Config;
@@ -10,8 +10,8 @@ import utilities.LoggingManager;
 
 
 @LoadPolicy(Config.LoadType.MERGE)
-@Sources({"file:src/main/resources/properties/ExecutionOptions.properties",
-    "classpath:src/main/resources/properties/ExecutionOptions.properties"})
+@Sources({"file:src/main/resources/properties/Configurations.properties",
+    "classpath:src/main/resources/properties/Configurations.properties"})
 public interface ExecutionOptions extends Config, Accessible, Reloadable {
 
     @Key("ENV_TYPE")
@@ -43,7 +43,7 @@ public interface ExecutionOptions extends Config, Accessible, Reloadable {
         private static void setProperty(String key, String value) {
             var updatedProps = new java.util.Properties();
             updatedProps.setProperty(key, value);
-            Properties.executionOptions = ConfigFactory.create(ExecutionOptions.class,
+            Configurations.executionOptions = ConfigFactory.create(ExecutionOptions.class,
                   updatedProps);
             System.setProperty(key, value);
             LoggingManager.info("Setting \"" + key + "\" property with \"" + value + "\".");
