@@ -1,8 +1,8 @@
-package tools.properties;
+package tools.engineconfigurations;
 
-public class Properties {
+public class Configurations {
 
-    private Properties() {
+    private Configurations() {
 
     }
 

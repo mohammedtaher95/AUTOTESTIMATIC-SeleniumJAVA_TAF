@@ -7,7 +7,7 @@ import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.platform.launcher.TestIdentifier;
-import tools.properties.Properties;
+import tools.engineconfigurations.Configurations;
 import utilities.LoggingManager;
 
 public class JunitHelper implements BeforeAllCallback {
@@ -19,7 +19,7 @@ public class JunitHelper implements BeforeAllCallback {
     @Override
     public void beforeAll(ExtensionContext extensionContext) {
         boolean parallelExecutionEnabled =
-              Properties.executionOptions.crossBrowserMode()
+              Configurations.executionOptions.crossBrowserMode()
                     .equalsIgnoreCase(String.valueOf(CrossBrowserMode.PARALLEL));
         if (parallelExecutionEnabled) {
             // Enable parallel execution for the entire test suite

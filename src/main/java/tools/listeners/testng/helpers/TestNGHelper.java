@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.testng.ITestResult;
 import org.testng.xml.XmlSuite;
 import org.testng.xml.XmlTest;
-import tools.properties.Properties;
+import tools.engineconfigurations.Configurations;
 import utilities.LoggingManager;
 
 public class TestNGHelper {
@@ -30,18 +30,18 @@ public class TestNGHelper {
                   Collections.singletonList("tools.listeners.testng.TestNGListener"));
         } else {
             LoggingManager.info("Generating TestNG Suite.....");
-            testSuite.setPreserveOrder(Properties.testNG.preserveOrder());
-            testSuite.setGroupByInstances(Properties.testNG.groupByInstances());
-            testSuite.setVerbose(Properties.testNG.verbose());
-            testSuite.setThreadCount(Properties.testNG.threadCount());
-            testSuite.setDataProviderThreadCount(Properties.testNG.dataProviderThreadCount());
-            testSuite.setParallel(XmlSuite.ParallelMode.valueOf(Properties.testNG.parallel()));
+            testSuite.setPreserveOrder(Configurations.testNG.preserveOrder());
+            testSuite.setGroupByInstances(Configurations.testNG.groupByInstances());
+            testSuite.setVerbose(Configurations.testNG.verbose());
+            testSuite.setThreadCount(Configurations.testNG.threadCount());
+            testSuite.setDataProviderThreadCount(Configurations.testNG.dataProviderThreadCount());
+            testSuite.setParallel(XmlSuite.ParallelMode.valueOf(Configurations.testNG.parallel()));
             testSuite.setName("WebDriver Suite");
             testSuite.setListeners(
                   Collections.singletonList("tools.listeners.testng.TestNGListener"));
 
             try {
-                if (CrossBrowserMode.valueOf(Properties.executionOptions.crossBrowserMode())
+                if (CrossBrowserMode.valueOf(Configurations.executionOptions.crossBrowserMode())
                       == CrossBrowserMode.OFF) {
                     testSuite.setParallel(XmlSuite.ParallelMode.NONE);
                     initializeNormalExecution();
@@ -63,13 +63,13 @@ public class TestNGHelper {
 
     private static void initializeCrossBrowserSuite(XmlSuite testSuite) {
 
-        if (CrossBrowserMode.valueOf(Properties.executionOptions.crossBrowserMode())
+        if (CrossBrowserMode.valueOf(Configurations.executionOptions.crossBrowserMode())
               == CrossBrowserMode.PARALLEL) {
             testSuite.setParallel(XmlSuite.ParallelMode.TESTS);
             LoggingManager.info("Cross Browsing Mode Enabled, Tests will run in Parallel Mode");
         }
 
-        if (CrossBrowserMode.valueOf(Properties.executionOptions.crossBrowserMode())
+        if (CrossBrowserMode.valueOf(Configurations.executionOptions.crossBrowserMode())
               == CrossBrowserMode.SEQUENTIAL) {
             testSuite.setParallel(XmlSuite.ParallelMode.NONE);
             LoggingManager.info("Cross Browsing Mode Enabled, Tests will run in Sequential Mode");
@@ -98,7 +98,7 @@ public class TestNGHelper {
         LoggingManager.info("Tests will run in Normal Mode");
         XmlTest singleTest = test;
         singleTest.setName("Test");
-        singleTest.addParameter(browserName, Properties.web.targetBrowserName());
+        singleTest.addParameter(browserName, Configurations.web.targetBrowserName());
         singleTest.setThreadCount(1);
         singleTest.setParallel(XmlSuite.ParallelMode.NONE);
         singleTest.setXmlClasses(test.getXmlClasses());

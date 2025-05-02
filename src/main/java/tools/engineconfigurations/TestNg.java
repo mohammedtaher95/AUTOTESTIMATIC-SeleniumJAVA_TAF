@@ -1,4 +1,4 @@
-package tools.properties;
+package tools.engineconfigurations;
 
 import org.aeonbits.owner.Accessible;
 import org.aeonbits.owner.Config;
@@ -8,8 +8,8 @@ import org.aeonbits.owner.Config.Sources;
 import org.aeonbits.owner.Reloadable;
 
 @LoadPolicy(LoadType.MERGE)
-@Sources({"file:src/main/resources/properties/TestNG.properties",
-      "classpath:src/main/resources/properties/TestNG.properties"})
+@Sources({"file:src/main/resources/properties/Configurations.properties",
+      "classpath:src/main/resources/properties/Configurations.properties"})
 public interface TestNg extends Config, Accessible, Reloadable {
 
     @Key("setParallel")

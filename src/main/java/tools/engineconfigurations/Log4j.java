@@ -1,4 +1,4 @@
-package tools.properties;
+package tools.engineconfigurations;
 
 import org.aeonbits.owner.Accessible;
 import org.aeonbits.owner.Config;

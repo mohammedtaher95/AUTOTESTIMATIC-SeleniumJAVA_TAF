@@ -1,4 +1,4 @@
-package tools.properties;
+package tools.engineconfigurations;
 
 import org.aeonbits.owner.Accessible;
 import org.aeonbits.owner.Config;
@@ -12,8 +12,8 @@ import utilities.LoggingManager;
 
 @LoadPolicy(LoadType.MERGE)
 @Sources({
-      "file:src/main/resources/properties/WebCapabilities.properties",
-      "classpath:WebCapabilities.properties"})
+      "file:src/main/resources/properties/Configurations.properties",
+      "classpath:Configurations.properties"})
 public interface WebCapabilities extends Config, Accessible, Reloadable {
 
     @Key("TARGET_BROWSER_NAME")
@@ -65,8 +65,8 @@ public interface WebCapabilities extends Config, Accessible, Reloadable {
         private static void setProperty(String key, String value) {
             var updatedProps = new java.util.Properties();
             updatedProps.setProperty(key, value);
-            Properties.web = ConfigFactory.create(WebCapabilities.class, updatedProps);
-            Properties.web.reload();
+            Configurations.web = ConfigFactory.create(WebCapabilities.class, updatedProps);
+            Configurations.web.reload();
             // temporarily set the system property to support hybrid read/write mode
             System.setProperty(key, value);
             LoggingManager.info("Setting \"" + key + "\" property with \"" + value + "\".");

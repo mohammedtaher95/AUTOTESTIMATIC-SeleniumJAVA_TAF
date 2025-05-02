@@ -1,4 +1,4 @@
-package tools.properties;
+package tools.engineconfigurations;
 
 import org.aeonbits.owner.Accessible;
 import org.aeonbits.owner.Config;
@@ -11,8 +11,8 @@ import utilities.LoggingManager;
 
 
 @LoadPolicy(LoadType.MERGE)
-@Sources({"file:src/main/resources/properties/Timeouts.properties",
-      "classpath:src/main/resources/properties/Timeouts.properties"})
+@Sources({"file:src/main/resources/properties/Configurations.properties",
+      "classpath:src/main/resources/properties/Configurations.properties"})
 public interface Timeouts extends Config, Accessible, Reloadable {
 
     @Key("scriptTimeout")
@@ -49,7 +49,7 @@ public interface Timeouts extends Config, Accessible, Reloadable {
         private static void setProperty(String key, String value) {
             var updatedProps = new java.util.Properties();
             updatedProps.setProperty(key, value);
-            Properties.timeouts = ConfigFactory.create(Timeouts.class, updatedProps);
+            Configurations.timeouts = ConfigFactory.create(Timeouts.class, updatedProps);
             // temporarily set the system property to support hybrid read/write mode
             System.setProperty(key, value);
             LoggingManager.info("Setting \"" + key + "\" property with \"" + value + "\".");

@@ -11,11 +11,11 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import tools.properties.Properties;
+import tools.engineconfigurations.Configurations;
 import utilities.LoggingManager;
 
 public class JavaScriptWaitManager {
-    private static final int DURATION = Properties.timeouts.lazyLoadingTimeout();
+    private static final int DURATION = Configurations.timeouts.lazyLoadingTimeout();
     private static final String SCRIPT = "return document.readyState";
     private static final String STATE = "complete";
     private final ThreadLocal<WebDriver> jsWaitDriver = new ThreadLocal<>();
@@ -32,7 +32,7 @@ public class JavaScriptWaitManager {
     public void waitForLazyLoading() {
         JavascriptExecutor jse = (JavascriptExecutor) jsWaitDriver.get();
 
-        if (Properties.timeouts.waitForLazyLoading()) {
+        if (Configurations.timeouts.waitForLazyLoading()) {
             try {
                 waitForJqueryLoadIfDefined(jse);
                 waitForAngularIfDefined(jse);
